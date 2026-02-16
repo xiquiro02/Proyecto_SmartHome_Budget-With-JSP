@@ -1,0 +1,163 @@
+
+.encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    padding: 50px 20px;
+    gap: 12px;
+    box-shadow: none;
+}
+
+.encabezado__imagen {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 8px;
+}
+
+.encabezado__titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+}
+
+.menuPrincipal {
+    padding: 20px;
+}
+
+.tarjetasResumen {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.tarjetaResumen {
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tarjetaResumen--verde {
+    background: linear-gradient(to left, #C2E9FB, #96E6A1);
+}
+
+.tarjetaResumen--azul {
+    background: linear-gradient(to right, #C2E9FB, #96E6A1);
+}
+
+.tarjetaResumen__icono {
+    width: 35px;
+    height: 35px;
+}
+
+.tarjetaResumen__contenido {
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.tarjetaResumen__titulo {
+    font-size: 13px;
+    font-weight: 500;
+    color: #424242;
+    margin-bottom: 2px;
+}
+
+.tarjetaResumen__valor {
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.tarjetaResumen__valor--fecha {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1976D2;
+}
+
+.bloqueSaludo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.gridOpciones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.tarjetaOpcion {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tarjetaOpcion:active {
+    transform: scale(0.98);
+}
+
+.tarjetaOpcion__icono {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 12px;
+}
+
+.tarjetaOpcion__titulo {
+    font-size: 15px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.navInferior {
+    background: #FFFFFF;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navInferior__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #000;
+    font-size: 12px;
+    padding: 5px 15px;
+    transition: color 0.2s ease;
+}
+
+.navInferior__item--activo {
+    color: #2196F3;
+    font-weight: 600;
+}
+
+.navInferior__icono {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 4px;
+}
+
+.navInferior__item:active{
+    color: #2196F3;
+    font-weight: 600;
+}
+
+.navInferior__icono:active{
+    width: 38px;
+    height: 38px;
+}

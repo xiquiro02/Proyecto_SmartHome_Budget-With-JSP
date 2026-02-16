@@ -1,0 +1,213 @@
+/*contenedor principal o Main */
+.contenido {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--login-padding-contenido);
+    width: 100%;
+    height: 80vh;
+}
+
+/* Título */
+.contenido__titulo {
+    font-size: var(--login-fuente-titulo);
+    text-align: center;
+    margin-bottom: var(--login-margin-titulo-formulario); 
+    color: var(--login-color-titulo-principal);
+}
+
+/* Formulario */
+.contenido__formulario {
+    display: flex;
+    flex-direction: column;
+    gap: var(--login-gap-formulario);
+    width: 90%;
+    max-width: 420px;
+}
+
+.contenido__grupo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.contenido__grupo--fila {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.contenido__label{
+    font-size: var(--login-fuente-label);
+}
+
+/* Inputs */
+input[type="email"], input[type="password"] {
+    width: 100%;
+    margin-top: var(--login-margin-input);
+    padding: var(--login-padding-input);
+    border: 3px solid var(--login-color-borde-input);
+    border-radius: var(--login-radio-bordes-inputs);
+    font-size: var(--login-fuente-inputs);
+}
+
+/* Checkbox*/
+input[type="checkbox"] {
+    width: var(--login-checkbox-ancho);
+    height: var(--login-checkbox-altura);
+    max-width: var(--login-checkbox-max);
+    max-height: var(--login-checkbox-max);
+    min-width: var(--login-checkbox-min);
+    min-height: var(--login-checkbox-min);
+    cursor: pointer;
+}
+
+/* ¿Olvidó su Clave? */
+.contenido__link {
+    color: var(--login-color-olvido-clave);
+    text-decoration: none;
+    font-size: var(--login-fuente-pequena);
+    text-align: center;
+    margin-top: var(--login-margin-olvido-clave);
+    margin-bottom: var(--login-margin-olvido-clave);
+    font-weight: bold;
+}
+
+.contenido__link:hover {
+    color: var(--login-color-olvido-clave-hover);
+}
+
+.encabezado{
+    background-color: transparent;
+    box-shadow: none;
+}
+
+/* ========================== Media queries ========================== */
+/* PANTALLAS MEDIANAS */
+@media (min-width: 768px){
+    .encabezado {
+        height: 10vh;
+        padding: 2vh 3vw;
+    }
+
+    .encabezado .material-symbols-outlined {
+        font-size: 6vh;
+    }
+
+    .contenido__titulo {
+        font-size: 2.5rem;
+    }
+
+    .contenido__formulario {
+        max-width: 500px;
+    }
+
+    .contenido__label{
+        font-size: 1.1rem;
+    }
+
+    .contenido__link{
+        font-size: 1.1rem;
+        margin-bottom: 0;
+    }
+
+    input[type="email"], input[type="password"] {
+        font-size: 1.1rem;
+        padding: 0.7rem 2rem;
+    }
+
+    input[type="checkbox"] {
+        width: 5vw;
+        height: 5vh;
+    }
+
+    .boton {
+        font-size: 1.1rem;
+        padding: 0.9rem 1.6rem;
+    }
+}
+/* PANTALLAS GRANDES */
+@media (min-width: 1200px){
+    .encabezado {
+        height: 12vh;
+        padding: 2vh 4vw;
+    }
+
+    .encabezado .material-symbols-outlined {
+        font-size: 7vh;
+    }
+
+    .contenedor{
+        width: 100%;
+        max-width: 500px;   
+        margin: 0 auto;     
+        padding: 40px 35px;
+    }
+
+
+    .contenido {
+        min-height: 80vh;
+        padding: 0;
+        display: flex;
+        justify-content: center;   
+        align-items: center;       
+        flex-direction: column;
+    }
+
+    .contenido__titulo {
+        font-size: 3rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        text-align: center;  
+    }
+
+    .contenido__formulario {
+        width: 100%;
+        max-width: 480px;   
+        margin: 0 auto;     
+        display: flex;
+        flex-direction: column;
+        gap: 1.8rem;    
+    }
+
+    .contenido__label {
+        font-size: 1.2rem; 
+    }
+
+    .contenido__grupo--fila {
+        align-items: center;
+    }
+
+    .contenido__link{
+        font-size: 1rem;
+        text-align: center;
+    }
+
+
+    input[type="email"], input[type="password"] {
+        font-size: 1.2rem;  
+        padding: 1rem 1.2rem; 
+        border-radius: 10px;
+        width: 100%;
+    }
+
+    input[type="checkbox"] {
+        width: 22px;
+        height: 22px;
+        margin-right: 10px;
+    }
+
+    .boton {
+        font-size: 1.3rem; 
+        padding: 1rem 2rem; 
+        border-radius: 0.75rem;
+        cursor: pointer;
+        width: 100%;          
+        text-align: center;
+    }
+    
+    .boton--registrar:hover{
+        border: 4px solid #1E88E5;
+    }
+}

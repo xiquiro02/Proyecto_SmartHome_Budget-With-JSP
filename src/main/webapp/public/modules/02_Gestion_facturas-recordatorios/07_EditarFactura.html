@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link iconos  -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new" />
+    <!-- Link Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Link estilos.css  -->
+    <link rel="stylesheet" href="../../../asset/utils/styles.css">
+    <link rel="stylesheet" href="../../../asset/modules/02_Gestion_facturas-recordatorios/estilosEditarFactura.css">
+
+    <title>SmartHome Budget</title>
+</head>
+<body>
+    <header class="encabezado">
+        <img class="encabezado__imagen" src="../../../asset/imagenes/Logo redondo.png" alt="Logo de SmartHome Budget">
+        <a href="03_Consultar-Facturas.html">
+            <span class="material-symbols-outlined"> arrow_back_ios_new </span>
+        </a>
+        <div class="encabezado__contenedorTitulo">
+            <h1 class="encabezado__titulo">Editar Factura</h1>
+        </div>
+    </header>
+    <main class="factura">
+        <form class="factura__formulario">
+            <div class="factura__grupo">
+                <label class="factura__label">Nombre de la factura</label>
+                <input type="text" class="factura__input" placeholder="Ej: Agua - Acueducto Municipal">
+            </div>
+            <div class="factura__grupo">
+                <label class="factura__label">Categoría</label>
+                <select class="factura__select" id="categoria">
+                    <option>Seleccionar categoría</option>
+                    <option>Recibo del agua</option>
+                    <option>Recibo de luz</option>
+                    <option>Arriendo</option>
+                </select>
+                <a href="#" class="factura__boton">
+                    <button type="button" class="boton boton--nuevaCategoria"> + Nueva categoría</button>
+                </a>
+            </div>
+            <div class="factura__fila">
+                <div class="factura__grupo factura__grupo--medio">
+                    <label class="factura__label">Monto a pagar</label>
+                    <input type="text" class="factura__input" placeholder="$ 75.000">
+                </div>
+                <div class="factura__grupo factura__grupo--medio">
+                    <label class="factura__label">Vencimiento</label>
+                    <input type="date" class="factura__input factura__input--fecha">
+                </div>
+            </div>
+            <div class="factura__grupo">
+                <label class="factura__label">Estado de pago</label>
+                <div class="factura__estado">
+                    <label class="factura__estado-opcion">
+                        <input type="radio" name="estado" value="pendiente" checked>
+                        <span>Pendiente</span>
+                    </label>
+                    <label class="factura__estado-opcion">
+                        <input type="radio" name="estado" value="pagada">
+                        <span>Pagada</span>
+                    </label>
+                    <label class="factura__estado-opcion">
+                        <input type="radio" name="estado" value="vencida">
+                        <span>Vencida</span>
+                    </label>
+                </div>
+            </div>
+            <div class="factura__grupo">
+                <label class="factura__label">Notas adicionales (opcional)</label>
+                <textarea class="factura__textarea" placeholder="Agrega detalles sobre esta factura..."></textarea>
+            </div>
+            <a href="08_ConfirmacionEdicion.html" class="factura__boton">
+                <button type="button" class="boton boton--registrar ">Guardar cambios</button>
+            </a>
+            <a href="03_Consultar-Facturas.html" class="factura__boton">
+                <button type="button" class="boton boton--cancelar">Cancelar</button>
+            </a>
+        </form>
+    </main>
+</body>
+</html>

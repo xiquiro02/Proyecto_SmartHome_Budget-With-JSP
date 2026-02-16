@@ -1,0 +1,290 @@
+.consultarFacturas {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.consultarFacturas__descripcion {
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.consultarFacturas__parrafo {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #000000;
+    text-align: justify;
+    margin: 0;
+}
+
+.consultarFacturas__filtros {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.consultarFacturas__filtro-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #424242;
+    margin-bottom: 10px;
+}
+
+.consultarFacturas__filtro-grupo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.consultarFacturas__filtro-enlace {
+    font-size: 16px;
+    background-color: #7ac2fc;
+    color: #0b375b;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between ;
+    margin-bottom: 12px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    max-width: 200px;
+}
+
+.consultarFacturas__filtro-enlace:hover{
+    font-size: 14px;
+    padding: 15px 25px;
+    background-color: #2196F3;
+    color: #FFFFFF;
+}
+
+.consultarFacturas__filtro-imagen{
+    width: 10%;
+    height: 80%;
+}
+
+.facturaLista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.facturaCard {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.30);
+    display: flex;
+    gap: 12px;
+    position: relative;
+}
+
+.facturaCard__borde {
+    width: 4px;
+    border-radius: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.facturaCard--verde .facturaCard__borde  {
+    background: #2ECC71;
+}
+
+.facturaCard__contenido {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 8px;
+}
+
+.facturaCard__encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.facturaCard__titulo  {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.facturaCard__detalles {
+    font-size: 13px;
+    color: #757575;
+    margin-bottom: 10px;
+}
+
+.facturaCard__etiqueta {
+    width: auto;
+    padding: 7px 25px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.facturaCard__etiqueta--pagada {
+    background: #2ECC71;
+    color: #ffffff;
+}
+
+.totalPagado {
+    background: hsl(270, 71%, 85%);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: left;
+}
+
+.totalPagado__titulo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #9400CE;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+.totalPagado__monto {
+    font-size: 36px;
+    font-weight: 700;
+    color: #9400CE;
+    margin-top: 10px;
+    margin-left: 35px;
+}
+
+.totalPagado__texto {
+    font-size: 14px;
+    color: #9400CE;
+    margin-top: 8px;
+    margin-left: 35px;
+}
+
+.boton {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+.consultarFacturas__boton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.boton--resumen {
+    width: 40%;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.boton--volver {
+    width: 40%;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.panelMesFiltro {
+    position: absolute;
+    top: 245px;
+    left: 0;
+    width: 100%;
+    min-height: 10vh;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    padding: 20px;
+}
+
+.filtroMes {
+    width: 60%;
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.50);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.filtroMes__titulo  {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.filtroMes__gridMeses {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filtroMes__mes {
+    padding: 12px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    background: #FFFFFF;
+    font-size: 13px;
+    font-weight: 500;
+    color: #424242;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filtroMes__mes:focus{
+    background: #2196F3;
+    border-color: #2196F3;
+    color: #FFFFFF;
+}
+
+.filtroMes__mes:hover {
+    border-color: #2196F3;
+}
+
+.filtroMes__anio {
+    margin-bottom: 20px;
+}
+
+.filtroMes__anio-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #424242;
+    margin-bottom: 8px;
+}
+
+.filtroMes__anio-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #FFFFFF;
+    cursor: pointer;
+    outline: none;
+}
+
+.filtroMes__anio-select:focus {
+    border-color: #2196F3;
+}
+
+.filtroMes__boton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.boton--registrar {
+    width: 50%;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 20px;
+}

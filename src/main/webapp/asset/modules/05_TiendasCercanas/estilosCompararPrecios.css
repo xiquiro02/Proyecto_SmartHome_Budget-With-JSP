@@ -1,0 +1,234 @@
+.compararPrecios {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.productoSeleccionado {
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.20);
+}
+
+.productoSeleccionado__label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #767575;
+    margin-bottom: 10px;
+}
+
+.productoSeleccionado__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.productoSeleccionado__nombre {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.productoSeleccionado__categoria {
+    padding: 6px 16px;
+    background: #bcd9f3;
+    color: #1E88E5;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.comparacionTitulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.comparacionTitulo__icono {
+    width: 3%;
+    height: 3%;
+}
+
+.comparacionTitulo__texto {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.tiendaComparacion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.tiendaCard {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.30);
+    display: flex;
+    gap: 12px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.tiendaCard:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.tiendaCard__borde {
+    width: 4px;
+    border-radius: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.tiendaCard--azul .tiendaCard__borde {
+    background: #1E88E5;
+}
+
+.tiendaCard--verde .tiendaCard__borde {
+    background: #2ECC71;
+}
+
+.tiendaCard--morado .tiendaCard__borde {
+    background: #9400CE;
+}
+
+.tiendaCard__contenido {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 8px;
+}
+
+.tiendaCard__encabezado {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.tiendaCard__icono {
+    font-size: 24px;
+}
+
+.tiendaCard__nombre {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.tiendaCard__precio {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.tiendaCard__label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.tiendaCard__valor {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E88E5;
+}
+
+.tiendaCard__detalle {
+    font-size: 12px;
+    font-weight: 500;
+    color: #666666;
+}
+
+.opcionEconomica {
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.opcionEconomica__encabezado {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.opcionEconomica__icono {
+    font-size: 28px;
+}
+
+.opcionEconomica__titulo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.opcionEconomica__tarjeta {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background: #2ECC71;
+    border-radius: 12px;
+}
+
+.opcionEconomica__tiendaIcono {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.opcionEconomica__info {
+    flex: 1;
+}
+
+.opcionEconomica__nombre {
+    font-size: 18px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 6px;
+}
+
+.opcionEconomica__precio {
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+}
+
+.opcionEconomica__ahorro {
+    font-size: 13px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 1.4;
+}
+
+.compararPrecios__boton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    margin-bottom: 12px;
+}
+
+.boton--registrar {
+    width: 50%;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.boton--volver {
+    width: 50%;
+    padding: 20px;
+    font-size: 20px;
+}

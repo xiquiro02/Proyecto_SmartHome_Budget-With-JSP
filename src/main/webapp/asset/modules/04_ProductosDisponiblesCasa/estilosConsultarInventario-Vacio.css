@@ -1,0 +1,129 @@
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.contenedorInventario {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.buscador {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.buscador__input {
+    width: 40%;
+    padding: 12px 20px;
+    border: 2px solid #E0E0E0;
+    border-radius: 25px;
+    font-size: 14px;
+    outline: none;
+}
+
+.buscador__input:focus {
+    border-color: #2196F3;
+}
+
+.buscador__input::placeholder {
+    color: #BDBDBD;
+}
+
+/* ===== FILTROS ===== */
+.filtros {
+    margin-bottom: 20px;
+}
+
+.filtros__titulo {
+    font-size: 14px;
+    font-weight: 500;
+    color: #424242;
+    margin-bottom: 10px;
+}
+
+.filtro-grupo {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.filtro-enlace {
+    font-size: 16px;
+    background-color: #7ac2fc;
+    color: #0b375b;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between ;
+    margin-bottom: 12px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    max-width: 200px;
+}
+
+.filtro-enlace:hover{
+    font-size: 14px;
+    padding: 15px 25px;
+    background-color: #2196F3;
+    color: #FFFFFF;
+}
+
+.filtro-imagen{
+    width: 10%;
+    height: 80%;
+}
+
+.estadoVacio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    margin: 40px 0;
+}
+
+.estadoVacio__imagen {
+    width: 20%;
+    height: 20%;
+    margin-bottom: 24px;
+    opacity: 0.7;
+}
+
+.estadoVacio__textoTitulo {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.estadoVacio__textoDescripcion {
+    font-size: 14px;
+    font-weight: 400;
+    color: #666666;
+    line-height: 1.5;
+    max-width: 300px;
+}
+
+.boton-NuevoProducto{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.boton {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+.boton--cancelar {
+    width: 50%;
+    padding: 20px;
+    font-size: 20px;
+}

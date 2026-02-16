@@ -1,0 +1,139 @@
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.contenedorProductosAgotados {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.descripcion {
+    background: #FFFFFF;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.10);
+}
+
+.descripcion__texto {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 1.6;
+}
+
+.gridProductos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.tarjetaProducto {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+}
+
+.tarjetaProducto--morado {
+    background: #E4B6F7;
+}
+
+.tarjetaProducto--azul {
+    background: #A4D0F7;
+}
+
+.tarjetaProducto--gris {
+    background: #CFD8DC;
+}
+
+.tarjetaProducto--verde {
+    background: #AAF5CA;
+}
+
+.tarjetaProducto__icono {
+    width: 15%;
+}
+
+.tarjetaProducto__info {
+    margin-bottom: 12px;
+}
+
+.tarjetaProducto__nombre {
+    font-size: 15px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 8px;
+}
+
+.tarjetaProducto__detalle {
+    font-size: 12px;
+    font-weight: 400;
+    color: #666666;
+    margin-bottom: 4px;
+}
+
+.tarjetaProducto__accion {
+    width: 100%;
+}
+
+.botonAccion {
+    padding: 8px 26px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.botonAccion--mover {
+    background: #FFFFFF;
+    color: #7A7474;
+    border: 2px solid #7A7474;
+}
+
+.botonAccion--mover:hover {
+    color: #2196F3;
+    border: 2px solid #2196F3;
+}
+
+.resumen {
+    background: #FFF3E0;
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.resumen__numero {
+    font-size: 16px;
+    font-weight: 700;
+    color: #C16F04;
+    margin-bottom: 4px;
+}
+
+.resumen__descripcion {
+    font-size: 13px;
+    font-weight: 400;
+    color: #C16F04;
+}
+
+.boton-NuevoProducto{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.boton {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+.boton--cancelar {
+    width: 50%;
+    padding: 20px;
+    font-size: 20px;
+}
+

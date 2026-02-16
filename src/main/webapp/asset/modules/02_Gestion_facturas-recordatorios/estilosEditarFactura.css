@@ -1,0 +1,127 @@
+.factura{
+    padding: 20px;
+    background: #F5F5F5;
+}
+
+.factura__formulario{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.factura__grupo{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.factura__grupo--medio{
+    flex: 1;
+}
+
+.factura__fila{
+    display: flex;
+    gap: 12px;
+}
+
+.factura__label{
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.factura__input{
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: #FFFFFF;
+}
+
+.factura__input:focus {
+    border-color: #2196F3;
+}
+
+.factura__input--fecha{
+    text-transform: uppercase;
+    color: #9E9E9E;
+}
+
+.factura__select{
+    color: #9E9E9E;
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #FFFFFF;
+    cursor: pointer;
+}
+
+.factura__select:focus {
+    border-color: #2196F3;
+}
+
+.factura__textarea{
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: #FFFFFF;
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+.factura__textarea:focus {
+    border-color: #2196F3;
+}
+
+.factura__estado{
+    display: flex;
+    gap: 10px;
+}
+
+.factura__estado-opcion{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    background: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+}
+
+.factura__estado-opcion:has(input[type="radio"]:checked) {
+    background: #E3F2FD;
+    border-color: #2196F3;
+}
+
+.factura__estado-opcion input[type="radio"]:checked + span {
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.factura__estado-opcion input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    accent-color: #2196F3;
+}
+
+.factura__boton{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.boton{
+    width: 25%;
+}

@@ -1,0 +1,42 @@
+/*contenedor principal o Main */
+.contenido {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--confirmacion-ancho-contenido);
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.contenedor{
+    width: 100%;
+    max-width: 450px;
+    padding: 50px;
+}
+
+/* Título */
+.contenido__titulo {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2rem; 
+    color: #000;
+}
+
+.contenido__parrafo{
+    margin-bottom: 20px;
+}
+
+.boton {
+    width: 100%;
+    padding: 1rem 7rem;
+    font-size: 20px;         
+}
+.encabezado{
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.contenido__icono-img{
+    width: 50%;
+    margin-bottom: 20px;
+}

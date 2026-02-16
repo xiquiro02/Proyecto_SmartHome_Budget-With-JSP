@@ -1,0 +1,304 @@
+.resumenFinanciero {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.resumenFinanciero__introduccion {
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 16px;
+}
+
+.introduccion__icono {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 8px;
+}
+
+.introduccion__contenido {
+    flex: 1;
+}
+
+.introduccion__titulo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 8px;
+}
+
+.introduccion__texto {
+    font-size: 14px;
+    font-weight: 400;
+    color: #666666;
+    line-height: 1.5;
+}
+
+.tarjetasResumen {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.resumenCard {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.30);
+    display: flex;
+    gap: 12px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.resumenCard:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.resumenCard__borde {
+    width: 6px;
+    border-radius: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.resumenCard--verde .resumenCard__borde {
+    background: #2ECC71;
+}
+
+.resumenCard--azul .resumenCard__borde {
+    background: #1E88E5;
+}
+
+.resumenCard--rojo .resumenCard__borde {
+    background: #E51E1E;
+}
+
+.resumenCard__contenido {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-left: 8px;
+}
+
+.resumenCard__contenedor{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 8px;
+}
+
+.resumenCard__encabezado {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.resumenCard__icono {
+    font-size: 28px;
+}
+
+.resumenCard__titulo {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.resumenCard__monto {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.resumenCard__detalles{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 50px;
+}
+
+.resumenCard--verde .resumenCard__monto {
+    color: #2ECC71;
+}
+
+.resumenCard--azul .resumenCard__monto {
+    color: #1E88E5;
+}
+
+.resumenCard--rojo .resumenCard__monto {
+    color: #E51E1E;
+}
+
+.resumenCard__enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2196F3;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.resumenCard__enlace:hover {
+    color: #1976D2;
+}
+
+.graficoFinanciero {
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.graficoFinanciero__encabezado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.graficoFinanciero__icono {
+    font-size: 28px;
+}
+
+.graficoFinanciero__titulo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.graficoFinanciero__contenedor {
+    position: relative;
+    height: 300px;
+}
+
+.grafico__lineas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.grafico__linea {
+    width: 100%;
+    border-top: 3px solid #000000;
+    position: relative;
+}
+
+.grafico__linea--base {
+    border-top: 3px solid #000000;
+}
+
+.grafico__valor {
+    position: absolute;
+    left: 0;
+    top: -13px;
+    font-size: 10px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.grafico {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: calc(100% - 30px);
+    z-index: 1;
+}
+
+.grafico__columna {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%; 
+    margin-left: 15px;
+    max-width: 80px;
+    flex: 1;
+}
+
+.grafico__barra {
+    width: 60%;
+    border-radius: 8px 8px 0 0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.grafico__barra--verde {
+    height: 95% !important;
+    background: linear-gradient(180deg, #2ECC71 0%, #4AE386 100%);
+}
+
+.grafico__barra--rojo {
+    height: 60% !important;
+    background: linear-gradient(180deg, #E51E1E 0%, #F44336 100%);
+}
+
+.grafico__barra--azul {
+    height: 51% !important;
+    background: linear-gradient(180deg, #1E88E5 0%, #42A5F5 100%);
+}
+
+.grafico__monto {
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 700;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+}
+
+.grafico__etiquetas {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2px;
+}
+
+.grafico__etiqueta {
+    margin-top: 12px;
+    margin-left: 20px;
+    font-size: 13px;
+    color: #000000;
+    text-align: center;
+}
+
+.resumenFinanciero__boton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.boton {
+    padding: 15px 25px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.boton--volver {
+    width: 50%;
+    margin-bottom: 10px;
+    padding: 15px;
+    font-size: 14px;
+}

@@ -1,0 +1,211 @@
+.informacionTienda {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.tiendaEncabezado {
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tiendaEncabezado__contenido {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tiendaEncabezado__nombre {
+    font-size: 22px;
+    font-weight: 700;
+    color: #000000;
+    flex: 1;
+}
+
+.tiendaEncabezado__calificacion {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: #FFF3E0;
+    border-radius: 20px;
+}
+
+.tiendaEncabezado__estrella {
+    font-size: 24px;
+}
+
+.tiendaEncabezado__puntos {
+    font-size: 16px;
+    font-weight: 700;
+    color: #FF9800;
+}
+
+.informacionBasica {
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.infoItem {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.infoItem:last-child {
+    border-bottom: none;
+}
+
+.infoItem__icono {
+    width: 3%;
+    height: 3%;
+}
+
+.infoItem__icono--tamano{
+    width: 5%;
+    height: 5%;
+}
+
+.infoItem__contenido {
+    flex: 1;
+}
+
+.infoItem__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #999999;
+    margin-bottom: 4px;
+}
+
+.infoItem__valor {
+    font-size: 15px;
+    font-weight: 500;
+    color: #000000;
+    line-height: 1.5;
+}
+
+.infoItem__lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+}
+
+.infoItem__lista li {
+    margin-bottom: 6px;
+}
+
+.productosDisponibles {
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.productosDisponibles__tituloPrincipal{
+    display: flex;
+    gap: 10px;
+}
+
+.productosDisponibles__icono{
+    width: 2%;
+    height: 2%;
+    margin-bottom: 10px;
+}
+
+.productosDisponibles__titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 16px;
+}
+
+.productosDisponibles__lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.productoTag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.productoTag__icono {
+    font-size: 20px;
+}
+
+.productoTag__texto {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333;
+}
+
+.informacionTienda__boton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    margin-bottom: 12px;
+}
+
+.boton--registrar {
+    width: 50%;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.resenas {
+    margin-bottom: 20px;
+}
+
+.resenas__titulo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 16px;
+}
+
+.resenaCard {
+    background: #D3D3D3;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.resenaCard__texto {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.resenaCard__autor {
+    font-size: 13px;
+    font-weight: 600;
+    color: #666666;
+    margin-bottom: 8px;
+}
+
+.resenaCard__estrellas {
+    font-size: 18px;
+}
+
+.boton--volver {
+    width: 40%;
+    padding: 20px;
+    font-size: 20px;
+}

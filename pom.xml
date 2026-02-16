@@ -19,6 +19,13 @@
             <version>${jakartaee}</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- Driver de MySQL (Connector/J): Permite que la aplicación Java se conecte y comunique con una base de datos MySQL.-->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.0.33</version>
+        </dependency>
     </dependencies>
     
     <build>
@@ -28,8 +35,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
             <plugin>

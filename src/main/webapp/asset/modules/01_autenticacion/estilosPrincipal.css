@@ -1,0 +1,135 @@
+.encabezado{
+    background-color: transparent;
+    box-shadow: none;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 1.5rem;
+}
+
+.encabezado .material-symbols-outlined {
+    font-size: var(--contenido-icono-tamano);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+/*Contenido*/
+.contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--contenido-padding);
+    min-height: calc(100vh - 60px); /* Ajustar según altura del header */
+}
+.contenido__contenedorimagen{
+    display: flex;
+    justify-content: center;
+}
+.contenido__imagen{
+    width: var(--contenido-img-tamano);
+    max-width: var(--contenido-img-max);
+    min-width: var(--contenido-img-min);
+    height: auto; 
+}
+.contenido__parrafo{
+    font-size: var(--contenido-parrafo-size);
+    text-align: center;
+    margin-bottom: var(--contenido-margin-bottom);
+    line-height: 1.4;
+    padding: 0 1rem;
+    
+}
+.contenido__contenedorbutton{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch; /* Los botones ocupan todo el ancho - Los elementos se estiran para llenar el contenedor*/
+    gap: var(--contenido-gap-botones);
+    width: var(--contenido-ancho-contenedorbutton);
+    max-width: var(--contenido-Max-ancho);
+}
+
+/* ========================== Media queries ========================== */
+/* PANTALLAS MEDIANAS */
+@media (min-width: 768px){
+    .encabezado {
+        justify-content: flex-start;
+        padding: 1.5rem 2.5rem;
+    }
+
+    .encabezado .material-symbols-outlined {
+        font-size: 2.5rem;
+    }
+
+    .contenido{
+        padding: 3rem 2rem;
+        gap: 1rem;
+    }
+    
+    .contenido__contenedorbutton {
+        flex-direction: row;  /* Fila en tablets */
+        gap: 2rem;
+        max-width: 500px;
+    }
+
+    .contenido__imagen {
+        width: 40vw;
+        max-width: 320px;
+    }
+
+    .contenido__parrafo {
+        margin-bottom: 0;
+        font-size: 1.3rem;
+    }
+
+    .boton {
+        font-size: 1.1rem;
+        padding: 0.9rem 1.8rem;
+    }
+}
+/* PANTALLAS GRANDES */
+@media (min-width: 1200px){
+    .encabezado {
+        padding: 1rem 2rem;
+        justify-content: flex-start;
+    }
+
+    .encabezado .material-symbols-outlined {
+        font-size: 2.8rem;
+    }
+
+    .contenido {
+        gap: 0.5rem;
+    }
+
+    .contenido__imagen {
+        width: 25vw;
+        max-width: 380px;
+        transition: transform 0.3s ease;
+    }
+
+    .contenido__parrafo {
+        margin-bottom: 0.3rem;
+        font-size: 1.5rem;
+        max-width: 600px;
+        line-height: 1.5;
+    }
+
+    .contenido__contenedorbutton {
+        max-width: 520px;
+    }
+
+    .boton {
+        font-size: 1.2rem;
+        padding: 1rem 2rem;
+        border-radius: 0.8rem;
+        transition: all 0.3s ease;
+    }
+
+    .boton--iniciar:hover {
+        border: 3px solid #4EC8A9;
+    }
+
+    .boton--registrar:hover {
+        border: 3px solid #1E88E5;
+    }
+}

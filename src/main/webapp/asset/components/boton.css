@@ -1,0 +1,155 @@
+.boton {
+    width: var(--btn-width);
+    padding: var(--btn-padding);
+    border: none;
+    border-radius: var(--btn-radius);
+    font-size: var(--btn-font-size);
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    margin-top: var(--btn-margin-top);
+    transition: var(--btn-transition);
+}
+
+.boton--iniciar {
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+}
+
+.boton--iniciar:hover {
+    background-color: var(--btn-secondary-hover);
+    color: var(--btn-secondary-hover-text);
+    border: var(--btn-secondary-hover-border);
+}
+
+.boton--registrar {
+    background-color: var(--btn-primary);
+    color: var(--btn-primary-text);
+}
+
+.boton--registrar:hover {
+    background-color: var(--btn-primary-hover);
+    color: var(--btn-primary-hover-text);
+    border: var(--btn-primary-hover-border);
+}
+
+.boton--cancelar {
+    background-color: var(--btn-color-general);
+    color: var(--btn-color-text);
+}
+
+.boton--cancelar:hover {
+    background-color: var(--btn-color-general-hover);
+    color: var(--btn-color-general-hover-text);
+    border: var(--btn-color-general-hover-border);
+}
+
+.boton--cerrar-sesion {
+    background-color: var(--btn-cerrar-sesion);
+    color: var(--btn-cerrar-sesion-text);
+}
+
+.boton--cerrar-sesion:hover {
+    background-color: var(--btn-cerrer-sesion-hover);
+    color: var(--btn-cerrer-sesion-hover-text);
+}
+
+.boton--Eliminar {
+    background-color: var(--btn-eliminar);
+    color: var(--btn-eliminar-text);
+}
+
+.boton--Eliminar:hover {
+    background-color: var(--btn-eliminar-hover);
+    color: var(--btn-eliminar-hover-text);
+    border: var(--btn-eliminar-hover-border);
+}
+
+.boton--volver{
+    background-color: var(--btn-color-general);
+    color: var(--btn-color-text);
+}
+
+.boton--volver:hover{
+    background-color: var(--btn-color-general-hover);
+    color: var(--btn-color-general-hover-text);
+    border: var(--btn-color-general-hover-border);
+}
+
+.boton--editar{
+    background: var(--btn-colorAzul-general);
+    color: var(--btn-colorAzul-text);
+}
+
+.boton--editar:hover{
+    background-color: var(--btn-colorAzul-general-hover);
+    color: var(--btn-colorAzul-general-hover-text);
+    border: var(--btn-colorAzul-general-hover-border);
+}
+
+.boton--agregar{
+    background-color: var(--btn-color-general);
+    color: var(--btn-color-text);
+}
+
+.boton--agregar:hover{
+    background-color: var(--btn-color-general-hover);
+    color: var(--btn-color-general-hover-text);
+    border: var(--btn-color-general-hover-border);
+}
+
+.boton--mover{
+    background: var(--btn-colorMorado-general);
+    color: var(--btn-colorMorado-text);
+}
+
+.boton--mover:hover{
+    background-color: var(--btn-colorMorado-general-hover);
+    color: var(--btn-colorMorado-general-hover-text);
+    border: var(--btn-colorMorado-general-hover-border);
+}
+
+.boton--nuevaCategoria{
+    background: var(--btn-colorAzul-text);
+    color: var(--btn-colorAzul-general);
+    border: var(--btn-colorAzul-general-hover-border);
+}
+
+.boton--nuevaCategoria:hover{
+    background-color: var(--btn-colorAzul-general-hover-text);
+    color: var(--btn-colorAzul-general-hover);
+}
+
+.boton--resumen{
+    background: var(--btn-colorMorado-general);
+    color: var(--btn-colorMorado-text);
+}
+
+.boton--resumen:hover{
+    background-color: var(--btn-colorMorado-general-hover);
+    color: var(--btn-colorMorado-general-hover-text);
+    border: var(--btn-colorMorado-general-hover-border);
+}
+
+.boton--marcar {
+    background: var(--btn-colorAzul-text);
+    color: var(--btn-colorAzul-general);
+    border: var(--btn-colorAzul-general-hover-border);
+}
+
+.boton--marcar:hover {
+    background: var(--btn-colorAzul-general-hover-text);
+    color: var(--btn-colorAzul-general-hover);
+    border: var(--btn-colorAzul-general-hover-border);
+}
+
+.boton--VerLista{
+    background-color: var(--btn-color-general);
+    color: var( --btn-color-text);
+}
+
+.boton--VerLista:hover{
+    background-color: var(--btn-color-general-hover);
+    color: var(--btn-color-general-hover-text);
+    border: var(--btn-color-general-hover-border);
+}

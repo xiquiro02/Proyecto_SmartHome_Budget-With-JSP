@@ -1,0 +1,48 @@
+.contenido {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.contenedor{
+    width: 100%;
+    max-width: 450px;
+    padding: 50px;
+}
+
+/* Título */
+.contenido__titulo {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2rem; 
+    color: #000;
+}
+
+.contenido__icono-img{
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.contenido__parrafo{
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.contenido__grupo {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 420px;
+}
+
+.encabezado{
+    background-color: transparent;
+    box-shadow: none;
+}

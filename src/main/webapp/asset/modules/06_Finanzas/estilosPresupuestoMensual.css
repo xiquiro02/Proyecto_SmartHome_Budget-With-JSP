@@ -1,0 +1,216 @@
+.presupuestoMensual {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.presupuestoMensual__introduccion {
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 16px;
+}
+
+.introduccion__icono {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 8px;
+}
+
+.introduccion__contenido {
+    flex: 1;
+}
+
+.introduccion__titulo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 8px;
+}
+
+.introduccion__texto {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 1.5;
+}
+
+.formularioPresupuesto {
+    background: #FFFFFF;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.formularioPresupuesto__campo {
+    margin-bottom: 24px;
+}
+
+.formularioPresupuesto__campo:last-child {
+    margin-bottom: 0;
+}
+
+.formularioPresupuesto__label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.formularioPresupuesto__input,
+.formularioPresupuesto__select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #777474;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.formularioPresupuesto__input:focus,
+.formularioPresupuesto__select:focus {
+    border-color: #2196F3;
+}
+
+.formularioPresupuesto__input::placeholder {
+    color: #777474;
+}
+
+.formularioPresupuesto__select {
+    color: #777474;
+    padding: 12px 16px;
+    border: 2px solid #777474;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #FFFFFF;
+    cursor: pointer;
+}
+
+.formularioPresupuesto__opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.checkboxOpcion {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.checkboxOpcion__input {
+    display: none;
+}
+
+.checkboxOpcion__marca {
+    width: 22px;
+    height: 22px;
+    border: 2px solid #2196F3;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    color: transparent;
+    font-weight: bold;
+}
+
+.checkboxOpcion__input:checked + .checkboxOpcion__marca {
+    background: #2196F3;
+    color: #FFFFFF;
+}
+
+.checkboxOpcion__texto {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333;
+}
+
+.vistaPrevia {
+    background: #85BCEB;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.vistaPrevia__encabezado {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.vistaPrevia__icono {
+    font-size: 24px;
+}
+
+.vistaPrevia__titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.vistaPrevia__contenido {
+    background: #FFFFFF;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.vistaPrevia__item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.vistaPrevia__item:last-child {
+    border-bottom: none;
+}
+
+.vistaPrevia__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #666666;
+}
+
+.vistaPrevia__valor {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.vistaPrevia__valor--verde {
+    color: #4CAF50;
+}
+
+.presupuestoMensual__boton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.boton {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+.boton--registrar {
+    width: 40%;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.boton--cancelar {
+    width: 40%;
+    padding: 20px;
+    font-size: 20px;
+}

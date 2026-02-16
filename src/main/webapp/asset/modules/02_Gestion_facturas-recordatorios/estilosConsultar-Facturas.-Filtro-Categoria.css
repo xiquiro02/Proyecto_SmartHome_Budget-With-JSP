@@ -1,0 +1,277 @@
+.consultarFacturas {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.consultarFacturas__busqueda {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.consultarFacturas__busqueda-input {
+    width: 40%;
+    padding: 12px 20px;
+    border: 2px solid #E0E0E0;
+    border-radius: 25px;
+    font-size: 14px;
+    outline: none;
+}
+
+.consultarFacturas__busqueda-input:focus {
+    border-color: #2196F3;
+}
+
+.consultarFacturas__filtros {
+    margin-bottom: 20px;
+}
+
+.consultarFacturas__filtro-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #424242;
+    margin-bottom: 10px;
+}
+
+.consultarFacturas__filtro-grupo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.consultarFacturas__filtro-enlace {
+    font-size: 16px;
+    background-color: #7ac2fc;
+    color: #0b375b;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between ;
+    margin-bottom: 12px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    max-width: 200px;
+}
+
+.consultarFacturas__filtro-enlace:hover{
+    font-size: 14px;
+    padding: 15px 25px;
+    background-color: #2196F3;
+    color: #FFFFFF;
+}
+
+.consultarFacturas__filtro-enlace--activo{
+    background-color: #FFFFFF;
+    color: #2196F3;
+    border: #2196F3 solid 2px;
+}
+
+.consultarFacturas__filtro-imagen{
+    width: 10%;
+    height: 80%;
+}
+
+.facturaLista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.facturaCard {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.30);
+    display: flex;
+    gap: 12px;
+    position: relative;
+}
+
+.facturaCard__borde {
+    width: 4px;
+    border-radius: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.facturaCard--naranja .facturaCard__borde {
+    background: #FF9810;
+}
+
+.facturaCard--rojo .facturaCard__borde {
+    background: #E51E1E;
+}
+
+.facturaCard--verde .facturaCard__borde  {
+    background: #2ECC71;
+}
+
+.facturaCard--azul .facturaCard__borde {
+    background: #1E88E5;
+}
+
+.facturaCard--morado .facturaCard__borde{
+    background: #9400CE;
+}
+
+.facturaCard__contenido {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 8px;
+}
+
+.facturaCard__encabezado {
+    margin-bottom: 6px;
+}
+
+.facturaCard__titulo  {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.facturaCard__fecha {
+    font-size: 13px;
+    color: #757575;
+    margin-bottom: 10px;
+}
+
+.facturaCard__etiqueta {
+    width: auto;
+    padding: 7px 25px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.facturaCard__etiqueta--pendiente {
+    background: #FF9810;
+    color: #ffffff;
+}
+
+.facturaCard__etiqueta--pagada {
+    background: #2ECC71;
+    color: #ffffff;
+}
+
+.facturaCard__etiqueta--vencida {
+    background: #E51E1E;
+    color: #ffffff;
+}
+
+.facturaCard__estadoAcciones {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.facturaCard__acciones{
+    display: flex;
+    gap: 10px;
+}
+
+.boton {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+.consultarFacturas__boton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.boton--cancelar {
+    width: 30%;
+    padding: 20px;
+    font-size: 20px;
+}
+
+
+.panelFiltro {
+    position: absolute;
+    top: 210px;
+    left: 0;
+    width: 100%;
+    min-height: 10vh;
+    z-index: 2;
+    padding-top: 20px;
+    padding: 20px;
+}
+
+.filtroCategoria {
+    width: 60%;
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.50);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.filtroCategoria__titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.filtroCategoria__opcion {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filtroCategoria__opcion:has(input[type="radio"]:checked) {
+    background: #E3F2FD;
+    border-color: #2196F3;
+}
+
+.filtroCategoria__opcion input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #2196F3;
+}
+
+.filtroCategoria__opcion-texto {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+}
+
+
+.filtroCategoria__boton  {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.boton--registrar {
+    width: 50%;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 20px;
+}

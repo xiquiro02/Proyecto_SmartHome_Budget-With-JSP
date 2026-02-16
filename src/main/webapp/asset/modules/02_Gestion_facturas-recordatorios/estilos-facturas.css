@@ -1,0 +1,226 @@
+
+.encabezado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: transparent;
+    padding: 50px 20px;
+    gap: 12px;
+    margin-top: 20px;
+    box-shadow: none;
+}
+
+.encabezado__contenedor{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.encabezado__imagen {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 8px;
+}
+
+.encabezado__titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+}
+
+.encabezado__contenido{
+    margin-top: 5px;
+    text-align: center;
+    background: transparent;
+}
+
+.encabezado__descripcion{
+    font-size: 16px;
+    color: #000000;
+    line-height: 1.5;
+}
+
+.facturas{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.tarjetaAccion{
+    width: 95%;
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.30);
+}
+
+.tarjetaAccion--azul{
+    border-top: 5px solid #1E88E5;
+}
+
+.tarjetaAccion--verde{
+    border-top: 5px solid #12BA3C;
+}
+
+.tarjetaAccion--morado{
+    display: flex;
+    justify-content: space-between;     
+    border-top: 5px solid #9400CE;
+}
+
+.tarjetaAccion--gris{
+    border-top: 5px solid #C1B9B9;
+}
+
+.tarjetaAccion__encabezado{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.tarjetaAccion__icono{
+    width: 50px;
+    height: 50px;
+    padding: 8px;
+    background: #E3F2FD;
+    border-radius: 50%;
+}
+
+.tarjetaAccion__contenido{
+    display: flex;
+    flex-direction: column;
+}
+
+.tarjetaAccion__icono--verde{
+    background: #E8F5E9;
+}
+
+.tarjetaAccion__icono--morado{
+    background: #F3E5F5;
+}
+
+.tarjetaAccion__icono--gris{
+    background: #F5F5F5;
+}
+
+.tarjetaAccion__titulo{
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.tarjetaAccion__subtitulo{
+    margin-top: 5px;
+    font-size: 16px;
+    color: #757575;
+    margin-bottom: 12px;
+}
+
+.tarjetaAccion__flecha{
+    font-size: 50px;
+    font-weight: 700;
+    color: #9400CE;
+    cursor: pointer;
+}
+
+.tarjetaAccion__flecha:hover{
+    transform: translateX(4px);
+    transition: 0.3s;
+    color: #1E88E5;
+}
+
+
+.contenedorEtiquetas{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.etiqueta{
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.etiqueta--pendiente{
+    background: #FFEBEE;
+    color: #E51E1E;
+}
+
+.etiqueta--pagada{
+    background: #E8F5E9;
+    color: #2ECC71;
+}
+
+.etiqueta--vencida{
+    background: #d7ecff;
+    color: #1E88E5;
+}
+
+.resumenPagos{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+.resumenPagos__item{
+    text-align: center;
+}
+
+.resumenPagos__numero{
+    font-size: 28px;
+    font-weight: 700;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #E51E1E;
+    background: #FFEBEE;
+}
+
+.resumenPagos__numero--verde {
+    background: #E8F5E9;
+    color: #2ECC71;
+}
+
+.resumenPagos__numero--azul {
+    background: #d7ecff;
+    color: #1E88E5;
+}
+
+.resumenPagos__texto {
+    font-size: 12px;
+    color: #757575;
+    margin-top: 4px;
+}
+
+.boton--cancelar, .boton--registrar{
+    margin-left: 75%;
+    width: 20%;
+    border-radius: 20px;
+}
+
+.tarjetaAccion__boton{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+.boton--volver{
+    width: 30%;
+    margin-bottom: 20px;
+}

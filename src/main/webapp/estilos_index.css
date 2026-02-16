@@ -1,0 +1,66 @@
+/* Contenedor principal de la pantalla de carga */
+.carga {
+    width: var(--carga-ancho);
+    height: var(--carga-altura);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--carga-main);
+}
+
+/* Contenido centrado */
+.carga__contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Logo */
+.carga__logo-contenedor{
+    width: var(--carga-contenedor-ancho);
+    display: flex;
+    justify-content: center;
+}
+.carga__logo{
+    width: var(--carga-logo-ancho); 
+    height: var(--carga-logo-altura);
+    max-width: var(--carga-logo-maxAncho);
+}
+/* GIF */
+.carga__gif-contenedor{
+    display: flex;
+    justify-content: center;
+}
+.carga__gif{
+    width: var(--carga-gif-ancho);
+    height: var(--carga-gif-altura);
+    max-width: var(--carga-gif-maxAncho);
+}
+/* ========================== Media queries ========================== */
+/* PANTALLAS MEDIANAS */
+@media (min-width: 768px){
+/* Logo */
+.carga__logo{
+    width: 35vw;
+    max-width: 400px; 
+}
+
+/* GIF */
+.carga__gif{
+    width: 30vw;
+    max-width: 350px;
+}}
+
+/* PANTALLAS GRANDES */
+@media (min-width: 1200px){
+/* Logo */
+.carga__logo{
+    width: 25vw;
+    max-width: 450px; 
+}
+
+/* GIF */
+.carga__gif{
+    width: 20vw;
+    max-width: 400px;
+}}

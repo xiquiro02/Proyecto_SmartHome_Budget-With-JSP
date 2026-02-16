@@ -1,0 +1,245 @@
+
+.encabezado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: transparent;
+    padding: 50px 20px;
+    gap: 12px;
+    margin-top: 50px;
+    box-shadow: none;
+}
+
+.encabezado__contenedor{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.encabezado__imagen {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 8px;
+}
+
+.encabezado__titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+}
+
+.encabezado__contenido{
+    margin-top: 5px;
+    text-align: center;
+    background: transparent;
+}
+
+.encabezado__descripcion{
+    font-size: 16px;
+    color: #000000;
+    line-height: 1.5;
+}
+
+.inventario__busqueda {
+    margin-bottom: 20px;
+}
+
+.inventario__barra{
+    width: 100%;
+    padding: 10px 100px 10px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 25px;
+    font-size: 14px;
+}
+
+.inventario__barra::placeholder {
+    width: 200%;
+}
+
+.inventario{
+    padding: 20px;
+    padding-bottom: 20px;
+    margin-top: 50px;
+}
+
+.inventario__acciones{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.inventario__opcion{
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.30);
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.inventario__opcion:active {
+    transform: scale(0.98);
+}
+
+.inventario__opcion-icono{
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 10px;
+}
+
+.inventario__opcion-titulo{
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 4px;
+}
+
+.inventario__opcion-descripcion{
+    font-size: 14px;
+    color: #757575;
+}
+
+.inventario__tarjeta{
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.30);
+    gap: 15px;
+}
+
+.inventario__tarjeta-icono{
+    width: 45px;
+    height: 45px;
+}
+
+.inventario__tarjeta-contenido{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.inventario__tarjeta-titulo{
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 4px;
+}
+
+.inventario__tarjeta-descripcion{
+    font-size: 13px;
+    color: #424242;
+}
+
+.inventario__tarjeta--principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 5px solid #9400CE;
+}
+
+.inventario__boton{
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+}
+
+.boton {
+    padding: 15px 25px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.boton--mover{
+    width: 25%;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.inventario__tarjeta--gris {
+    border-left: 5px solid #C1B9B9;
+}
+
+.inventario__tarjeta-encabezado {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.inventario__tarjeta-icono{
+    width: 50px;
+    height: 50px;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.inventario__tarjeta-icono--gris {
+    background: #F5F5F5;
+}
+
+.inventario__tarjeta-titulo{
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.inventario__resumen{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+.inventario__resumen-item{
+    text-align: center;
+}
+
+.inventario__resumen-numero{
+    font-size: 28px;
+    font-weight: 700;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #E8F5E9;
+    color: #2ECC71;
+}
+
+.inventario__resumen-numero--rojo{
+    color: #E51E1E;
+    background: #FFEBEE;
+}
+
+.inventario__resumen-numero--azul{
+    background: #d7ecff;
+    color: #1E88E5;
+}
+
+.inventario__resumen-texto {
+    font-size: 12px;
+    color: #757575;
+    margin-top: 4px;
+}
+
+.inventario__boton{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+.boton--volver{
+    width: 50%;
+    padding: 15px;
+    font-size: 14px;
+}

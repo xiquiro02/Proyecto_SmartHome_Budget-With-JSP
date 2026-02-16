@@ -1,0 +1,159 @@
+.formulario {
+    padding: 20px;
+    background: #F5F5F5;
+}
+
+.formulario__contenedor {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formulario__campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formulario__etiqueta {
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.formulario__input,
+.formulario__select {
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: #FFFFFF;
+}
+
+.formulario__input:focus,
+.formulario__select:focus {
+    border-color: #2196F3;
+}
+
+.formulario__select {
+    color: #9E9E9E;
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #FFFFFF;
+    cursor: pointer; 
+}
+
+.formulario__etiquetas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.etiqueta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.etiqueta img {
+    width: 20px;
+    height: 20px;
+}
+
+.etiqueta--aseo {
+    background-color: #c9eed8;
+    color: #2ECC71;
+    border: 2px solid #2ECC71;
+}
+
+.etiqueta--alimentos {
+    background-color: #fae4c8;
+    color: #FF9810;
+    border: 2px solid #FF9810;
+}
+
+.etiqueta--personal {
+    background-color: #a3cef3;
+    color: #1E88E5;
+    border: 2px solid #1E88E5;
+}
+
+.etiqueta--otros {
+    background-color: #f19999;
+    color: #E51E1E;
+    border: 2px solid #E51E1E;
+}
+
+.etiqueta--ropa-calzado {
+    background-color: #e8aeff;
+    color: #9400CE;
+    border: 2px solid #9400CE;
+}
+
+
+.formulario__textarea {
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: #FFFFFF;
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+.formulario__textarea:focus {
+    outline: none;
+    border-color: #2196F3;
+}
+
+.formulario__fecha {
+    flex: 1;
+    display: flex;
+    align-items:flex-start;
+    justify-content:flex-start;
+    padding: 20px 20px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    background: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.formulario__fecha:has(input[type="radio"]:checked) {
+    background: #E3F2FD;
+    border-color: #2196F3;
+}
+
+.formulario__fecha input[type="radio"]:checked + span{
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.formulario__fecha input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    accent-color: #2196F3;
+}
+
+.formulario__botones{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.boton{
+    width: 40%;
+}

@@ -1,0 +1,214 @@
+.factura{
+    padding: 20px;
+    background: #F5F5F5;
+}
+
+.factura__formulario{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.factura__grupo{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.factura__grupo--medio{
+    flex: 1;
+}
+
+.factura__fila{
+    display: flex;
+    gap: 12px;
+}
+
+.factura__label{
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.factura__input{
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: #FFFFFF;
+}
+
+.factura__input:focus {
+    border-color: #2196F3;
+}
+
+.factura__input--fecha{
+    text-transform: uppercase;
+    color: #9E9E9E;
+}
+
+.factura__select{
+    color: #9E9E9E;
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #FFFFFF;
+    cursor: pointer;
+}
+
+.factura__select:focus {
+    border-color: #2196F3;
+}
+
+.factura__textarea{
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: #FFFFFF;
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+.factura__textarea:focus {
+    border-color: #2196F3;
+}
+
+.factura__estado{
+    display: flex;
+    gap: 10px;
+}
+
+.factura__estado-opcion{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    background: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.factura__estado-opcion:has(input[type="radio"]:checked) {
+    background: #E3F2FD;
+    border-color: #2196F3;
+}
+
+.factura__estado-opcion input[type="radio"]:checked + span {
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.factura__estado-opcion input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    accent-color: #2196F3;
+}
+
+input[type="radio"]:checked + label{
+    background: #E3F2FD;
+    border-color: #2196F3;
+    color: #E65100;
+    font-weight: bold;
+}
+
+.factura__estado-opcion span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.factura__recordatorio{
+    background: #FFF3E0;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.factura__recordatorio-header{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.factura__recordatorio-icono{
+    width: 3%;
+    height: 3%;
+}
+
+.factura__recordatorio-texto{
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.factura__recordatorio-mensaje{
+    font-size: 12px;
+    color: #E65100;
+    margin-left: 30px;
+}
+
+.factura__switch{
+    position: relative;
+    width: 50px;
+    height: 28px;
+}
+
+.factura__switch input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.factura__switch-slider{
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #E0E0E0;
+    transition: 0.3s;
+    border-radius: 28px;
+}
+
+.factura__switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.factura__switch input:checked + .factura__switch-slider {
+    background-color: #4CAF50;
+}
+
+.factura__switch input:checked + .factura__switch-slider:before {
+    transform: translateX(22px);
+}
+
+.factura__boton{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.boton{
+    width: 25%;
+}

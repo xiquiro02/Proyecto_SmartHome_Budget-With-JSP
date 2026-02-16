@@ -1,0 +1,202 @@
+:root{
+  /* ===================== HEADERS =====================  */
+    /*Altura*/
+    --header-altura: 60px;
+    --header-img-altura: 40px;
+    --header-contenedorTitulo-altura: 60px;
+    /*Ancho*/
+    --header-ancho: 100%;
+    --header-img-ancho: 40px;
+    --header-contenedorTitulo-ancho: 95%;
+    /*Padding*/
+    --header-padding: 15px 20px;
+    /*Margin*/
+    --header-margin: 0;
+    /*Tamaño Icono*/
+    --icono-tamano: 30px;
+    --header-tamano-titulo: 18px;
+    /*Gap*/
+    --header-gap: 15px;
+    /*Color*/
+    --icono-color: #000;
+    --header-color: #D9D9D9;
+    /*Borde-radius*/
+    --header-img-radius: 8px;
+    /*Box Shadow*/
+    --header-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Duración de transiciones */
+    --icono-transition: 0.3s;
+    /*Hover*/
+    --icono-hover: #1E88E5;
+  /* ===================== CONTENEDORES =====================  */
+    /*Ancho*/
+    --contenedor-width: 100%;
+    --contenedor-max-width: 380px;  
+    /* Radio*/
+    --contenedor-radius: 12px; 
+    /* Sombra de cajas */
+    --contenedor-shadow: 0 5px 12px rgba(0,0,0,0.12);
+    /* Padding */
+    --contenedor-padding: 25px 20px; 
+    /*Gradientes */
+    --contenedor-gradient-bg: linear-gradient(to right, #a4dbf4, #ccffd3);
+  /* ===================== BOTONES =====================  */
+    /*Ancho*/
+    --btn-width: 100%;
+    /*Color Botón primario*/
+    --btn-primary: #1E88E5;
+    --btn-primary-text: #fff;
+    /*Color Botón secundario */
+    --btn-secondary-bg: #4EC8A9;
+    --btn-secondary-text: #fff;
+    /*Color Botones */
+    --btn-color-general: #2ECC71;
+    --btn-color-text: #fff;
+    --btn-cerrar-sesion: #E0E0E0;
+    --btn-cerrar-sesion-text: #000000;
+    --btn-eliminar: #E51E1E;
+    --btn-eliminar-text: #FFFFFF;
+    --btn-colorAzul-general: #1E88E5;
+    --btn-colorAzul-text: #fff;
+    --btn-colorMorado-general: #9400CE;
+    --btn-colorMorado-text: #fff;
+    /*Hover Botón primario*/
+    --btn-primary-hover: #fff;
+    --btn-primary-hover-text: #1E88E5;
+    /*Hover Botón secundario*/
+    --btn-secondary-hover: #fff;
+    --btn-secondary-hover-text: #4EC8A9;
+    /*Hover Botones*/
+    --btn-color-general-hover: #fff;
+    --btn-color-general-hover-text: #2ECC71;
+    --btn-cerrer-sesion-hover: #000000;
+    --btn-cerrer-sesion-hover-text: #E0E0E0;
+    --btn-eliminar-hover: #FFFFFF;
+    --btn-eliminar-hover-text: #E51E1E;
+    --btn-colorAzul-general-hover: #fff;
+    --btn-colorAzul-general-hover-text: #1E88E5;
+    --btn-colorMorado-general-hover: #fff;
+    --btn-colorMorado-general-hover-text: #9400CE;
+    /* Padding*/
+    --btn-padding: 0.9rem 0.9rem;
+    /*Borde del hover*/
+    --btn-primary-hover-border: 3px solid #1E88E5;
+    --btn-secondary-hover-border: 3px solid #4EC8A9;
+    --btn-color-general-hover-border: 3px solid #2ECC71;
+    --btn-eliminar-hover-border: 3px solid #E51E1E;
+    --btn-colorAzul-general-hover-border: 3px solid #1E88E5;
+    --btn-colorMorado-general-hover-border: 3px solid #9400CE;
+    /* Duración de transiciones */
+    --btn-transition: 0.3s;
+    /* Radio de bordes */
+    --btn-radius: 8px;
+    /*Tamaño fuente*/
+    --btn-font-size: 16px;
+    /*Margin*/
+    --btn-margin-top: 16px;
+/* ===================== ESTILOS PANTALLA CARGA =====================  */
+    /* Ancho */
+    --carga-ancho: 100%;
+    --carga-contenedor-ancho: 100%;
+    --carga-logo-ancho: 60vw;
+    --carga-gif-ancho: 50vw; 
+    --carga-logo-maxAncho: 300px;
+    --carga-gif-maxAncho:250px;
+    /* Altura */
+    --carga-altura: 100vh;
+    --carga-logo-altura: auto;
+    --carga-gif-altura: auto;
+    /*Padding*/
+    --carga-main: 2rem;
+  /* ===================== ESTILOS PRINCIPAL =====================  */
+    /* Imagen */
+    --contenido-img-tamano: 60vw;
+    --contenido-img-max: 300px;       
+    --contenido-img-min: 180px;  
+    /* Texto */
+    --contenido-parrafo-size: 1.1rem;
+    /* Gap */
+    --contenido-gap-botones: 0.5rem;
+    /*Ancho*/
+    --contenido-ancho-contenedorbutton: 100%;
+    --contenido-Max-ancho: 300px;
+    /*Tamaño*/
+    --contenido-icono-tamano: 2rem;
+    /*Margin*/
+    --contenido-margin-bottom: 0.7rem;
+    /*Padding*/
+    --contenido-padding: 1rem 1rem;
+  /* ===================== ESTILOS REGISTRARSE =====================  */
+    /* Colores */
+    --registro-input-bg: #D7F9E6;
+    --registro-placeholder: #6E6E6E;
+    /* Anchos */
+    --registro-contenedor-w: 80%;
+    --registro-contenedor-max-w: 380px;
+    --registro-contenidoGrupo-w: 100%;
+    --registro-formulario-w: 90%;
+    --registro-input-w: 100%;
+    --registro-boton-w: 90%;
+    /* Alturas */
+    --registro-encabezado-h: 10vh; 
+    --registro-contenido-min-h: 100vh;
+    --registro-input-h: 40px;
+    /* Bordes */
+    --registro-radio-borde: 8px;
+    --registro-input-border: 3px solid #000;
+    --registro-input-border-focus: 4px solid #2a9d8f;
+    /* Tipografía */
+    --registro-titulo-size: 1.7rem;
+    --registro-label-size: 0.9rem;
+    --registro-input-size: 0.9rem;
+    --registro-encabezado-size: 4.7vh;
+    --registro-boton-size: 1rem;
+    /* Margen */
+    --registro-titulo-margin: 1rem;
+    --registro-label-margin-bottom: 0.4rem;
+    --registro-input-margin-bottom: 2px;
+    --registro-boton-margin-bottom: 20px;
+    --registro-boton-margin-top: 10px;
+    --registro-contenidoTitulo-margin-top: 20px;
+    /* Padding */
+    --registro-encabezado-padding: 2vh 3vw;
+    --registro-input-padding: 0.8rem 10px;
+    --registro-contenido-padding: 20px;
+    --registro-contenedor-padding: 20px, 15px;
+    --registro-placeholder-padding: 5px;
+    --registro-boton-padding: 1rem 1.5rem;
+    /*Gap*/
+    --registro-gap-formulario: 0.7rem;
+  /* ===================== ESTILOS CONFIRMACIÓN REGISTRO =====================  */
+    /*Anchos*/
+    --confirmacion-ancho-contenido: 100%;
+  /* ===================== ESTILOS INICIAR SESIÓN =====================  */
+    /* Altura y Ancho de Checkbox */
+    --login-checkbox-altura: 40vh;
+    --login-checkbox-max: 20px;
+    --login-checkbox-min: 14px;
+    --login-checkbox-ancho: 40vw;
+    /* Márgenes */
+    --login-margin-titulo-formulario: 2rem;
+    --login-margin-input: 0.5rem;
+    --login-margin-olvido-clave: 0.5rem;
+    /* Colores */
+    --login-color-titulo-principal: #000;
+    --login-color-borde-input: #000;
+    --login-color-olvido-clave: #000;
+    --login-color-olvido-clave-hover: #1E88E5;
+    /*Hover*/
+    --login-hover-fondo-checkbox: #1E88E5;
+    /* Tamaño de Tipografías */
+    --login-fuente-titulo: 2rem; 
+    --login-fuente-label: 1rem;
+    --login-fuente-inputs: 1rem;
+    --login-fuente-pequena: 0.95rem;
+    /* Padding */
+    --login-padding-contenido: 5vw;
+    --login-padding-input: 0.9rem 1.5rem;
+    /* Radio */
+    --login-radio-bordes-inputs: 0.7rem;
+    /*Gaps */
+    --login-gap-formulario: 1rem;
+}

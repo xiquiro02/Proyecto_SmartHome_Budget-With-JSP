@@ -1,0 +1,140 @@
+.edicion {
+    padding: 20px;
+    background: #F5F5F5;
+}
+
+.edicion__contenedor {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.edicion__campo {
+    margin-bottom: 8px;
+}
+
+.edicion__etiqueta {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+.edicion__input,
+.edicion__select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #F5F5F5;
+    color: #000;
+}
+
+.edicion__input:focus,
+.edicion__select:focus {
+    outline: none;
+    border-color: #2196F3;
+}
+
+.edicion__select {
+    color: #9E9E9E;
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #FFFFFF;
+    cursor: pointer;
+}
+
+.edicion__select--completa {
+    background-color: #d2f6d5;
+    border: 2px solid #2ECC71;
+    color: #2ECC71;
+    font-weight: 600;
+}
+
+.edicion__productos {
+    background-color: #E5E5E5;
+    border: 2px solid #C1B9B9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 25px;
+}
+
+.edicion__subtitulo {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 15px;
+}
+
+.producto {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.producto__info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.producto__nombre {
+    font-size: 15px;
+    font-weight: 600;
+    color: #000;
+}
+
+.producto__cantidad {
+    font-size: 13px;
+    color: #757575;
+}
+
+.producto__botones {
+    display: flex;
+    gap: 8px;
+}
+
+.producto__boton {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.producto__boton--editar {
+    background-color: #2196F3;
+    color: white;
+}
+
+.producto__boton--eliminar {
+    background-color: #F44336;
+    color: white;
+}
+
+.boton{
+    width: 40%;
+}
+
+.boton--agregar{
+    width: 30%;
+}
+
+.edicion__botones {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
