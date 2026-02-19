@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/utils/styles.css">
         <link rel="stylesheet"
             href="${pageContext.request.contextPath}/asset/modules/01_autenticacion/estilosIniciarSesion.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <title>SmartHome Budget</title>
     </head>
 
@@ -26,15 +27,16 @@
         <main class="contenido">
             <div class="contenedor">
                 <h1 class="contenido__titulo">Inicio Sesión</h1>
-                <form class="contenido__formulario" method="get" enctype="multipart/form-data">
+                <form class="contenido__formulario" method="post" action="${pageContext.request.contextPath}/Login"
+                    onsubmit="return validarCorreoContrasena()">
                     <div class="contenido__grupo">
                         <label for="email" class="contenido__label">Correo</label>
-                        <input type="email" class="contenido__input" id="email" name="email"
+                        <input type="email" class="contenido__input" id="email" name="correo"
                             placeholder="Ingresa tu correo" required />
                     </div>
                     <div class="contenido__grupo">
                         <label for="password" class="contenido__label">Contraseña</label>
-                        <input type="password" class="contenido__input" id="password" name="password"
+                        <input type="password" class="contenido__input" id="password" name="contrasena"
                             placeholder="Ingresa tu contraseña" required />
                     </div>
                     <div class="contenido__grupo--fila">
@@ -43,13 +45,13 @@
                     </div>
 
                     <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/05_necesitasAyuda.jsp"
-                        class="contenido__link">¿Olvidó su Clave?</a>
-                </form>
-                <div class="contenido__grupo">
-                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/01_principal.jsp">
-                        <button type="submit" class="boton boton--registrar">Ingresar</button>
+                        class="contenido__link">¿Olvidó su Clave?
                     </a>
-                </div>
+                    <div class="contenido__grupo">
+                        <button type="submit" class="boton boton--registrar">Ingresar</button>
+                    </div>
+                </form>
+                <script src="${pageContext.request.contextPath}/asset/JavaScript/validarCorreoContrasena.js"></script>
             </div>
         </main>
     </body>
