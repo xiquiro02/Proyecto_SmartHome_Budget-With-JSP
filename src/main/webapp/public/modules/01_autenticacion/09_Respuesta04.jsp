@@ -1,0 +1,61 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+    <!DOCTYPE html>
+    <html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Link iconos  -->
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new" />
+        <!-- Link Fuentes -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <!-- Link estilos.css  -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
+        <link rel="stylesheet"
+            href="${pageContext.request.contextPath}/asset/css/modules/01_autenticacion/estilosRespuestas.css">
+        <title>SmartHome Budget</title>
+    </head>
+
+    <body>
+        <header class="encabezado">
+            <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png"
+                alt="Logo de SmartHome Budget">
+            <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/05_necesitasAyuda.jsp">
+                <span class="material-symbols-outlined"> arrow_back_ios_new </span>
+            </a>
+            <div class="encabezado__contenedorTitulo">
+                <h1 class="encabezado__titulo">¿Necesitas Ayuda?</h1>
+            </div>
+        </header>
+        <main class="contenido">
+            <section class="contenido__pregunta">
+                <img class="contenido__pregunta-imagen"
+                    src="${pageContext.request.contextPath}/asset/imagenes/metodo-de-pago.png" alt="Pago">
+                <h2 class="contenido__pregunta-texto">¿Cómo agrego mi primer recordatorio de pago?</h2>
+            </section>
+            <section class="contenido__detalle">
+                <p class="contenido__detalle-parrafo"> Para agregar un recordatorio de pago de facturas, sigue estos
+                    pasos: </p>
+                <ol class="contenido__detalle-lista">
+                    <li class="contenido__detalle-item">Inicia sesión y ve al módulo "Facturas y Pagos".</li>
+                    <li class="contenido__detalle-item">Selecciona "Registrar factura".</li>
+                    <li class="contenido__detalle-item">Ingresa los detalles: nombre de la factura (ej. "Luz", "Agua"),
+                        categoría, monto a pagar, fecha de vencimiento y estado (pendiente, pagada o vencida).</li>
+                    <li class="contenido__detalle-item">Guarda el registro. El sistema lo almacenará y activará
+                        notificaciones automáticas.</li>
+                    <li class="contenido__detalle-item">Puedes agregar varias facturas; solo se permiten fechas de
+                        vencimiento válidas y futuras.</li>
+                </ol>
+                <p class="contenido__detalle-parrafo"> Esto te ayudará a evitar olvidos en pagos importantes.</p>
+            </section>
+            <div class="contenido__boton">
+                <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/05_necesitasAyuda.jsp"
+                    class="contenido__boton-enlace">
+                    <button type="button" class="boton boton--registrar">Volver</button>
+                </a>
+            </div>
+        </main>
+    </body>
+
+    </html>

@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,8 +9,8 @@
     <!-- Link Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <!-- Link estilos.css  -->
-    <link rel="stylesheet" href="../../../asset/utils/styles.css">
-    <link rel="stylesheet" href="../../../asset/modules/01_autenticacion/estilosCerrar_Sesion.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/01_autenticacion/estilosCerrar_Sesion.css">
     <title>SmartHome Budget</title>
 </head>
 <body>
@@ -19,10 +20,10 @@
                 <p class="contenido__parrafo">¿Quieres Cerrar Sesión?</p>
                 <p class="contenido__parrafo">¡Gracias por visitarnos! Hasta pronto</p>
                 <div class="contenido__grupo">
-                    <a href="01_principal.html">            
+                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/01_principal.jsp">            
                         <button type="submit" class="boton boton--registrar">Cerrar Sesión</button>
                     </a>
-                    <a href="19_MiPerfil.html">
+                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/19_MiPerfil.jsp">
                         <button type="submit" class="boton boton--cancelar">Cancelar</button>
                     </a>
                 </div>

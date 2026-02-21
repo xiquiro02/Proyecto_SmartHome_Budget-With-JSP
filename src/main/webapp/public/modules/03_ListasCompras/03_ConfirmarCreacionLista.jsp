@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="resumen__campo resumen__campo--descripcion">
-                    <img class="resumen__icono" src="../../../asset/imagenes/Descripción.png" alt="Icono Descripcion">
+                    <img class="resumen__icono" src="../../../asset/imagenes/Descripcion.png" alt="Icono Descripcion">
                     <div class="resumen__info">
                         <label class="resumen__etiqueta">Descripción:</label>
                         <textarea class="resumen__textarea" readonly>Lista para compras semanales de carnes y proteínas</textarea>

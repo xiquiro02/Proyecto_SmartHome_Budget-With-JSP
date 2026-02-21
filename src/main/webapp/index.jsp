@@ -6,13 +6,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Link estilos.css  -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/utils/styles.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/estilos_index.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/estilos_index.css">
         <title>SmartHome Budget</title>
     </head>
 
     <body>
-        <script src="${pageContext.request.contextPath}/asset/JavaScript/cargando.js"></script>
+        <script src="${pageContext.request.contextPath}/asset/js/cargando.js"></script>
         <main class="carga">
             <section class="carga__contenido">
                 <div class="carga__logo-contenedor">

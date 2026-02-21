@@ -11,9 +11,9 @@
         <!-- Link Fuentes -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <!-- Link estilos.css  -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/utils/styles.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
         <link rel="stylesheet"
-            href="${pageContext.request.contextPath}/asset/modules/01_autenticacion/estilosIniciarSesion.css">
+            href="${pageContext.request.contextPath}/asset/css/modules/01_autenticacion/estilosIniciarSesion.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <title>SmartHome Budget</title>
     </head>
@@ -44,14 +44,14 @@
                         <label for="recordardatos" class="contenido__label">Recordar los datos</label>
                     </div>
 
-                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/05_necesitasAyuda.jsp"
+                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/16_OlvidoClave.jsp"
                         class="contenido__link">¿Olvidó su Clave?
                     </a>
                     <div class="contenido__grupo">
                         <button type="submit" class="boton boton--registrar">Ingresar</button>
                     </div>
                 </form>
-                <script src="${pageContext.request.contextPath}/asset/JavaScript/validarCorreoContrasena.js"></script>
+                <script src="${pageContext.request.contextPath}/asset/js/validarCorreoContrasena.js"></script>
             </div>
         </main>
     </body>

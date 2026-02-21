@@ -1,0 +1,93 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+    <!DOCTYPE html>
+    <html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Link iconos  -->
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new" />
+        <!-- Link Fuentes -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <!-- Link estilos.css  -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
+        <link rel="stylesheet"
+            href="${pageContext.request.contextPath}/asset/css/modules/01_autenticacion/estilosRespuestas.css">
+        <title>SmartHome Budget</title>
+    </head>
+
+    <body>
+        <header class="encabezado">
+            <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png"
+                alt="Logo de SmartHome Budget">
+            <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/05_necesitasAyuda.jsp">
+                <span class="material-symbols-outlined"> arrow_back_ios_new </span>
+            </a>
+            <div class="encabezado__contenedorTitulo">
+                <h1 class="encabezado__titulo">¿Necesitas Ayuda?</h1>
+            </div>
+        </header>
+        <main class="contenido">
+            <div class="contenido__pregunta">
+                <img class="contenido__pregunta-imagen"
+                    src="${pageContext.request.contextPath}/asset/imagenes/Recordatorios-automaticos.png"
+                    alt="Recordatorios automáticos">
+                <h2 class="contenido__pregunta-texto">¿Cómo funcionan los recordatorios automáticos?</h2>
+            </div>
+            <section class="contenido__detalle">
+                <p class="contenido__detalle-parrafo">
+                    Los recordatorios automáticos están diseñados para notificarte de pagos pendientes, productos por
+                    agotarse y alertas financieras. Estos te ayudan a mantener tu hogar organizado, evitar gastos
+                    innecesarios y controlar tu presupuesto. A continuación, te explicamos cómo funcionan en cada área:
+                </p>
+                <h3 class="contenido__detalle-subtitulo">Para pagos de facturas:</h3>
+                <ul class="contenido__detalle-lista">
+                    <li class="contenido__detalle-item">El sistema envía notificaciones push automáticas para recordar
+                        pagos próximos por vencer o vencidos.</li>
+                    <li class="contenido__detalle-item">Se activan 2 días antes, 1 día antes y el día del vencimiento de
+                        la factura.</li>
+                    <li class="contenido__detalle-item">Puedes activar o desactivar estas alertas en la configuración de
+                        la app.</li>
+                    <li class="contenido__detalle-item">Requiere conexión a internet para las notificaciones push. Si no
+                        las activas, puedes revisar manualmente en el módulo "Ajustes" o "Recordatorios".</li>
+                </ul>
+                <h3 class="contenido__detalle-subtitulo">Para productos en el inventario:</h3>
+                <ul class="contenido__detalle-lista">
+                    <li class="contenido__detalle-item">Cuando la cantidad de un producto en tu inventario llegue a un
+                        nivel bajo (definido por ti o por defecto), recibirás una notificación push.</li>
+                    <li class="contenido__detalle-item">Los productos con baja cantidad se sugerirán automáticamente en
+                        tu lista de compras.</li>
+                    <li class="contenido__detalle-item">Si la cantidad llega a cero, el producto se moverá
+                        automáticamente a la lista de compras (puedes seleccionar en qué lista)</li>
+                    <li class="contenido__detalle-item">Puedes activar o desactivar estas alertas en configuración.</li>
+                    <li class="contenido__detalle-item">Requiere conexión a internet para las notificaciones push. Si no
+                        las activas, puedes revisar manualmente en el módulo "Ajustes" o "Recordatorios".</li>
+                </ul>
+                <h3 class="contenido__detalle-subtitulo">Para finanzas y presupuesto:</h3>
+                <ul class="contenido__detalle-lista">
+                    <li class="contenido__detalle-item">El sistema envía alertas automáticas cuando superes el
+                        presupuesto mensual configurado o cuando registres un gasto inusualmente alto.</li>
+                    <li class="contenido__detalle-item">Las alertas se envían en tiempo real y pueden activarse o
+                        desactivarse desde la configuración.</li>
+                    <li class="contenido__detalle-item">Te ayudan a controlar tus ingresos, egresos y balance
+                        disponible, evitando derroches.</li>
+                    <li class="contenido__detalle-item">Requiere conexión a internet para las notificaciones push. Si no
+                        las activas, puedes revisar manualmente en el módulo "Ajustes" o "Recordatorios".</li>
+                </ul>
+                <p class="contenido__detalle-parrafo">
+                    Estos recordatorios son personalizables y se generan de forma automática para adaptarse a tus
+                    necesidades. Si tienes problemas con las notificaciones, verifica tu configuración y conexión a
+                    internet.
+                </p>
+            </section>
+            <div class="contenido__boton">
+                <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/05_necesitasAyuda.jsp"
+                    class="contenido__boton-enlace">
+                    <button type="button" class="boton boton--registrar">Volver</button>
+                </a>
+            </div>
+        </main>
+    </body>
+
+    </html>

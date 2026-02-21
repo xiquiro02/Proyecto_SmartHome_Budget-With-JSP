@@ -11,9 +11,9 @@
                 <!-- Link Fuentes -->
                 <link rel="preconnect" href="https://fonts.googleapis.com">
                 <!-- Link estilos.css  -->
-                <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/utils/styles.css">
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
                 <link rel="stylesheet"
-                        href="${pageContext.request.contextPath}/asset/modules/01_autenticacion/estilosRegistrase.css">
+                        href="${pageContext.request.contextPath}/asset/css/modules/01_autenticacion/estilosRegistrarse.css">
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                 <title>SmartHome Budget</title>
         </head>
@@ -76,7 +76,7 @@
                                 </form>
                         </div>
                 </main>
-                <script src="${pageContext.request.contextPath}/asset/JavaScript/validarContrasenas.js"></script>
+                <script src="${pageContext.request.contextPath}/asset/js/validarContrasenas.js"></script>
         </body>
 
         </html>

@@ -11,9 +11,9 @@
         <!-- Link Fuentes -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <!-- Link estilos.css  -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/utils/styles.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
         <link rel="stylesheet"
-            href="${pageContext.request.contextPath}/asset/modules/01_autenticacion/estilosPrincipal.css">
+            href="${pageContext.request.contextPath}/asset/css/modules/01_autenticacion/estilosPrincipal.css">
         <title>SmartHome Budget</title>
 
     </head>
