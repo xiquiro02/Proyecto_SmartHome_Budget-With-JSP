@@ -46,10 +46,10 @@
                     <input type="text" class="contenido__input" id="País" name="País" />
                 </div>
                 <div class="contenido__grupo">
-                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/21_Confirmar-cambio.jsp">
+                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/11_Confirmar-cambio.jsp">
                         <button type="submit" class="boton boton--registrar">Guardar</button>
                     </a>
-                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/19_MiPerfil.jsp">
+                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/09_MiPerfil.jsp">
                         <button type="submit" class="boton boton--cancelar">Cancelar</button>
                     </a>
                 </div>

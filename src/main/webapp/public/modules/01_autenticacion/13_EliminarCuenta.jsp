@@ -33,7 +33,7 @@
                 <p class="contenido__parrafos">¿Estás seguro de que deseas continuar?</p>
                 <div class="contenido__grupo">
                     <a
-                        href="${pageContext.request.contextPath}/public/modules/01_autenticacion/24_ConfirmarEliminacion.jsp">
+                        href="${pageContext.request.contextPath}/public/modules/01_autenticacion/14_ConfirmarEliminacion.jsp">
                         <button type="submit" class="boton boton--Eliminar">Eliminar cuenta</button>
                     </a>
                     <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/06_ajustes.jsp">

@@ -27,7 +27,7 @@
         <main class="ajustes">
             <section class="ajustes__seccion">
                 <h3 class="ajustes__seccion-titulo">Cuenta</h3>
-                <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/20_EditarPerfil.jsp"
+                <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/09_MiPerfil.jsp"
                     class="ajustes__item">
                     <img class="ajustes__item-icono"
                         src="${pageContext.request.contextPath}/asset/imagenes/editarPerfil.png" alt="Editar">
@@ -46,7 +46,7 @@
                     </div>
                     <span class="material-symbols-outlined">chevron_right</span>
                 </a>
-                <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/22_Cerrar_Sesion.jsp"
+                <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/12_Cerrar_Sesion.jsp"
                     class="ajustes__item">
                     <img class="ajustes__item-icono"
                         src="${pageContext.request.contextPath}/asset/imagenes/cerrar-sesion.png" alt="Cerrar sesión">
@@ -55,7 +55,7 @@
                     </div>
                     <span class="material-symbols-outlined">chevron_right</span>
                 </a>
-                <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/23_EliminarCuenta.jsp"
+                <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/13_EliminarCuenta.jsp"
                     class="ajustes__item">
                     <img class="ajustes__item-icono"
                         src="${pageContext.request.contextPath}/asset/imagenes/borrar-usuario.png" alt="Eliminar">

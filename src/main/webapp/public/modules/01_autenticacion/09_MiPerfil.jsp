@@ -35,10 +35,10 @@
                 <p class="contenido__parrafo"><strong>País:</strong>Colombia</p>
                 <p class="contenido__parrafo"><strong>Celular:</strong>+ 57 300 6598773</p>
                 <div class="contenido__grupo">
-                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/20_EditarPerfil.jsp">
+                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/10_EditarPerfil.jsp">
                         <button type="submit" class="boton boton--registrar">Editar Perfil</button>
                     </a>
-                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/22_Cerrar_Sesion.jsp">
+                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/12_Cerrar_Sesion.jsp">
                         <button type="submit" class="boton boton--cerrar-sesion">Cerrar sesión</button>
                     </a>
                 </div>

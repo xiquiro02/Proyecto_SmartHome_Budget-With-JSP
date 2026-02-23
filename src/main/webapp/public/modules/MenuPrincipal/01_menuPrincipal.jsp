@@ -103,7 +103,7 @@
                     src="${pageContext.request.contextPath}/asset/imagenes/notificaciones.png" alt="Recordatorios">
                 <p>Recordatorios</p>
             </a>
-            <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/19_MiPerfil.jsp"
+            <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/09_MiPerfil.jsp"
                 class="navInferior__item">
                 <img class="navInferior__icono" src="${pageContext.request.contextPath}/asset/imagenes/usuario.png"
                     alt="Perfil">

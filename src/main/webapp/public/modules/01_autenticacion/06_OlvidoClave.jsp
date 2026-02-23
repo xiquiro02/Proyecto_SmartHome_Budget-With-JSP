@@ -30,7 +30,7 @@
                     electrónico que usaste al registrarte. Te enviaremos un mensaje con los pasos necesarios para
                     restablecer tu contraseña: </p>
                 <div class="contenido__grupo">
-                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/17_SolicitarEmail.jsp">
+                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/07_SolicitarEmail.jsp">
                         <button type="submit" class="boton boton--registrar">Email</button>
                     </a>
                 </div>

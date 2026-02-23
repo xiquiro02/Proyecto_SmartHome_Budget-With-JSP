@@ -23,7 +23,7 @@
                     <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/01_principal.jsp">            
                         <button type="submit" class="boton boton--registrar">Cerrar Sesión</button>
                     </a>
-                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/19_MiPerfil.jsp">
+                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/09_MiPerfil.jsp">
                         <button type="submit" class="boton boton--cancelar">Cancelar</button>
                     </a>
                 </div>

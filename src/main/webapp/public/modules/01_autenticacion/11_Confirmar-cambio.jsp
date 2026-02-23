@@ -19,7 +19,7 @@
 
     <body>
         <header class="encabezado">
-            <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/20_EditarPerfil.jsp">
+            <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/10_EditarPerfil.jsp">
                 <span class="material-symbols-outlined"> arrow_back_ios_new </span>
             </a>
         </header>
@@ -31,7 +31,7 @@
                     alt="Icono verificación">
                 <p class="contenido__parrafo">Ahora puedes visualizar tus cambios en tu perfil.</p>
                 <div class="contenido__grupo">
-                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/19_MiPerfil.jsp">
+                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/09_MiPerfil.jsp">
                         <button type="submit" class="boton boton--registrar">Aceptar</button>
                     </a>
                 </div>

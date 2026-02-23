@@ -37,7 +37,7 @@
                 </form>
                 <div class="contenido__grupo">
                     <a
-                        href="${pageContext.request.contextPath}/public/modules/01_autenticacion/18_ConfirmacionEmail.jsp">
+                        href="${pageContext.request.contextPath}/public/modules/01_autenticacion/08_ConfirmacionEmail.jsp">
                         <button type="submit" class="boton boton--registrar">Email</button>
                     </a>
                     <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/04_iniciarSesion.jsp">

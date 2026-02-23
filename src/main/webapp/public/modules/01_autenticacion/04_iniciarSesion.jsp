@@ -44,7 +44,7 @@
                         <label for="recordardatos" class="contenido__label">Recordar los datos</label>
                     </div>
 
-                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/16_OlvidoClave.jsp"
+                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/06_OlvidoClave.jsp"
                         class="contenido__link">¿Olvidó su Clave?
                     </a>
                     <div class="contenido__grupo">

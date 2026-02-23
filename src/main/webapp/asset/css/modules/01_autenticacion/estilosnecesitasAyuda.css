@@ -17,6 +17,7 @@
     gap: 0;
 }
 
+/* Estilos antiguos (mantenidos por compatibilidad) */
 .pregunta {
     display: flex;
     align-items: center;
@@ -58,6 +59,92 @@
     justify-content: center;
     align-items: center;
     padding: 20px 0;
+}
+
+/* Estilos del acordeón */
+.acordeon-item {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.acordeon-header {
+    background-color: #f8f9fa;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: background-color 0.3s;
+}
+
+.acordeon-header:hover {
+    background-color: #e9ecef;
+}
+
+.acordeon-header.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.acordeon-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.acordeon-title {
+    flex: 1;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.acordeon-toggle {
+    font-size: 20px;
+    transition: transform 0.3s;
+}
+
+.acordeon-header.active .acordeon-toggle {
+    transform: rotate(180deg);
+}
+
+.acordeon-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: white;
+}
+
+.acordeon-content.active {
+    max-height: 1000px;
+    transition: max-height 0.5s ease-in;
+}
+
+.acordeon-body {
+    padding: 20px;
+}
+
+.acordeon-body h3 {
+    color: #007bff;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.acordeon-body p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.acordeon-body ol, .acordeon-body ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.acordeon-body li {
+    margin-bottom: 8px;
+    line-height: 1.5;
 }
 
 
