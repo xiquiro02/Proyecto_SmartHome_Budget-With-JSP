@@ -18,8 +18,19 @@ public class servletLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");
+
         String email = request.getParameter("correo");
         String password = request.getParameter("contrasena");
+
+        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            response.sendRedirect(
+                    request.getContextPath()
+                            + "/public/modules/01_autenticacion/04_iniciarSesion.jsp?error=campos_vacios");
+            return;
+        }
+
+        email = email.trim().toLowerCase();
 
         usuarioDao dao = new usuarioDao();
         usuario user = dao.login(email, password);

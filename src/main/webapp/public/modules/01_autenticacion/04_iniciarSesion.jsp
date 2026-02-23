@@ -51,7 +51,7 @@
                         <button type="submit" class="boton boton--registrar">Ingresar</button>
                     </div>
                 </form>
-                <script src="${pageContext.request.contextPath}/asset/js/validarCorreoContrasena.js"></script>
+                <script src="${pageContext.request.contextPath}/asset/js/validacionesLogin.js"></script>
             </div>
         </main>
     </body>

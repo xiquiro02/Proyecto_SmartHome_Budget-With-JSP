@@ -27,23 +27,30 @@
                 <main class="contenido">
                         <div class="contenedor">
                                 <h1 class="contenido__titulo">Registrarse</h1>
-                                <form class="contenido__formulario" method="post" onsubmit="return validarContrasenas()"
-                                        action="${pageContext.request.contextPath}/RegistroServlet">
+                                <form class="contenido__formulario" method="post"
+                                        action="${pageContext.request.contextPath}/RegistroServlet"
+                                        onsubmit="return validarFormulario()">
                                         <div class="contenido__grupo">
                                                 <label for="nombre" class="contenido__label">Nombre</label>
                                                 <input type="text" class="contenido__input" id="nombre" name="nombre"
-                                                        placeholder="Ingresa tu nombre" required />
+                                                        placeholder="Ingresa tu nombre" required maxlength="50"
+                                                        pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$"
+                                                        title="Solo letras, sin números ni símbolos" />
                                         </div>
                                         <div class="contenido__grupo">
                                                 <label for="apellido" class="contenido__label">Apellido</label>
                                                 <input type="text" class="contenido__input" id="apellido"
-                                                        name="apellido1" placeholder="Ingresa tu apellido" required />
+                                                        name="apellido1" placeholder="Ingresa tu apellido" required
+                                                        maxlength="50" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$"
+                                                        title="Solo letras, sin números ni símbolos" />
                                         </div>
                                         <div class="contenido__grupo">
                                                 <label for="segundoApellido" class="contenido__label">Segundo
                                                         Apellido</label>
                                                 <input type="text" class="contenido__input" id="segundoApellido"
-                                                        name="apellido2" placeholder="Ingresa tu segundo apellido" />
+                                                        name="apellido2" placeholder="Ingresa tu segundo apellido"
+                                                        maxlength="50" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$"
+                                                        title="Solo letras, sin números ni símbolos" />
                                         </div>
                                         <div class="contenido__grupo">
                                                 <label for="correo" class="contenido__label">Correo</label>
@@ -54,20 +61,25 @@
                                                 <label for="telefono" class="contenido__label">Número de
                                                         teléfono</label>
                                                 <input type="tel" class="contenido__input" id="telefono" name="telefono"
-                                                        placeholder="Ingresa tu número de teléfono" required />
+                                                        placeholder="Ingresa tu número de teléfono" required
+                                                        pattern="[0-9]{8,15}"
+                                                        title="Solo números, entre 8 y 15 dígitos" />
                                         </div>
                                         <div class="contenido__grupo">
                                                 <label for="password" class="contenido__label">Contraseña</label>
                                                 <input type="password" class="contenido__input" id="password"
-                                                        name="contrasena" placeholder="Ingresa tu contraseña"
-                                                        required />
+                                                        name="contrasena" placeholder="Ingresa tu contraseña" required
+                                                        minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                                        title="Mínimo 8 caracteres, al menos una letra y un número" />
                                         </div>
                                         <div class="contenido__grupo">
                                                 <label for="confirmarPassword" class="contenido__label">Confirmar
                                                         Contraseña</label>
                                                 <input type="password" class="contenido__input" id="confirmarPassword"
                                                         name="confirmarContrasena" placeholder="Confirma tu contraseña"
-                                                        required />
+                                                        required minlength="8"
+                                                        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                                        title="Mínimo 8 caracteres, al menos una letra y un número" />
                                         </div>
                                         <div class="contenido__grupo">
                                                 <button type="submit" class="boton boton--registrar">Crear
@@ -76,7 +88,7 @@
                                 </form>
                         </div>
                 </main>
-                <script src="${pageContext.request.contextPath}/asset/js/validarContrasenas.js"></script>
+                <script src="${pageContext.request.contextPath}/asset/js/validacionesRegistro.js"></script>
         </body>
 
         </html>

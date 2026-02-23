@@ -13,7 +13,7 @@
         <!-- Link estilos.css  -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
         <link rel="stylesheet"
-            href="${pageContext.request.contextPath}/asset/css/modules/06_Finanzas/estilosDetalleIngresos.css">
+            href="${pageContext.request.contextPath}/asset/css/modules/06_Finanzas/estilosDetalleEgresos.css">
 
         <title>SmartHome Budget</title>
     </head>
@@ -26,12 +26,12 @@
                 <span class="material-symbols-outlined"> arrow_back_ios_new </span>
             </a>
             <div class="encabezado__contenedorTitulo">
-                <h1 class="encabezado__titulo">Detalle de Ingresos</h1>
+                <h1 class="encabezado__titulo">Detalle de Egresos</h1>
             </div>
         </header>
         <main class="consultarFacturas">
             <div class="consultarFacturas__busqueda">
-                <input type="search" class="consultarFacturas__busqueda-input" placeholder="🔍 Buscar ingreso..">
+                <input type="search" class="consultarFacturas__busqueda-input" placeholder="🔍 Buscar gasto..">
             </div>
 
             <div class="facturaLista">
@@ -39,10 +39,10 @@
                     <div class="facturaCard__borde"></div>
                     <div class="facturaCard__contenido">
                         <div class="facturaCard__encabezado">
-                            <h3 class="facturaCard__titulo">Salario</h3>
-                            <span class="facturaCard__etiqueta facturaCard__etiqueta--pagada">$ 1.000.000</span>
+                            <h3 class="facturaCard__titulo">Arriendo</h3>
+                            <span class="facturaCard__etiqueta facturaCard__etiqueta--pagada">$ 400.000</span>
                         </div>
-                        <p class="facturaCard__detalles">01 Mar 2026</p>
+                        <p class="facturaCard__detalles">02 Mar 2026</p>
                     </div>
                 </div>
             </div>
@@ -52,22 +52,22 @@
                     <div class="facturaCard__borde"></div>
                     <div class="facturaCard__contenido">
                         <div class="facturaCard__encabezado">
-                            <h3 class="facturaCard__titulo">Venta ocasional</h3>
-                            <span class="facturaCard__etiqueta facturaCard__etiqueta--pagada">$ 200.000</span>
+                            <h3 class="facturaCard__titulo">Mercado</h3>
+                            <span class="facturaCard__etiqueta facturaCard__etiqueta--pagada">$ 250.000</span>
                         </div>
-                        <p class="facturaCard__detalles">10 Mar 2026</p>
+                        <p class="facturaCard__detalles">08 Mar 2026</p>
                     </div>
                 </div>
             </div>
 
             <div class="totalPagado">
-                <h3 class="totalPagado__titulo">Total ingresos</h3>
-                <p class="totalPagado__monto">$ 1.200.000</p>
+                <h3 class="totalPagado__titulo">Total egresos</h3>
+                <p class="totalPagado__monto">$ 650.000</p>
             </div>
 
-            <a href="${pageContext.request.contextPath}/public/modules/06_Finanzas/02_RegistrarIngresos.jsp"
+            <a href="${pageContext.request.contextPath}/public/modules/06_Finanzas/05_RegistrarEgresos.jsp"
                 class="consultarFacturas__boton">
-                <button class="boton boton--registrar">+ Registrar nuevo ingreso</button>
+                <button class="boton boton--registrar">+ Registrar nuevo egreso</button>
             </a>
             <a href="${pageContext.request.contextPath}/public/modules/06_Finanzas/01_Finanzas.jsp"
                 class="consultarFacturas__boton">

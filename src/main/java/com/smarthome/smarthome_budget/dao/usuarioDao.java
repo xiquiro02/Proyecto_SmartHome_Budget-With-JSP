@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import com.smarthome.smarthome_budget.basedatos.claseConexion;
 import com.smarthome.smarthome_budget.modelo.usuario;
+import com.smarthome.smarthome_budget.utils.Encriptador;
 
 public class usuarioDao {
     // language=sql
@@ -17,7 +18,9 @@ public class usuarioDao {
     private static final String SQL_INSERT_DETALLE_HOGAR = "INSERT INTO DetallesHogares (IDUsuario, IDHogar, IDRol) VALUES (?, ?, 1)";
     // Consulta para buscar y listar a todos los usuarios de la tabla usuario.
     // language=sql
-    private static final String SQL_SELECT = "SELECT * FROM Usuario WHERE correo = ? AND ContrasenaUsuario = ?";
+    private static final String SQL_SELECT = "SELECT * FROM Usuario WHERE correo = ?";
+    // language=sql
+    private static final String SQL_SELECT_CORREO = "SELECT * FROM Usuario WHERE correo = ?";
 
     public boolean registrarUsuario(usuario user) {
 
@@ -37,7 +40,8 @@ public class usuarioDao {
             psUser.setString(3, user.getSegundoApellido());
             psUser.setString(4, user.getCorreo());
             psUser.setString(5, user.getTelefono());
-            psUser.setString(6, user.getContrasenaUsuario());
+            String passworSeguro = Encriptador.encriptar(user.getContrasenaUsuario());
+            psUser.setString(6, passworSeguro);
             psUser.executeUpdate();
 
             rs = psUser.getGeneratedKeys();
@@ -96,6 +100,21 @@ public class usuarioDao {
         }
     }
 
+    public boolean correoExiste(String correo) {
+        try (Connection conexion = claseConexion.MetodoConectar();
+                PreparedStatement pstmt = conexion.prepareStatement(SQL_SELECT_CORREO)) {
+
+            pstmt.setString(1, correo);
+            ResultSet rs = pstmt.executeQuery();
+
+            return rs.next();
+
+        } catch (SQLException e) {
+            System.err.println("Error al verificar correo: " + e.getMessage());
+        }
+        return false;
+    }
+
     public usuario login(String correo, String contrasenaUsuario) {
         usuario userEncontrado = null;
 
@@ -103,20 +122,24 @@ public class usuarioDao {
                 PreparedStatement pstmt = conexion.prepareStatement(SQL_SELECT)) {
 
             pstmt.setString(1, correo);
-            pstmt.setString(2, contrasenaUsuario);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                userEncontrado = new usuario();
-                userEncontrado.setIdUsuario(rs.getInt("idUsuario"));
-                userEncontrado.setNombreUsuario(rs.getString("nombreUsuario"));
-                userEncontrado.setPrimerApellido(rs.getString("primerApellido"));
-                userEncontrado.setSegundoApellido(rs.getString("segundoApellido"));
-                userEncontrado.setCorreo(rs.getString("correo"));
-                userEncontrado.setTelefono(rs.getString("telefono"));
-                userEncontrado.setContrasenaUsuario(rs.getString("contrasenaUsuario"));
-                userEncontrado.setFechaRegistro(rs.getTimestamp("fechaRegistro"));
-                return userEncontrado;
+
+                String passwordBD = rs.getString("ContrasenaUsuario");
+
+                if (Encriptador.verificar(contrasenaUsuario, passwordBD)) {
+                    userEncontrado = new usuario();
+                    userEncontrado.setIdUsuario(rs.getInt("IDUsuario"));
+                    userEncontrado.setNombreUsuario(rs.getString("NombreUsuario"));
+                    userEncontrado.setPrimerApellido(rs.getString("PrimerApellido"));
+                    userEncontrado.setSegundoApellido(rs.getString("SegundoApellido"));
+                    userEncontrado.setCorreo(rs.getString("correo"));
+                    userEncontrado.setTelefono(rs.getString("telefono"));
+                    userEncontrado.setFechaRegistro(rs.getTimestamp("FechaRegistro"));
+                    return userEncontrado;
+                }
+
             }
         } catch (SQLException e) {
             System.err.println("Error al iniciar sesión: " + e.getMessage());

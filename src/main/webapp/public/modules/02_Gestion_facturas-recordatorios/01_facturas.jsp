@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <a
-                    href="${pageContext.request.contextPath}/asset/css/modules/02_Gestion_facturas-recordatorios/02_formularioRegistrar-facturas.jsp">
+                    href="${pageContext.request.contextPath}/public/modules/02_Gestion_facturas-recordatorios/02_formularioRegistrar-facturas.jsp">
                     <button class="boton boton--registrar">Crear</button>
                 </a>
             </div>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <a
-                    href="${pageContext.request.contextPath}/asset/css/modules/02_Gestion_facturas-recordatorios/03_Consultar-Facturas.jsp">
+                    href="${pageContext.request.contextPath}/public/modules/02_Gestion_facturas-recordatorios/03_Consultar-Facturas.jsp">
                     <button class="boton boton--cancelar">Ver todas</button>
                 </a>
             </div>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <a
-                    href="${pageContext.request.contextPath}/asset/css/modules/02_Gestion_facturas-recordatorios/11_HistorialPagos.jsp"><span
+                    href="${pageContext.request.contextPath}/public/modules/02_Gestion_facturas-recordatorios/11_HistorialPagos.jsp"><span
                         class="material-symbols-outlined tarjetaAccion__flecha">arrow_forward</span></a>
             </div>
             <div class="tarjetaAccion tarjetaAccion--gris">

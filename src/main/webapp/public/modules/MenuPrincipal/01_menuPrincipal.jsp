@@ -11,9 +11,9 @@
         <!-- Link Fuentes -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <!-- Link estilos.css  -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/utils/styles.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
         <link rel="stylesheet"
-            href="${pageContext.request.contextPath}/asset/modules/MenuPrincipal/estilosMenuprincipal.css">
+            href="${pageContext.request.contextPath}/asset/css/modules/Menuprincipal/estilosMenuprincipal.css">
         <title>SmartHome Budget</title>
     </head>
 
@@ -83,7 +83,7 @@
                         alt="Tiendas">
                     <p class="tarjetaOpcion__titulo">Tiendas Cercanas</p>
                 </a>
-                <a href="${pageContext.request.contextPath}/public/modules/06_Ajustes/01_ajustes.jsp"
+                <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/06_ajustes.jsp"
                     class="tarjetaOpcion">
                     <img class="tarjetaOpcion__icono"
                         src="${pageContext.request.contextPath}/asset/imagenes/ajustes.png" alt="Ajustes">
