@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.sql.*;
 import com.smarthome.smarthome_budget.basedatos.claseConexion;
 import com.smarthome.smarthome_budget.modelo.usuario;
 import com.smarthome.smarthome_budget.utils.Encriptador;
@@ -114,7 +116,85 @@ public class usuarioDao {
         }
         return false;
     }
+    
+    public boolean guardarToken(String correo, String token) {
+        String verificar = "SELECT COUNT(*) FROM Usuario WHERE correo = ?";
+        String actualizar = "UPDATE Usuario SET tokenRecuperacion = ?, tokenExpiracion = ? WHERE correo = ?";
+        
+        System.out.println("=== GUARDAR TOKEN DEBUG ===");
+        System.out.println("Correo recibido: " + correo);
+        System.out.println("Token generado: " + token);
 
+        try (Connection conexion = claseConexion.MetodoConectar();
+             PreparedStatement psVerificar = conexion.prepareStatement(verificar)) {
+
+            psVerificar.setString(1, correo);
+            ResultSet rs = psVerificar.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+            System.out.println("Correos encontrados: " + count);
+            
+            if (count == 0) {
+                System.out.println("ERROR: El correo no existe en la BD");
+                return false;
+            }
+
+            try (PreparedStatement ps = conexion.prepareStatement(actualizar)) {
+                ps.setString(1, token);
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now().plusMinutes(20)));
+                ps.setString(3, correo);
+                
+                int filasAfectadas = ps.executeUpdate();
+                System.out.println("Filas afectadas en UPDATE: " + filasAfectadas);
+                
+                if (filasAfectadas > 0) {
+                    System.out.println("Token guardado exitosamente");
+                } else {
+                    System.out.println("ERROR: No se actualizó ninguna fila");
+                }
+            }
+            return true;
+
+        } catch (SQLException e) {
+            System.err.println("Error al guardar token: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public String obtenerCorreoPorToken(String token) {
+        String query = "SELECT correo FROM Usuario WHERE tokenRecuperacion = ? AND tokenExpiracion > NOW()";
+
+        try (Connection conexion = claseConexion.MetodoConectar();
+             PreparedStatement ps = conexion.prepareStatement(query)) {
+
+            ps.setString(1, token);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getString("correo");
+
+        } catch (SQLException e) {
+            System.err.println("Error al obtener correo por token: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public boolean actualizarClave(String correo, String nuevaClave) {
+        String query = "UPDATE Usuario SET ContrasenaUsuario = ?, tokenRecuperacion = NULL, tokenExpiracion = NULL WHERE correo = ?";
+
+        try (Connection conexion = claseConexion.MetodoConectar();
+             PreparedStatement ps = conexion.prepareStatement(query)) {
+
+            ps.setString(1, Encriptador.encriptar(nuevaClave)); // encripta igual que en registro
+            ps.setString(2, correo);
+            ps.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar clave: " + e.getMessage());
+            return false;
+        }
+    } 
+    
     public usuario login(String correo, String contrasenaUsuario) {
         usuario userEncontrado = null;
 

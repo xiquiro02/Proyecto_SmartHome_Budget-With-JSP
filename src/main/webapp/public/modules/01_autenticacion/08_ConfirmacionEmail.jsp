@@ -27,7 +27,7 @@
             <div class="contenedor">
                 <h1 class="contenido__titulo">¡Correo enviado!</h1>
                 <p class="contenido__parrafo">Te hemos enviado un enlace para restablecer tu contraseña. Revisa tu
-                    bandeja de entrada o la carpeta de spam. El enlace será válido por los próximos <strong>10
+                    bandeja de entrada o la carpeta de spam. El enlace será válido por los próximos <strong>20
                         minutos</strong>.</p>
                 <div class="contenido__grupo">
                     <a href="https://mail.google.com" target="_blank">

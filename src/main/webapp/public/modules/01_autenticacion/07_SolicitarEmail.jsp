@@ -29,21 +29,21 @@
                 <p class="contenido__parrafo">Introduce tu correo electrónico y te enviaremos un enlace (o código) para
                     restablecer tu contraseña. Sigue las instrucciones del mensaje para crear una nueva contraseña
                     segura.</p>
-                <form class="contenido__formulario" method="get" enctype="multipart/form-data">
+                <form class="contenido__formulario" method="post"
+                    action="${pageContext.request.contextPath}/RecuperarClave">
                     <div class="contenido__grupo">
                         <input type="email" class="contenido__input" id="email" name="email"
                             placeholder="tuemail@gmail.com" required />
                     </div>
-                </form>
-                <div class="contenido__grupo">
-                    <a
-                        href="${pageContext.request.contextPath}/public/modules/01_autenticacion/08_ConfirmacionEmail.jsp">
+                    <div class="contenido__grupo">
                         <button type="submit" class="boton boton--registrar">Email</button>
-                    </a>
-                    <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/04_iniciarSesion.jsp">
-                        <button type="submit" class="boton boton--cancelar">Cancelar</button>
-                    </a>
-                </div>
+                        <a
+                            href="${pageContext.request.contextPath}/public/modules/01_autenticacion/04_iniciarSesion.jsp">
+                            <button type="submit" class="boton boton--cancelar">Cancelar</button>
+                        </a>
+                    </div>
+                </form>
+
             </div>
         </main>
     </body>
