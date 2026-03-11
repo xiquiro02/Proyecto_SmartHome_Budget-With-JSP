@@ -5,22 +5,20 @@ import jakarta.mail.internet.*;
 import java.util.Properties;
 
 public class EmailService {
+    
+    private static final String REMITENTE = "ximenaquiro02@gmail.com";
+    private static final String CLAVE_APP = "mfyy bive ufeo tujc";
+    
     public boolean enviarLinkRecuperacion(String destinatario, String token, String contextPath) {
-        System.out.println("=== EMAIL SERVICE DEBUG ===");
-        System.out.println("Destinatario: " + destinatario);
-        System.out.println("Token: " + token);
         
-        final String remitente = "ximenaquiro02@gmail.com";
-        final String claveApp = "mfyy bive ufeo tujc"; 
-        
-        // Validar que la clave no sea el placeholder
-        if (claveApp.equals("tu_clave_app_aqui") || claveApp.trim().isEmpty()) {
-            System.err.println("ERROR: Debes configurar tu clave de aplicación de Gmail en EmailService.java línea 10");
+        if (destinatario == null || destinatario.trim().isEmpty() || token == null || token.trim().isEmpty()) {
             return false;
         }
-        
-        System.out.println("Remitente: " + remitente);
-        System.out.println("Clave configurada: " + (claveApp.length() > 0 ? "SÍ" : "NO"));
+
+        if (CLAVE_APP.equals("tu_clave_app_aqui") || CLAVE_APP.trim().isEmpty()) {
+            System.err.println("ERROR: Debes configurar tu clave de aplicación de Gmail en EmailService.java");
+            return false;
+        }
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -29,31 +27,21 @@ public class EmailService {
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-        props.put("mail.debug", "true");
-
-        System.out.println("Propiedades SMTP configuradas");
 
         try {
-            System.out.println("Creando sesión SMTP...");
             Session session = Session.getInstance(props, new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(remitente, claveApp);
+                    return new PasswordAuthentication(REMITENTE, CLAVE_APP);
                 }
             });
-            
-            session.setDebug(true);
-            System.out.println("Sesión SMTP creada exitosamente");
 
-            System.out.println("Creando mensaje de correo...");
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(remitente));
+            message.setFrom(new InternetAddress(REMITENTE));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
             message.setSubject("Restablecer Contraseña - SmartHome Budget");
-            
-            // Este link es el que el usuario abrirá desde su correo
+
             String link = "http://localhost:8080" + contextPath + "/NuevaClave?token=" + token;
             
-            // Crear contenido HTML para mejor visualización
             String contenidoHtml = "<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;\">" +
                 "<h2 style=\"color: #1E88E5;\">Restablecer Contraseña - SmartHome Budget</h2>" +
                 "<p>Hola,</p>" +
@@ -70,32 +58,23 @@ public class EmailService {
             
             message.setContent(contenidoHtml, "text/html; charset=utf-8");
             
-            System.out.println("Enviando correo...");
             Transport.send(message);
-            System.out.println("Correo enviado exitosamente a: " + destinatario);
-            
             return true;
             
         } catch (AddressException e) {
-            System.err.println("ERROR: Dirección de correo inválida - " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error: Dirección de correo inválida");
             return false;
         } catch (AuthenticationFailedException e) {
-            System.err.println("ERROR: Autenticación fallida - Verifica tu clave de aplicación de Gmail");
-            System.err.println("Detalles: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error: Autenticación fallida - Verifica tu clave de aplicación de Gmail");
             return false;
         } catch (SendFailedException e) {
-            System.err.println("ERROR: Fallo al enviar correo - " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error: Fallo al enviar correo");
             return false;
         } catch (MessagingException e) {
-            System.err.println("ERROR: Error general de mensajería - " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error: Error general de mensajería");
             return false;
         } catch (Exception e) {
-            System.err.println("ERROR: Error inesperado al enviar correo - " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error: Error inesperado al enviar correo");
             return false;
         }
     }

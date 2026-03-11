@@ -1,40 +1,28 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-    <!DOCTYPE html>
-    <html lang="es">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Link iconos  -->
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new" />
-        <!-- Link Fuentes -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <!-- Link estilos.css  -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
-        <link rel="stylesheet"
-            href="${pageContext.request.contextPath}/asset/css/modules/03_ListasCompras/estilosProductosComprado-Todos.css">
-        <title>SmartHome Budget</title>
-    </head>
-
-    <body>
-        <main class="contenido">
-            <div class="contenedor">
-                <img class="contenido__icono-img" src="${pageContext.request.contextPath}/asset/imagenes/compra.png"
-                    alt="Icono verificación">
-                <h1 class="contenido__titulo">Producto marcado como comprado</h1>
-                <p class="contenido__parrafo">Has marcado <strong>“Todos los productos”</strong> como comprados.</p>
-                <div class="contenido__grupo">
-                    <a href="##" class="edicion__botones">
-                        <button type="button" class="boton boton--editar">Aceptar</button>
-                    </a>
-                    <a href="${pageContext.request.contextPath}/public/modules/03_ListasCompras/01_listasCompras.jsp"
-                        class="edicion__botones">
-                        <button type="button" class="boton boton--volver">Deshacer</button>
-                    </a>
-                </div>
-            </div>
-        </main>
-    </body>
-
-    </html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/03_ListasCompras/estilosProductosComprado-Todos.css">
+    <title>SmartHome Budget</title>
+</head>
+<body>
+<main class="contenido">
+    <div class="contenedor">
+        <img class="contenido__icono-img" src="${pageContext.request.contextPath}/asset/imagenes/compra.png" alt="OK">
+        <h1 class="contenido__titulo">Todos los productos marcados como comprados</h1>
+        <p class="contenido__parrafo">La lista ha sido marcada como <strong>Completa</strong>.</p>
+        <div class="contenido__grupo">
+            <a href="${pageContext.request.contextPath}/Listas?accion=verDetalle&id=${idLista}">
+                <button class="boton boton--editar">Ver lista</button>
+            </a>
+            <a href="${pageContext.request.contextPath}/Listas">
+                <button class="boton boton--volver">Mis listas</button>
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

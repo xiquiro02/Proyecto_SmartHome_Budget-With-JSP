@@ -1,177 +1,142 @@
 package com.smarthome.smarthome_budget.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.sql.*;
 import com.smarthome.smarthome_budget.basedatos.claseConexion;
-import com.smarthome.smarthome_budget.modelo.usuario;
+import com.smarthome.smarthome_budget.modelo.Usuario;
 import com.smarthome.smarthome_budget.utils.Encriptador;
 
-public class usuarioDao {
+public class UsuarioDao {
     // language=sql
     private static final String SQL_INSERT = "INSERT INTO Usuario (NombreUsuario, PrimerApellido, SegundoApellido, correo, telefono, ContrasenaUsuario, FechaRegistro) VALUES (?, ?, ?, ?, ?, ?, NOW())";
     // language=sql
-    private static final String SQL_INSRT_HOGAR = "INSERT INTO Hogar (NombreHogar) VALUES (?)";
-    // language=sql
-    private static final String SQL_INSERT_DETALLE_HOGAR = "INSERT INTO DetallesHogares (IDUsuario, IDHogar, IDRol) VALUES (?, ?, 1)";
-    // Consulta para buscar y listar a todos los usuarios de la tabla usuario.
-    // language=sql
-    private static final String SQL_SELECT = "SELECT * FROM Usuario WHERE correo = ?";
-    // language=sql
     private static final String SQL_SELECT_CORREO = "SELECT * FROM Usuario WHERE correo = ?";
+    // language=sql
+    private static final String SQL_SELECT_LOGIN = "SELECT * FROM Usuario WHERE correo = ?";
+    // language=sql
+    private static final String SQL_UPDATE_TOKEN = "UPDATE Usuario SET tokenRecuperacion = ?, tokenExpiracion = ? WHERE correo = ?";
+    // language=sql
+    private static final String SQL_SELECT_TOKEN = "SELECT correo FROM Usuario WHERE tokenRecuperacion = ? AND tokenExpiracion > NOW()";
+    // language=sql
+    private static final String SQL_UPDATE_PASSWORD = "UPDATE Usuario SET ContrasenaUsuario = ?, tokenRecuperacion = NULL, tokenExpiracion = NULL WHERE correo = ?";
 
-    public boolean registrarUsuario(usuario user) {
+    public int registrarUsuario(Usuario usuario) {
+        try (Connection conexion = claseConexion.MetodoConectar();
+             PreparedStatement ps = conexion.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
-        Connection conexion = null;
-        PreparedStatement psUser = null;
-        PreparedStatement psHogar = null;
-        PreparedStatement psDetalle = null;
-        ResultSet rs = null;
-
-        try {
-            conexion = claseConexion.MetodoConectar();
-            conexion.setAutoCommit(false);
-            psUser = conexion.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-
-            psUser.setString(1, user.getNombreUsuario());
-            psUser.setString(2, user.getPrimerApellido());
-            psUser.setString(3, user.getSegundoApellido());
-            psUser.setString(4, user.getCorreo());
-            psUser.setString(5, user.getTelefono());
-            String passworSeguro = Encriptador.encriptar(user.getContrasenaUsuario());
-            psUser.setString(6, passworSeguro);
-            psUser.executeUpdate();
-
-            rs = psUser.getGeneratedKeys();
-            int idUsuarioGenerado = 0;
-            if (rs.next()) {
-                idUsuarioGenerado = rs.getInt(1);
+            ps.setString(1, usuario.getNombreUsuario());
+            ps.setString(2, usuario.getPrimerApellido());
+            ps.setString(3, usuario.getSegundoApellido());
+            ps.setString(4, usuario.getCorreo());
+            ps.setString(5, usuario.getTelefono());
+            ps.setString(6, Encriptador.encriptar(usuario.getContrasenaUsuario()));
+            
+            ps.executeUpdate();
+            
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
-
-            psHogar = conexion.prepareStatement(SQL_INSRT_HOGAR, Statement.RETURN_GENERATED_KEYS);
-            psHogar.setString(1, "Hogar de " + user.getNombreUsuario());
-            psHogar.executeUpdate();
-
-            rs = psHogar.getGeneratedKeys();
-            int idHogarGenerado = 0;
-            if (rs.next()) {
-                idHogarGenerado = rs.getInt(1);
-            }
-
-            psDetalle = conexion.prepareStatement(SQL_INSERT_DETALLE_HOGAR);
-            psDetalle.setInt(1, idUsuarioGenerado);
-            psDetalle.setInt(2, idHogarGenerado);
-            psDetalle.executeUpdate();
-
-            conexion.commit();
-            return true;
         } catch (SQLException e) {
-            if (conexion != null) {
-                try {
-                    conexion.rollback();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
             System.err.println("Error al registrar usuario: " + e.getMessage());
-            return false;
-        } finally {
-            try {
-                if (psUser != null) {
-                    psUser.close();
-                }
-                if (psHogar != null) {
-                    psHogar.close();
-                }
-                if (psDetalle != null) {
-                    psDetalle.close();
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                if (conexion != null) {
-                    conexion.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
+        return -1;
     }
 
     public boolean correoExiste(String correo) {
         try (Connection conexion = claseConexion.MetodoConectar();
-                PreparedStatement pstmt = conexion.prepareStatement(SQL_SELECT_CORREO)) {
+             PreparedStatement ps = conexion.prepareStatement(SQL_SELECT_CORREO)) {
 
-            pstmt.setString(1, correo);
-            ResultSet rs = pstmt.executeQuery();
-
-            return rs.next();
-
+            ps.setString(1, correo);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
         } catch (SQLException e) {
             System.err.println("Error al verificar correo: " + e.getMessage());
         }
         return false;
     }
-    
-    public boolean guardarToken(String correo, String token) {
-        String verificar = "SELECT COUNT(*) FROM Usuario WHERE correo = ?";
-        String actualizar = "UPDATE Usuario SET tokenRecuperacion = ?, tokenExpiracion = ? WHERE correo = ?";
-        
-        System.out.println("=== GUARDAR TOKEN DEBUG ===");
-        System.out.println("Correo recibido: " + correo);
-        System.out.println("Token generado: " + token);
 
+    public Usuario obtenerUsuarioPorCorreo(String correo) {
         try (Connection conexion = claseConexion.MetodoConectar();
-             PreparedStatement psVerificar = conexion.prepareStatement(verificar)) {
+             PreparedStatement ps = conexion.prepareStatement(SQL_SELECT_CORREO)) {
 
-            psVerificar.setString(1, correo);
-            ResultSet rs = psVerificar.executeQuery();
-            rs.next();
-            int count = rs.getInt(1);
-            System.out.println("Correos encontrados: " + count);
-            
-            if (count == 0) {
-                System.out.println("ERROR: El correo no existe en la BD");
-                return false;
-            }
-
-            try (PreparedStatement ps = conexion.prepareStatement(actualizar)) {
-                ps.setString(1, token);
-                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now().plusMinutes(20)));
-                ps.setString(3, correo);
-                
-                int filasAfectadas = ps.executeUpdate();
-                System.out.println("Filas afectadas en UPDATE: " + filasAfectadas);
-                
-                if (filasAfectadas > 0) {
-                    System.out.println("Token guardado exitosamente");
-                } else {
-                    System.out.println("ERROR: No se actualizó ninguna fila");
+            ps.setString(1, correo);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Usuario usuario = new Usuario();
+                    usuario.setIDUsuario(rs.getInt("IDUsuario"));
+                    usuario.setNombreUsuario(rs.getString("NombreUsuario"));
+                    usuario.setPrimerApellido(rs.getString("PrimerApellido"));
+                    usuario.setSegundoApellido(rs.getString("SegundoApellido"));
+                    usuario.setCorreo(rs.getString("correo"));
+                    usuario.setTelefono(rs.getString("telefono"));
+                    usuario.setContrasenaUsuario(rs.getString("ContrasenaUsuario"));
+                    usuario.setFechaRegistro(rs.getObject("FechaRegistro", java.time.LocalDateTime.class));
+                    usuario.setTokenRecuperacion(rs.getString("tokenRecuperacion"));
+                    usuario.setTokenExpiracion(rs.getObject("tokenExpiracion", java.time.LocalDateTime.class));
+                    return usuario;
                 }
             }
-            return true;
+        } catch (SQLException e) {
+            System.err.println("Error al obtener usuario por correo: " + e.getMessage());
+        }
+        return null;
+    }
 
+    public Usuario login(String correo, String contrasena) {
+        try (Connection conexion = claseConexion.MetodoConectar();
+             PreparedStatement ps = conexion.prepareStatement(SQL_SELECT_LOGIN)) {
+
+            ps.setString(1, correo);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String passwordBD = rs.getString("ContrasenaUsuario");
+                    
+                    if (Encriptador.verificar(contrasena, passwordBD)) {
+                        Usuario usuario = new Usuario();
+                        usuario.setIDUsuario(rs.getInt("IDUsuario"));
+                        usuario.setNombreUsuario(rs.getString("NombreUsuario"));
+                        usuario.setPrimerApellido(rs.getString("PrimerApellido"));
+                        usuario.setSegundoApellido(rs.getString("SegundoApellido"));
+                        usuario.setCorreo(rs.getString("correo"));
+                        usuario.setTelefono(rs.getString("telefono"));
+                        usuario.setFechaRegistro(rs.getObject("FechaRegistro", java.time.LocalDateTime.class));
+                        return usuario;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al iniciar sesión: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public boolean guardarToken(String correo, String token) {
+        try (Connection conexion = claseConexion.MetodoConectar();
+             PreparedStatement ps = conexion.prepareStatement(SQL_UPDATE_TOKEN)) {
+
+            ps.setString(1, token);
+            ps.setTimestamp(2, Timestamp.valueOf(java.time.LocalDateTime.now().plusMinutes(20)));
+            ps.setString(3, correo);
+            
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Error al guardar token: " + e.getMessage());
-            e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     public String obtenerCorreoPorToken(String token) {
-        String query = "SELECT correo FROM Usuario WHERE tokenRecuperacion = ? AND tokenExpiracion > NOW()";
-
         try (Connection conexion = claseConexion.MetodoConectar();
-             PreparedStatement ps = conexion.prepareStatement(query)) {
+             PreparedStatement ps = conexion.prepareStatement(SQL_SELECT_TOKEN)) {
 
             ps.setString(1, token);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getString("correo");
-
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("correo");
+                }
+            }
         } catch (SQLException e) {
             System.err.println("Error al obtener correo por token: " + e.getMessage());
         }
@@ -179,51 +144,88 @@ public class usuarioDao {
     }
 
     public boolean actualizarClave(String correo, String nuevaClave) {
-        String query = "UPDATE Usuario SET ContrasenaUsuario = ?, tokenRecuperacion = NULL, tokenExpiracion = NULL WHERE correo = ?";
-
         try (Connection conexion = claseConexion.MetodoConectar();
-             PreparedStatement ps = conexion.prepareStatement(query)) {
+             PreparedStatement ps = conexion.prepareStatement(SQL_UPDATE_PASSWORD)) {
 
-            ps.setString(1, Encriptador.encriptar(nuevaClave)); // encripta igual que en registro
+            ps.setString(1, Encriptador.encriptar(nuevaClave));
             ps.setString(2, correo);
-            ps.executeUpdate();
-            return true;
-
+            
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Error al actualizar clave: " + e.getMessage());
-            return false;
         }
-    } 
-    
-    public usuario login(String correo, String contrasenaUsuario) {
-        usuario userEncontrado = null;
+        return false;
+    }
 
+    public boolean actualizarPerfil(int idUsuario, String correo, String telefono, String nombreUsuario, String rutaFoto) {
+        StringBuilder sql = new StringBuilder("UPDATE Usuario SET correo=?, telefono=?, NombreUsuario=?");
+        if (rutaFoto != null && !rutaFoto.isEmpty()) sql.append(", fotoPerfil=?");
+        sql.append(" WHERE IDUsuario=?");
         try (Connection conexion = claseConexion.MetodoConectar();
-                PreparedStatement pstmt = conexion.prepareStatement(SQL_SELECT)) {
+             PreparedStatement ps = conexion.prepareStatement(sql.toString())) {
+            ps.setString(1, correo);
+            ps.setString(2, telefono);
+            ps.setString(3, nombreUsuario);
+            if (rutaFoto != null && !rutaFoto.isEmpty()) {
+                ps.setString(4, rutaFoto);
+                ps.setInt(5, idUsuario);
+            } else {
+                ps.setInt(4, idUsuario);
+            }
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar perfil: " + e.getMessage());
+        }
+        return false;
+    }
 
-            pstmt.setString(1, correo);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-
-                String passwordBD = rs.getString("ContrasenaUsuario");
-
-                if (Encriptador.verificar(contrasenaUsuario, passwordBD)) {
-                    userEncontrado = new usuario();
-                    userEncontrado.setIdUsuario(rs.getInt("IDUsuario"));
-                    userEncontrado.setNombreUsuario(rs.getString("NombreUsuario"));
-                    userEncontrado.setPrimerApellido(rs.getString("PrimerApellido"));
-                    userEncontrado.setSegundoApellido(rs.getString("SegundoApellido"));
-                    userEncontrado.setCorreo(rs.getString("correo"));
-                    userEncontrado.setTelefono(rs.getString("telefono"));
-                    userEncontrado.setFechaRegistro(rs.getTimestamp("FechaRegistro"));
-                    return userEncontrado;
+    public Usuario obtenerPorId(int idUsuario) {
+        String sql = "SELECT * FROM Usuario WHERE IDUsuario = ?";
+        try (Connection conexion = claseConexion.MetodoConectar();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Usuario usuario = new Usuario();
+                    usuario.setIDUsuario(rs.getInt("IDUsuario"));
+                    usuario.setNombreUsuario(rs.getString("NombreUsuario"));
+                    usuario.setPrimerApellido(rs.getString("PrimerApellido"));
+                    usuario.setSegundoApellido(rs.getString("SegundoApellido"));
+                    usuario.setCorreo(rs.getString("correo"));
+                    usuario.setTelefono(rs.getString("telefono"));
+                    usuario.setContrasenaUsuario(rs.getString("ContrasenaUsuario"));
+                    try { usuario.setFotoPerfil(rs.getString("fotoPerfil")); } catch (Exception ignore) {}
+                    return usuario;
                 }
-
             }
         } catch (SQLException e) {
-            System.err.println("Error al iniciar sesión: " + e.getMessage());
+            System.err.println("Error al obtener usuario por id: " + e.getMessage());
         }
-        return userEncontrado;
+        return null;
+    }
+
+    public boolean eliminarUsuario(int idUsuario) {
+        String sql = "DELETE FROM Usuario WHERE IDUsuario = ?";
+        try (Connection conexion = claseConexion.MetodoConectar();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar usuario: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean actualizarClaveConHash(int idUsuario, String nuevaClave) {
+        String sql = "UPDATE Usuario SET ContrasenaUsuario = ?, tokenRecuperacion = NULL, tokenExpiracion = NULL WHERE IDUsuario = ?";
+        try (Connection conexion = claseConexion.MetodoConectar();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, Encriptador.encriptar(nuevaClave));
+            ps.setInt(2, idUsuario);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar clave por id: " + e.getMessage());
+        }
+        return false;
     }
 }

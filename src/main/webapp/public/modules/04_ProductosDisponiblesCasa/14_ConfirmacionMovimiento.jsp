@@ -1,37 +1,31 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-    <!DOCTYPE html>
-    <html lang="es">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Link iconos  -->
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new" />
-        <!-- Link Fuentes -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <!-- Link estilos.css  -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
-        <link rel="stylesheet"
-            href="${pageContext.request.contextPath}/asset/css/modules/04_ProductosDisponiblesCasa/estilosConfirmacionMovimiento.css">
-        <title>SmartHome Budget</title>
-    </head>
-
-    <body>
-        <main class="contenido">
-            <div class="contenedor">
-                <h1 class="contenido__titulo">Producto agregado correctamente</h1>
-                <p class="contenido__parrafo"><strong>“Shampoo”</strong> fue movido desde tu inventario a la lista
-                    <strong>Aseo del hogar</strong>. Puedes verificarlo en tus <strong>Listas de Compras</strong>.
-                </p>
-                <div class="contenido__grupo">
-                    <a
-                        href="${pageContext.request.contextPath}/public/modules/04_ProductosDisponiblesCasa/12_ MoverProductosAgotados.jsp">
-                        <button type="submit" class="boton boton--registrar">Aceptar</button>
-                    </a>
-                </div>
-            </div>
-        </main>
-    </body>
-
-    </html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/04_ProductosDisponiblesCasa/estilosConfirmacionMovimiento.css">
+    <title>SmartHome Budget</title>
+</head>
+<body>
+<main class="contenido">
+    <div class="contenedor">
+        <img class="contenido__icono-img" src="${pageContext.request.contextPath}/asset/imagenes/icono_confirmacion.png" alt="OK">
+        <h1 class="contenido__titulo">Producto agregado correctamente</h1>
+        <p class="contenido__parrafo">
+            <strong>"${nombreProducto}"</strong> fue movido a la lista <strong>"${nombreLista}"</strong>.
+            Puedes verificarlo en tus Listas de Compras.
+        </p>
+        <div class="contenido__grupo">
+            <a href="${pageContext.request.contextPath}/Inventario?accion=agotados">
+                <button class="boton boton--registrar">Ver agotados</button>
+            </a>
+            <a href="${pageContext.request.contextPath}/Listas">
+                <button class="boton boton--volver">Ver listas</button>
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -1,97 +1,72 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-    <!DOCTYPE html>
-    <html lang="en">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
+<%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/04_ProductosDisponiblesCasa/estilosEditarProductoCasa.css">
+    <title>SmartHome Budget</title>
+</head>
+<body>
+<header class="encabezado">
+    <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png" alt="Logo">
+    <a href="${pageContext.request.contextPath}/Inventario?accion=consultar"><span class="material-symbols-outlined">arrow_back_ios_new</span></a>
+    <div class="encabezado__contenedorTitulo"><h1 class="encabezado__titulo">Editar producto</h1></div>
+</header>
+<main class="formulario">
+    <div class="formulario__contenedor">
+        <c:if test="${param.error == 'cantidad_invalida'}">
+            <div class="mensaje mensaje--error">⚠️ La cantidad no puede ser negativa.</div>
+        </c:if>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Link iconos  -->
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new" />
-        <!-- Link Fuentes -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <!-- Link estilos.css  -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
-        <link rel="stylesheet"
-            href="${pageContext.request.contextPath}/asset/css/modules/04_ProductosDisponiblesCasa/estilosEditarProductoCasa.css">
+        <form action="${pageContext.request.contextPath}/Inventario" method="post">
+            <input type="hidden" name="accion" value="actualizar">
+            <input type="hidden" name="idInventario" value="${inv.idInventario}">
 
-        <title>SmartHome Budget</title>
-    </head>
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta">Nombre del producto:</label>
+                <input type="text" class="formulario__input" value="${inv.nombreProducto}" readonly
+                       style="background:#f0f0f0; color:#666">
+                <small style="color:#888">Para cambiar el nombre, elimina y registra de nuevo.</small>
+            </div>
 
-    <body>
-        <header class="encabezado">
-            <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png"
-                alt="Logo de SmartHome Budget">
-            <a
-                href="${pageContext.request.contextPath}/public/modules/04_ProductosDisponiblesCasa/09_ConsultarInventario.jsp">
-                <span class="material-symbols-outlined"> arrow_back_ios_new </span>
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta">Cantidad disponible: * (0 = agotado)</label>
+                <input type="number" name="cantidad" class="formulario__input"
+                       value="${inv.cantidad}" min="0" max="9999" required>
+            </div>
+
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta">Categoría:</label>
+                <input type="text" class="formulario__input" value="${inv.nombreTipoProducto}" readonly
+                       style="background:#f0f0f0; color:#666">
+            </div>
+
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta">Fecha de registro:</label>
+                <input type="text" class="formulario__input"
+                       value="<fmt:formatDate value='${inv.fechaRegistro}' pattern='dd MMM yyyy' type='date'/>" readonly
+                       style="background:#f0f0f0; color:#666">
+            </div>
+
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta">Descripción:</label>
+                <input type="text" class="formulario__input"
+                       value="${not empty inv.descripcion ? inv.descripcion : 'Sin descripción'}" readonly
+                       style="background:#f0f0f0; color:#666">
+            </div>
+
+            <div class="formulario__botones">
+                <button type="submit" class="boton boton--registrar">Guardar cambios</button>
+            </div>
+            <a href="${pageContext.request.contextPath}/Inventario?accion=consultar" class="formulario__botones">
+                <button type="button" class="boton boton--cancelar">Cancelar</button>
             </a>
-            <div class="encabezado__contenedorTitulo">
-                <h1 class="encabezado__titulo">Editar producto</h1>
-            </div>
-        </header>
-        <main class="formulario">
-            <div class="formulario__contenedor">
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="nombreProducto">Nombre del producto:</label>
-                    <input type="text" id="nombreProducto" class="formulario__input" value="Detergente líquido">
-                </div>
-
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="cantidad">Cantidad:</label>
-                    <select id="cantidad" class="formulario__select">
-                        <option value="">Ingresar la cantidad</option>
-                        <option value="1">1</option>
-                        <option value="2" selected>2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                    </select>
-                </div>
-
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="categoria">Categoría:</label>
-                    <select id="categoria" class="formulario__select">
-                        <option value="">Seleccionar Categoría:</option>
-                        <option value="alimentos">Alimentos</option>
-                        <option value="aseo" selected>Aseo</option>
-                        <option value="personal">Personal</option>
-                        <option value="otros">Otros</option>
-                        <option value="ropa">Ropa y calzado</option>
-                    </select>
-                </div>
-
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="nombreProducto">Fecha de agregado:</label>
-                    <input type="text" id="nombreProducto" class="formulario__input" value="29 Oct 2025">
-                </div>
-
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="descripcion">Descripción (opcional):</label>
-                    <textarea id="descripcion" class="formulario__textarea" rows="4"
-                        placeholder="Detergente líquido con buen aroma."></textarea>
-                </div>
-
-                <a href="${pageContext.request.contextPath}/public/modules/04_ProductosDisponiblesCasa/05_CambiosGuardados.jsp"
-                    class="formulario__botones">
-                    <button type="button" class="boton boton--registrar">Guardar cambios</button>
-                </a>
-                <a href="${pageContext.request.contextPath}/public/modules/04_ProductosDisponiblesCasa/09_ConsultarInventario.jsp"
-                    class="formulario__botones">
-                    <button type="button" class="boton boton--cancelar">Cancelar</button>
-                </a>
-            </div>
-        </main>
-    </body>
-
-    </html>
+        </form>
+    </div>
+</main>
+</body>
+</html>

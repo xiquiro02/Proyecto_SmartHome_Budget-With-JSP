@@ -7,6 +7,7 @@ function validarFormulario() {
     const telefono = document.getElementById("telefono").value;
     const contrasena = document.getElementById("password").value;
     const confirmarContrasena = document.getElementById("confirmarPassword").value;
+    const codigoInvitacion = document.getElementById("codigoInvitacion").value;
 
     if (!nombre || !apellido1 || !correo || !telefono || !contrasena || !confirmarContrasena) {
         Swal.fire({
@@ -65,7 +66,32 @@ function validarFormulario() {
         });
         return false;
     }
+
+    // Validar código de invitación (opcional)
+    if (!validarCodigoInvitacion(codigoInvitacion)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Código inválido',
+            text: 'El código de invitación debe tener entre 4 y 10 caracteres, solo letras y números.',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#007bff'
+        });
+        return false;
+    }
+
     return true;
+}
+
+// Función para validar código de invitación
+function validarCodigoInvitacion(codigo) {
+    // Si está vacío, es válido (campo opcional)
+    if (!codigo || codigo.trim() === '') {
+        return true;
+    }
+    
+    // Si tiene contenido, validar formato
+    const reglasCodigo = /^[A-Za-z0-9]{4,10}$/;
+    return reglasCodigo.test(codigo.trim());
 }
 
 window.onload = function () {
@@ -98,6 +124,16 @@ window.onload = function () {
             icono = "error";
             titulo = "Error técnico";
             mensaje = 'Ocurrió un error interno. Inténtalo más tarde.';
+            break;
+        case 'codigo_invalido':
+            icono = "warning";
+            titulo = 'Código inválido';
+            mensaje = 'El código de invitación no es válido o ha expirado.';
+            break;
+        case 'correo_existe':
+            icono = "info";
+            titulo = "Correo duplicado";
+            mensaje = '¡El correo electrónico ya está registrado!. Por favor, verifica.';
             break;
     }
 

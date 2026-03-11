@@ -1,7 +1,9 @@
 package com.smarthome.smarthome_budget.controlador;
-import com.smarthome.smarthome_budget.dao.usuarioDao;
+
+import com.smarthome.smarthome_budget.dao.UsuarioDao;
 import java.io.IOException;
 import java.util.UUID;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,39 +12,37 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/RecuperarClave")
 public class servletRecuperarContrasena extends HttpServlet {
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        
-        System.out.println("=== SERVLET RECUPERAR CONTRASEÑA ===");
-        
+            throws ServletException, IOException {
+
+        request.setCharacterEncoding("UTF-8");
+
         String emailDestino = request.getParameter("email");
-        System.out.println("Email del formulario: " + emailDestino);
-        
+
+        if (emailDestino == null || emailDestino.trim().isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/07_SolicitarEmail.jsp?error=vacio");
+            return;
+        }
+
+        emailDestino = emailDestino.trim().toLowerCase();
         String token = UUID.randomUUID().toString();
-        System.out.println("Token UUID generado: " + token);
 
-        usuarioDao dao = new usuarioDao();
-        boolean emailExiste = dao.guardarToken(emailDestino, token);
-        
-        System.out.println("Resultado guardarToken: " + emailExiste);
+        UsuarioDao usuarioDao = new UsuarioDao();
+        boolean tokenGuardado = usuarioDao.guardarToken(emailDestino, token);
 
-        if (!emailExiste) {
-            System.out.println("Redirigiendo a formulario con error=noexiste");
-            response.sendRedirect("public/modules/01_autenticacion/07_SolicitarEmail.jsp?error=noexiste");
+        if (!tokenGuardado) {
+            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/07_SolicitarEmail.jsp?error=noexiste");
             return;
         }
 
         EmailService emailService = new EmailService();
-        boolean enviado = emailService.enviarLinkRecuperacion(emailDestino, token, request.getContextPath());
-        
-        System.out.println("Email enviado: " + enviado);
+        boolean emailEnviado = emailService.enviarLinkRecuperacion(emailDestino, token, request.getContextPath());
 
-        if (enviado) {
-            System.out.println("Redirigiendo a ConfirmacionEmail.jsp");
-            response.sendRedirect("public/modules/01_autenticacion/08_ConfirmacionEmail.jsp");
+        if (emailEnviado) {
+            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/08_ConfirmacionEmail.jsp");
         } else {
-            System.out.println("Redirigiendo a formulario con error=true");
-            response.sendRedirect("public/modules/01_autenticacion/07_SolicitarEmail.jsp?error=true");
+            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/07_SolicitarEmail.jsp?error=envio");
         }
     }
 }

@@ -27,7 +27,7 @@
         <main class="ajustes">
             <section class="ajustes__seccion">
                 <h3 class="ajustes__seccion-titulo">Cuenta</h3>
-                <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/09_MiPerfil.jsp"
+                <a href="${pageContext.request.contextPath}/Perfil"
                     class="ajustes__item">
                     <img class="ajustes__item-icono"
                         src="${pageContext.request.contextPath}/asset/imagenes/editarPerfil.png" alt="Editar">
@@ -36,7 +36,7 @@
                     </div>
                     <span class="material-symbols-outlined">chevron_right</span>
                 </a>
-                <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/08_Cambiarcontrasena.jsp"
+                <a href="${pageContext.request.contextPath}/Seguridad?accion=formCambiarContrasena"
                     class="ajustes__item">
                     <img class="ajustes__item-icono"
                         src="${pageContext.request.contextPath}/asset/imagenes/restablecer-la-contrasena.png"
@@ -46,7 +46,7 @@
                     </div>
                     <span class="material-symbols-outlined">chevron_right</span>
                 </a>
-                <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/12_Cerrar_Sesion.jsp"
+                <a href="${pageContext.request.contextPath}/Perfil?accion=cerrarSesion"
                     class="ajustes__item">
                     <img class="ajustes__item-icono"
                         src="${pageContext.request.contextPath}/asset/imagenes/cerrar-sesion.png" alt="Cerrar sesión">
@@ -55,7 +55,7 @@
                     </div>
                     <span class="material-symbols-outlined">chevron_right</span>
                 </a>
-                <a href="${pageContext.request.contextPath}/public/modules/01_autenticacion/13_EliminarCuenta.jsp"
+                <a href="${pageContext.request.contextPath}/Perfil?accion=eliminarCuenta"
                     class="ajustes__item">
                     <img class="ajustes__item-icono"
                         src="${pageContext.request.contextPath}/asset/imagenes/borrar-usuario.png" alt="Eliminar">

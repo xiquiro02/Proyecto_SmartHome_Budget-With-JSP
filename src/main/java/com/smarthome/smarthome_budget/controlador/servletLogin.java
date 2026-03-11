@@ -1,7 +1,8 @@
 package com.smarthome.smarthome_budget.controlador;
 
-import com.smarthome.smarthome_budget.dao.usuarioDao;
-import com.smarthome.smarthome_budget.modelo.usuario;
+import com.smarthome.smarthome_budget.dao.UsuarioDao;
+import com.smarthome.smarthome_budget.dao.DetallesHogaresDao;
+import com.smarthome.smarthome_budget.modelo.Usuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,13 +15,12 @@ import java.io.IOException;
 public class servletLogin extends HttpServlet {
 
     @Override
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
 
-        String email = request.getParameter("correo");
+        String email    = request.getParameter("correo");
         String password = request.getParameter("contrasena");
 
         if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
@@ -32,16 +32,30 @@ public class servletLogin extends HttpServlet {
 
         email = email.trim().toLowerCase();
 
-        usuarioDao dao = new usuarioDao();
-        usuario user = dao.login(email, password);
+        UsuarioDao usuarioDao = new UsuarioDao();
+        Usuario usuario = usuarioDao.login(email, password);
 
-        if (user != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("usuario", user);
-            response.sendRedirect(request.getContextPath() + "/public/modules/MenuPrincipal/01_menuPrincipal.jsp");
-        } else {
+        if (usuario == null) {
             response.sendRedirect(
                     request.getContextPath() + "/public/modules/01_autenticacion/04_iniciarSesion.jsp?error=invalido");
+            return;
         }
+
+        DetallesHogaresDao detallesDao = new DetallesHogaresDao();
+        int[] hogarYRol = detallesDao.obtenerPrimerHogarDeUsuario(usuario.getIDUsuario());
+
+        if (hogarYRol == null) {
+            response.sendRedirect(
+                    request.getContextPath() + "/public/modules/01_autenticacion/04_iniciarSesion.jsp?error=sin_hogar");
+            return;
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute("usuario", usuario);
+        session.setAttribute("idHogar", hogarYRol[0]);
+        session.setAttribute("idRol",   hogarYRol[1]);
+
+        // CORRECCIÓN: redirigir al servlet /Menu para cargar datos dinámicos del dashboard
+        response.sendRedirect(request.getContextPath() + "/Menu");
     }
 }

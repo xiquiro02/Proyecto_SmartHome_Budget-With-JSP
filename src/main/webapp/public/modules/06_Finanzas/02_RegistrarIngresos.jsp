@@ -1,99 +1,77 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-    <!DOCTYPE html>
-    <html lang="en">
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%
+    if (session.getAttribute("usuario") == null) {
+        response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/04_iniciarSesion.jsp");
+        return;
+    }
+%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/06_Finanzas/estilosRegistrarIngresos.css">
+    <title>SmartHome Budget</title>
+</head>
+<body>
+    <header class="encabezado">
+        <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png" alt="Logo">
+        <a href="${pageContext.request.contextPath}/Finanzas?accion=detalleIngresos">
+            <span class="material-symbols-outlined">arrow_back_ios_new</span>
+        </a>
+        <div class="encabezado__contenedorTitulo">
+            <h1 class="encabezado__titulo">Registrar Ingreso</h1>
+        </div>
+    </header>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Link iconos  -->
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new" />
-        <!-- Link Fuentes -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <!-- Link estilos.css  -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
-        <link rel="stylesheet"
-            href="${pageContext.request.contextPath}/asset/css/modules/06_Finanzas/estilosRegistrarIngresos.css">
+    <main class="formulario">
+        <c:if test="${not empty error}">
+            <div style="margin:10px 20px;padding:10px;background:#ffe0e0;border-radius:8px;color:#c00;">${error}</div>
+        </c:if>
 
-        <title>SmartHome Budget</title>
-    </head>
+        <form class="formulario__contenedor" method="post" action="${pageContext.request.contextPath}/Finanzas">
+            <input type="hidden" name="accion" value="guardarIngreso">
 
-    <body>
-        <header class="encabezado">
-            <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png"
-                alt="Logo de SmartHome Budget">
-            <a href="${pageContext.request.contextPath}/public/modules/06_Finanzas/01_Finanzas.jsp">
-                <span class="material-symbols-outlined"> arrow_back_ios_new </span>
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta" for="idCategoriaIngreso">Tipo de ingreso</label>
+                <select id="idCategoriaIngreso" name="idCategoriaIngreso" class="formulario__select" required>
+                    <option value="">Seleccionar tipo</option>
+                    <c:forEach var="cat" items="${categorias}">
+                        <option value="${cat[0]}">${cat[1]}</option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta" for="monto">Valor recibido:</label>
+                <input type="number" id="monto" name="monto" class="formulario__input" placeholder="0.00" step="0.01" min="0" required>
+            </div>
+
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta">Fecha del ingreso:</label>
+                <label class="formulario__fecha">
+                    <input type="radio" name="fecha" checked>
+                    <span>Hoy (automática)</span>
+                </label>
+            </div>
+
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta" for="descripcion">Descripción (opcional):</label>
+                <textarea id="descripcion" name="descripcion" class="formulario__textarea" rows="4"
+                    placeholder="Ej: Pago mensual, venta de producto, ganancia extra"></textarea>
+            </div>
+
+            <div class="formulario__botones">
+                <button type="submit" class="boton boton--registrar">Guardar ingreso</button>
+            </div>
+            <a href="${pageContext.request.contextPath}/Finanzas?accion=detalleIngresos" class="formulario__botones">
+                <button type="button" class="boton boton--cancelar">Cancelar</button>
             </a>
-            <div class="encabezado__contenedorTitulo">
-                <h1 class="encabezado__titulo">Registrar Ingreso </h1>
-            </div>
-        </header>
-        <main class="formulario">
-            <div class="formulario__contenedor">
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="categoria">Tipo de ingreso</label>
-                    <select id="categoria" class="formulario__select">
-                        <option value="">Seleccionar ingreso</option>
-                        <option value="alimentos">Ventas</option>
-                        <option value="aseo">Inversiones</option>
-                        <option value="personal">Salario</option>
-                        <option value="otros">Otros</option>
-                    </select>
-                </div>
-                <div class="formulario__etiquetas">
-                    <div class="etiqueta etiqueta--aseo">
-                        <img src="${pageContext.request.contextPath}/asset/imagenes/ventas.png" alt="Icono de Aseo">
-                        <span>Ventas</span>
-                    </div>
-                    <div class="etiqueta etiqueta--alimentos">
-                        <img src="${pageContext.request.contextPath}/asset/imagenes/inversiones.png"
-                            alt="Icono de Alimentos">
-                        <span>Inversiones</span>
-                    </div>
-                    <div class="etiqueta etiqueta--personal">
-                        <img src="${pageContext.request.contextPath}/asset/imagenes/dolares.png"
-                            alt="Icono de Personal">
-                        <span>Salario</span>
-                    </div>
-                    <div class="etiqueta etiqueta--otros">
-                        <img src="${pageContext.request.contextPath}/asset/imagenes/dolar-otros.png"
-                            alt="Icono de Otros">
-                        <span>Otros</span>
-                    </div>
-                </div>
-
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="nombre">Valor recibido:</label>
-                    <input type="text" id="nombre" class="formulario__input" placeholder="$ 0.00">
-                </div>
-
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta">Fecha del ingreso:</label>
-                    <label class="formulario__fecha">
-                        <input type="radio" id="hoy" name="fecha" checked>
-                        <span>Hoy (automática)</span>
-                    </label>
-                </div>
-
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="descripcion">Descripción (opcional):</label>
-                    <textarea id="descripcion" class="formulario__textarea" rows="4"
-                        placeholder="Ej: Pago mensual, venta de producto, ganancia extra"></textarea>
-                </div>
-
-
-                <a href="${pageContext.request.contextPath}/public/modules/06_Finanzas/03_RegistroIngresoExito.jsp"
-                    class="formulario__botones">
-                    <button type="button" class="boton boton--registrar">Guardar ingreso</button>
-                </a>
-                <a href="${pageContext.request.contextPath}/public/modules/06_Finanzas/04_DetalleIngresos.jsp"
-                    class="formulario__botones">
-                    <button type="button" class="boton boton--cancelar">Cancelar</button>
-                </a>
-
-            </div>
-        </main>
-    </body>
-
-    </html>
+        </form>
+    </main>
+</body>
+</html>

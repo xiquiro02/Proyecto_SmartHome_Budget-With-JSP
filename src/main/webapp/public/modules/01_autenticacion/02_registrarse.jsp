@@ -28,7 +28,7 @@
                         <div class="contenedor">
                                 <h1 class="contenido__titulo">Registrarse</h1>
                                 <form class="contenido__formulario" method="post"
-                                        action="${pageContext.request.contextPath}/RegistroServlet"
+                                        action="${pageContext.request.contextPath}/Registro"
                                         onsubmit="return validarFormulario()">
                                         <div class="contenido__grupo">
                                                 <label for="nombre" class="contenido__label">Nombre</label>
@@ -80,6 +80,12 @@
                                                         required minlength="8"
                                                         pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
                                                         title="Mínimo 8 caracteres, al menos una letra y un número" />
+                                        </div>
+                                        <div class="contenido__grupo">
+                                                <label for="codigoInvitacion" class="contenido__label">Código de invitación (Opcional)</label>
+                                                <input type="text" class="contenido__input" id="codigoInvitacion" 
+                                                       name="codigoInvitacion" placeholder="Ej: ABC12345">
+                                                <small class="contenido__ayuda">Si tienes un código de invitación, ingrésalo aquí para unirte a un hogar existente. Si lo dejas vacío, se creará un nuevo hogar automáticamente.</small>
                                         </div>
                                         <div class="contenido__grupo">
                                                 <button type="submit" class="boton boton--registrar">Crear

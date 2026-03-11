@@ -1,62 +1,68 @@
 package com.smarthome.smarthome_budget.controlador;
-import com.smarthome.smarthome_budget.dao.usuarioDao;
+
+import com.smarthome.smarthome_budget.dao.UsuarioDao;
 import java.io.IOException;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
 @WebServlet("/NuevaClave")
 public class NuevaClaveservlet extends HttpServlet {
 
-    // GET: usuario llega desde el link del correo
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+            throws ServletException, IOException {
+
+        request.setCharacterEncoding("UTF-8");
 
         String token = request.getParameter("token");
-        usuarioDao dao = new usuarioDao();
-        String correo = dao.obtenerCorreoPorToken(token);
+
+        if (token == null || token.trim().isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/07_SolicitarEmail.jsp?error=tokeninvalido");
+            return;
+        }
+
+        UsuarioDao usuarioDao = new UsuarioDao();
+        String correo = usuarioDao.obtenerCorreoPorToken(token);
 
         if (correo == null) {
-            response.sendRedirect("public/modules/01_autenticacion/07_SolicitarEmail.jsp?error=tokenexpirado");
+            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/07_SolicitarEmail.jsp?error=tokenexpirado");
             return;
         }
 
         request.getSession().setAttribute("email_recuperacion", correo);
-        response.sendRedirect("public/modules/01_autenticacion/09_NuevaClave.jsp");
+        response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/09_NuevaClave.jsp");
     }
 
-    // POST: usuario envía su nueva contraseña
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+            throws ServletException, IOException {
 
-        System.out.println("=== doPost de NuevaClave Servlet ===");
-        
+        request.setCharacterEncoding("UTF-8");
+
         String nuevaClave = request.getParameter("nueva_clave");
         String correo = (String) request.getSession().getAttribute("email_recuperacion");
-        
-        System.out.println("Nueva clave recibida: " + (nuevaClave != null ? "SÍ" : "NO"));
-        System.out.println("Correo de sesión: " + correo);
 
         if (correo == null) {
-            System.out.println("ERROR: Sesión expirada, no hay correo en sesión");
-            response.sendRedirect("public/modules/01_autenticacion/07_SolicitarEmail.jsp?error=sesionexpirada");
+            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/07_SolicitarEmail.jsp?error=sesionexpirada");
             return;
         }
 
-        usuarioDao dao = new usuarioDao();
-        boolean actualizado = dao.actualizarClave(correo, nuevaClave);
-        
-        System.out.println("Contraseña actualizada: " + actualizado);
+        if (nuevaClave == null || nuevaClave.trim().isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/09_NuevaClave.jsp?error=vacia");
+            return;
+        }
+
+        UsuarioDao usuarioDao = new UsuarioDao();
+        boolean actualizado = usuarioDao.actualizarClave(correo, nuevaClave);
 
         if (actualizado) {
-            System.out.println("EXITO: Redirigiendo a login con éxito");
             request.getSession().removeAttribute("email_recuperacion");
-            response.sendRedirect("public/modules/01_autenticacion/04_iniciarSesion.jsp?exito=true");
+            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/04_iniciarSesion.jsp?exito=true");
         } else {
-            System.out.println("ERROR: Redirigiendo a formulario con error");
-            response.sendRedirect("public/modules/01_autenticacion/09_NuevaClave.jsp?error=true");
+            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/09_NuevaClave.jsp?error=true");
         }
     }
 }

@@ -1,109 +1,113 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-    <!DOCTYPE html>
-    <html lang="es">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/02_Gestion_facturas-recordatorios/estilosFormularioRegistrar-facturas.css">
+    <title>SmartHome Budget</title>
+</head>
+<body>
+    <header class="encabezado">
+        <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png" alt="Logo">
+        <a href="${pageContext.request.contextPath}/Facturas">
+            <span class="material-symbols-outlined">arrow_back_ios_new</span>
+        </a>
+        <div class="encabezado__contenedorTitulo">
+            <h1 class="encabezado__titulo">Registrar Factura o pago</h1>
+        </div>
+    </header>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Link iconos  -->
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new" />
-        <!-- Link Fuentes -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <!-- Link estilos.css  -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
-        <link rel="stylesheet"
-            href="${pageContext.request.contextPath}/asset/css/modules/02_Gestion_facturas-recordatorios/estilosFormularioRegistrar-facturas.css">
+    <main class="factura">
+        <c:if test="${not empty error}">
+            <div class="mensaje mensaje--error">⚠️ ${error}</div>
+        </c:if>
 
-        <title>SmartHome Budget</title>
-    </head>
+        <form class="factura__formulario" action="${pageContext.request.contextPath}/Facturas" method="post">
+            <input type="hidden" name="accion" value="registrar">
 
-    <body>
-        <header class="encabezado">
-            <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png"
-                alt="Logo de SmartHome Budget">
-            <a
-                href="${pageContext.request.contextPath}/public/modules/02_Gestion_facturas-recordatorios/01_facturas.jsp">
-                <span class="material-symbols-outlined"> arrow_back_ios_new </span>
-            </a>
-            <div class="encabezado__contenedorTitulo">
-                <h1 class="encabezado__titulo">Registrar Factura o pagos</h1>
+            <div class="factura__grupo">
+                <label class="factura__label">Nombre de la factura *</label>
+                <input type="text" name="nombreFactura" class="factura__input"
+                       placeholder="Ej: Factura de electricidad"
+                       maxlength="150" required>
             </div>
-        </header>
-        <main class="factura">
-            <form class="factura__formulario">
-                <div class="factura__grupo">
-                    <label class="factura__label">Nombre de la factura</label>
-                    <input type="text" class="factura__input" placeholder="Ej: Factura de electricidad">
-                </div>
-                <div class="factura__grupo">
-                    <label class="factura__label">Categoría</label>
-                    <select class="factura__select" id="categoria">
-                        <option>Seleccionar categoría</option>
-                        <option>Recibo del agua</option>
-                        <option>Recibo de luz</option>
-                        <option>Arriendo</option>
-                    </select>
-                    <a href="#" class="factura__boton">
-                        <button type="button" class="boton boton--nuevaCategoria">+ Nueva categoría</button>
-                    </a>
-                </div>
-                <div class="factura__fila">
-                    <div class="factura__grupo factura__grupo--medio">
-                        <label class="factura__label">Monto a pagar</label>
-                        <input type="text" class="factura__input" placeholder="$ 0.00">
-                    </div>
-                    <div class="factura__grupo factura__grupo--medio">
-                        <label class="factura__label">Vencimiento</label>
-                        <input type="date" class="factura__input factura__input--fecha">
-                    </div>
-                </div>
-                <div class="factura__grupo">
-                    <label class="factura__label">Estado de pago</label>
-                    <div class="factura__estado">
-                        <label class="factura__estado-opcion">
-                            <input type="radio" name="estado" value="pendiente" checked>
-                            <span>Pendiente</span>
-                        </label>
-                        <label class="factura__estado-opcion">
-                            <input type="radio" name="estado" value="pagada">
-                            <span>Pagada</span>
-                        </label>
-                        <label class="factura__estado-opcion">
-                            <input type="radio" name="estado" value="vencida">
-                            <span>Vencida</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="factura__grupo">
-                    <label class="factura__label">Notas adicionales (opcional)</label>
-                    <textarea class="factura__textarea" placeholder="Agrega detalles sobre esta factura..."></textarea>
-                </div>
-                <div class="factura__recordatorio">
-                    <div class="factura__recordatorio-header">
-                        <img class="factura__recordatorio-icono"
-                            src="${pageContext.request.contextPath}/asset/imagenes/notificar-alerta.png"
-                            alt="Icono de notificar">
-                        <span class="factura__recordatorio-texto">Activar recordatorio</span>
-                        <label class="factura__switch">
-                            <input type="checkbox" checked>
-                            <span class="factura__switch-slider"></span>
-                        </label>
-                    </div>
-                    <p class="factura__recordatorio-mensaje">
-                        Se te notificará 2 días antes del vencimiento
-                    </p>
-                </div>
-                <a href="##" class="factura__boton">
-                    <button type="submit" class="boton boton--registrar ">Guardar</button>
-                </a>
-                <a href="${pageContext.request.contextPath}/public/modules/02_Gestion_facturas-recordatorios/01_facturas.jsp"
-                    class="factura__boton">
 
-                    <button type="button" class="boton boton--cancelar">Cancelar</button>
-                </a>
-            </form>
-        </main>
-    </body>
+            <div class="factura__grupo">
+                <label class="factura__label">Categoría *</label>
+                <select name="idCategoriaEgreso" class="factura__select" required>
+                    <option value="">Seleccionar categoría</option>
+                    <c:forEach var="cat" items="${categorias}">
+                        <option value="${cat.idCategoriaEgreso}">${cat.nombreCategoriaEgreso}</option>
+                    </c:forEach>
+                </select>
+            </div>
 
-    </html>
+            <div class="factura__fila">
+                <div class="factura__grupo factura__grupo--medio">
+                    <label class="factura__label">Monto a pagar *</label>
+                    <input type="number" name="monto" class="factura__input"
+                           placeholder="0.00" min="0.01" step="0.01" required>
+                </div>
+                <div class="factura__grupo factura__grupo--medio">
+                    <label class="factura__label">Vencimiento *</label>
+                    <input type="date" name="fechaVencimiento" class="factura__input factura__input--fecha" required>
+                </div>
+            </div>
+
+            <div class="factura__grupo">
+                <label class="factura__label">Método de pago *</label>
+                <select name="idMetodoPago" class="factura__select" required>
+                    <option value="">Seleccionar método</option>
+                    <c:forEach var="met" items="${metodosPago}">
+                        <option value="${met.idMetodoPago}">${met.nombreMetodoPago}</option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <div class="factura__grupo">
+                <label class="factura__label">Estado de pago *</label>
+                <div class="factura__estado">
+                    <label class="factura__estado-opcion">
+                        <input type="radio" name="estadoPago" value="Pendiente" checked>
+                        <span>Pendiente</span>
+                    </label>
+                    <label class="factura__estado-opcion">
+                        <input type="radio" name="estadoPago" value="Pagada">
+                        <span>Pagada</span>
+                    </label>
+                    <label class="factura__estado-opcion">
+                        <input type="radio" name="estadoPago" value="Vencida">
+                        <span>Vencida</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="factura__grupo">
+                <label class="factura__label">Notas adicionales (opcional)</label>
+                <textarea name="descripcion" class="factura__textarea"
+                          placeholder="Agrega detalles sobre esta factura..."></textarea>
+            </div>
+
+            <div class="factura__recordatorio">
+                <div class="factura__recordatorio-header">
+                    <img class="factura__recordatorio-icono" src="${pageContext.request.contextPath}/asset/imagenes/notificar-alerta.png" alt="Recordatorio">
+                    <span class="factura__recordatorio-texto">Recordatorio automático</span>
+                </div>
+                <p class="factura__recordatorio-mensaje">Se generará un recordatorio 2 días y 1 día antes del vencimiento.</p>
+            </div>
+
+            <div class="factura__boton">
+                <button type="submit" class="boton boton--registrar">Guardar</button>
+            </div>
+            <a href="${pageContext.request.contextPath}/Facturas" class="factura__boton">
+                <button type="button" class="boton boton--cancelar">Cancelar</button>
+            </a>
+        </form>
+    </main>
+</body>
+</html>

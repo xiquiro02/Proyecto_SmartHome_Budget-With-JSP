@@ -1,93 +1,48 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Link iconos  -->
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new" />
-        <!-- Link Fuentes -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <!-- Link estilos.css  -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
-        <link rel="stylesheet"
-            href="${pageContext.request.contextPath}/asset/css/modules/03_ListasCompras/estilosConfirmarCreacionLista.css">
-
-        <title>SmartHome Budget</title>
-    </head>
-
-    <body>
-        <header class="encabezado">
-            <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png"
-                alt="Logo de SmartHome Budget">
-            <a href="${pageContext.request.contextPath}/public/modules/03_ListasCompras/02_CrearLista.jsp">
-                <span class="material-symbols-outlined"> arrow_back_ios_new </span>
-            </a>
-            <div class="encabezado__contenedorTitulo">
-                <h1 class="encabezado__titulo">Confirmar creación </h1>
-            </div>
-        </header>
-        <main class="confirmacion">
-            <div class="confirmacion__contenedor">
-                <div class="confirmacion__alerta">
-                    <img class="confirmacion__icono" src="${pageContext.request.contextPath}/asset/imagenes/icono_confirmacion.png"
-                        alt="Icono de confirmacion">
-                    <p class="confirmacion__mensaje">Lista preparada para crear</p>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/03_ListasCompras/estilosConfirmarCreacionLista.css">
+    <title>SmartHome Budget</title>
+</head>
+<body>
+<header class="encabezado">
+    <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png" alt="Logo">
+    <div class="encabezado__contenedorTitulo"><h1 class="encabezado__titulo">Lista creada</h1></div>
+</header>
+<main class="confirmacion">
+    <div class="confirmacion__contenedor">
+        <div class="confirmacion__alerta">
+            <img class="confirmacion__icono" src="${pageContext.request.contextPath}/asset/imagenes/icono_confirmacion.png" alt="OK">
+            <p class="confirmacion__mensaje">¡Lista creada correctamente!</p>
+        </div>
+        <div class="resumen">
+            <div class="resumen__campo">
+                <img class="resumen__icono" src="${pageContext.request.contextPath}/asset/imagenes/elementos-de-la-lista.png" alt="Nombre">
+                <div class="resumen__info">
+                    <label class="resumen__etiqueta">Nombre:</label>
+                    <input type="text" class="resumen__input" value="${nombreLista}" readonly>
                 </div>
-
-                <p class="confirmacion__pregunta">¿Deseas crear esta lista?</p>
-
-                <div class="resumen">
-                    <div class="resumen__campo">
-                        <img class="resumen__icono" src="${pageContext.request.contextPath}/asset/imagenes/elementos-de-la-lista.png"
-                            alt="Icono Nombre">
-                        <div class="resumen__info">
-                            <label class="resumen__etiqueta">Nombre:</label>
-                            <input type="text" class="resumen__input" value="Carnes y proteínas" readonly>
-                        </div>
-                    </div>
-
-                    <div class="resumen__campo">
-                        <img class="resumen__icono" src="${pageContext.request.contextPath}/asset/imagenes/categorias.png"
-                            alt="Icono Categoría">
-                        <div class="resumen__info">
-                            <label class="resumen__etiqueta">Categoría:</label>
-                            <input type="text" class="resumen__input" value="Alimentos" readonly>
-                        </div>
-                    </div>
-
-                    <div class="resumen__campo">
-                        <img class="resumen__icono" src="${pageContext.request.contextPath}/asset/imagenes/fecha.png"
-                            alt="Icono Creacion">
-                        <div class="resumen__info">
-                            <label class="resumen__etiqueta">Creación:</label>
-                            <input type="text" class="resumen__input" value="Hoy" readonly>
-                        </div>
-                    </div>
-
-                    <div class="resumen__campo resumen__campo--descripcion">
-                        <img class="resumen__icono" src="${pageContext.request.contextPath}/asset/imagenes/Descripcion.png"
-                            alt="Icono Descripcion">
-                        <div class="resumen__info">
-                            <label class="resumen__etiqueta">Descripción:</label>
-                            <textarea class="resumen__textarea"
-                                readonly>Lista para compras semanales de carnes y proteínas</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="${pageContext.request.contextPath}/public/modules/03_ListasCompras/01_listasCompras.jsp"
-                    class="confirmacion__botones">
-                    <button type="submit" class="boton boton--registrar ">Crear lista</button>
-                </a>
-                <a href="${pageContext.request.contextPath}/public/modules/03_ListasCompras/02_CrearLista.jsp"
-                    class="confirmacion__botones">
-                    <button type="button" class="boton boton--cancelar">Atrás</button>
-                </a>
             </div>
-        </main>
-    </body>
-
-    </html>
+            <div class="resumen__campo">
+                <img class="resumen__icono" src="${pageContext.request.contextPath}/asset/imagenes/fecha.png" alt="Fecha">
+                <div class="resumen__info">
+                    <label class="resumen__etiqueta">Creación:</label>
+                    <input type="text" class="resumen__input" value="Hoy" readonly>
+                </div>
+            </div>
+        </div>
+        <p style="text-align:center; color: #666; margin: 0.5rem 0;">Ahora puedes agregar productos a tu lista.</p>
+        <a href="${pageContext.request.contextPath}/Listas" class="confirmacion__botones">
+            <button type="button" class="boton boton--registrar">Ver mis listas</button>
+        </a>
+        <a href="${pageContext.request.contextPath}/Listas?accion=crear" class="confirmacion__botones">
+            <button type="button" class="boton boton--cancelar">Crear otra lista</button>
+        </a>
+    </div>
+</main>
+</body>
+</html>

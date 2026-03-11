@@ -1,90 +1,60 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-    <!DOCTYPE html>
-    <html lang="en">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/03_ListasCompras/estilosEditarProducto.css">
+    <title>SmartHome Budget</title>
+</head>
+<body>
+<header class="encabezado">
+    <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png" alt="Logo">
+    <a href="${pageContext.request.contextPath}/Listas?accion=editar&id=${idLista}">
+        <span class="material-symbols-outlined">arrow_back_ios_new</span>
+    </a>
+    <div class="encabezado__contenedorTitulo"><h1 class="encabezado__titulo">Editar producto</h1></div>
+</header>
+<main class="formulario">
+    <div class="formulario__contenedor">
+        <form action="${pageContext.request.contextPath}/Listas" method="post">
+            <input type="hidden" name="accion" value="actualizarProducto">
+            <input type="hidden" name="idDetalle" value="${detalle.idDetalleLista}">
+            <input type="hidden" name="idLista" value="${idLista}">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Link iconos  -->
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new" />
-        <!-- Link Fuentes -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <!-- Link estilos.css  -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
-        <link rel="stylesheet"
-            href="${pageContext.request.contextPath}/asset/css/modules/03_ListasCompras/estilosEditarProducto.css">
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta">Nombre del producto:</label>
+                <input type="text" class="formulario__input" value="${detalle.nombreProducto}" readonly
+                       style="background:#f0f0f0; color:#666">
+                <small style="color:#888">El nombre no puede cambiarse; para cambiar el nombre, elimina y agrega de nuevo.</small>
+            </div>
 
-        <title>SmartHome Budget</title>
-    </head>
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta">Cantidad: * (solo enteros &gt; 0)</label>
+                <input type="number" name="cantidad" class="formulario__input"
+                       value="${detalle.cantidad}" min="1" max="999" required>
+            </div>
 
-    <body>
-        <header class="encabezado">
-            <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png"
-                alt="Logo de SmartHome Budget">
-            <a href="${pageContext.request.contextPath}/public/modules/03_ListasCompras/04_EditarListaCompras.jsp">
-                <span class="material-symbols-outlined"> arrow_back_ios_new </span>
+            <div class="formulario__campo">
+                <label class="formulario__etiqueta">Tipo:</label>
+                <input type="text" class="formulario__input" value="${detalle.tipoProducto}" readonly
+                       style="background:#f0f0f0; color:#666">
+            </div>
+
+            <c:if test="${param.error == 'cantidad_invalida'}">
+                <div class="mensaje mensaje--error">⚠️ La cantidad debe ser un entero mayor a 0.</div>
+            </c:if>
+
+            <div class="formulario__botones">
+                <button type="submit" class="boton boton--registrar">Guardar cambios</button>
+            </div>
+            <a href="${pageContext.request.contextPath}/Listas?accion=editar&id=${idLista}" class="formulario__botones">
+                <button type="button" class="boton boton--cancelar">Cancelar</button>
             </a>
-            <div class="encabezado__contenedorTitulo">
-                <h1 class="encabezado__titulo">Editar producto</h1>
-            </div>
-        </header>
-        <main class="formulario">
-            <div class="formulario__contenedor">
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="nombreProducto">Nombre del producto:</label>
-                    <input type="text" id="nombreProducto" class="formulario__input" value="Arroz blanco">
-                </div>
-
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="cantidad">Cantidad:</label>
-                    <select id="cantidad" class="formulario__select">
-                        <option value="">Ingresar la cantidad</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3" selected>3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                    </select>
-                </div>
-
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="categoria">Tipo (opcional):</label>
-                    <select id="categoria" class="formulario__select">
-                        <option value="">Seleccionar tipo</option>
-                        <option value="alimentos" selected>Alimentos</option>
-                        <option value="aseo">Aseo</option>
-                        <option value="personal">Personal</option>
-                        <option value="otros">Otros</option>
-                        <option value="ropa">Ropa y calzado</option>
-                    </select>
-                </div>
-
-                <div class="formulario__campo">
-                    <label class="formulario__etiqueta" for="nombreProducto">Fecha de agregado:</label>
-                    <input type="text" id="nombreProducto" class="formulario__input" value="Hoy (automática)">
-                </div>
-
-                <a href="${pageContext.request.contextPath}/public/modules/03_ListasCompras/11_ConfirmacionProducto.jsp"
-                    class="formulario__botones">
-                    <button type="button" class="boton boton--registrar">Guardar cambios</button>
-                </a>
-                <a href="${pageContext.request.contextPath}/public/modules/03_ListasCompras/04_EditarListaCompras.jsp"
-                    class="formulario__botones">
-                    <button type="button" class="boton boton--cancelar">Cancelar</button>
-                </a>
-            </div>
-        </main>
-    </body>
-
-    </html>
+        </form>
+    </div>
+</main>
+</body>
+</html>
