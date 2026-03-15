@@ -44,7 +44,7 @@
                                 <h3 class="lista-card__titulo lista-card__titulo--${color}">${lista.nombreLista}</h3>
                                 <p class="lista-card__info">Productos: ${lista.totalProductos}</p>
                                 <p class="lista-card__info">
-                                    Creada: <fmt:formatDate value="${lista.fechaCreacion}" pattern="dd MMM yyyy" type="date"/>
+                                    Creada: ${lista.fechaCreacionFormateada}
                                 </p>
                             </div>
                             <div class="lista-card__estado">

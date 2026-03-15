@@ -131,15 +131,7 @@
             </a>
             <% } %>
 
-            <!-- Tiendas → Servlet (solo ROL 1 y 2) -->
-            <% if (idRolSesion == 1 || idRolSesion == 2) { %>
-            <a href="${pageContext.request.contextPath}/Tiendas" class="tarjetaOpcion">
-                <img class="tarjetaOpcion__icono"
-                    src="${pageContext.request.contextPath}/asset/imagenes/tienda.png" alt="Tiendas">
-                <p class="tarjetaOpcion__titulo">Tiendas Cercanas</p>
-            </a>
-            <% } %>
-
+            
             <!-- Ajustes -->
             <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/06_ajustes.jsp"
                 class="tarjetaOpcion">

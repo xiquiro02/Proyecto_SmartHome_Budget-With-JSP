@@ -110,33 +110,6 @@ primary key (IDRecordatorioIngresos),
 foreign key (IDUsuario) references Usuario(IDUsuario),
 foreign key (IDIngresos) references Registro_Ingresos(IDIngresos));
 
-create table Coordenadas (
-IDCoordenada int auto_increment not null,
-Latitud decimal(12,8),
-Logitud decimal(12,8),
-primary key (IDCoordenada));
-
-create table Ubicacion_Usuario (
-IDUbicacion int auto_increment not null,
-Pais varchar(100) not null,
-Ciudad varchar(100) not null,
-Direccion varchar(100) not null,
-FechaRegistro datetime not null,
-IDUsuario int not null, 
-IDCoordenada int,
-primary key (IDUbicacion),
-foreign key (IDCoordenada) references Coordenadas(IDCoordenada));
-
-create table Tienda (
-IDTienda int auto_increment not null,
-NombreTienda varchar(100) not null,
-Pais varchar(100) not null,
-Ciudad varchar(100) not null,
-Direccion varchar(100) not null,
-IDCoordenada int,
-FechaRegistro datetime, 
-primary key(IDTienda),
-foreign key (IDCoordenada) references Coordenadas(IDCoordenada));
 
 create table Tipo_Producto (
 IDTipoProducto int auto_increment not null,
@@ -163,17 +136,6 @@ primary key(IDInventario),
 foreign key (IDHogar) references Hogar(IDHogar),
 foreign key (IDProducto) references Producto(IDProducto));
 
-create table Precio_Producto (
-IDPrecio int auto_increment not null,
-IDTienda int not null,
-IDInventario int not null,
-IDHogar int not null,
-precio decimal(12,2) not null,
-FechaActualizacion datetime not null,
-primary key (IDPrecio),
-foreign key (IDTienda) references Tienda(IDTienda),
-foreign key (IDInventario) references Inventario_Casa(IDInventario),
-foreign key (IDHogar) references Hogar(IDHogar));
 
 create table Lista_Compras (
 IDListaCompras int auto_increment not null,

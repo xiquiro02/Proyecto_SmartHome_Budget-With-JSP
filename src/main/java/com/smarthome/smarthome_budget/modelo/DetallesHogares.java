@@ -20,28 +20,28 @@ public class DetallesHogares {
         return IDDetallesHogar;
     }
 
-    public void setIDDetallesHogar(int IDDetallesHogar) {
-        this.IDDetallesHogar = IDDetallesHogar;
-    }
-
     public int getIDUsuario() {
         return IDUsuario;
-    }
-
-    public void setIDUsuario(int IDUsuario) {
-        this.IDUsuario = IDUsuario;
     }
 
     public int getIDHogar() {
         return IDHogar;
     }
 
-    public void setIDHogar(int IDHogar) {
-        this.IDHogar = IDHogar;
-    }
-
     public int getIDRol() {
         return IDRol;
+    }
+
+    public void setIDDetallesHogar(int IDDetallesHogar) {
+        this.IDDetallesHogar = IDDetallesHogar;
+    }
+
+    public void setIDUsuario(int IDUsuario) {
+        this.IDUsuario = IDUsuario;
+    }
+
+    public void setIDHogar(int IDHogar) {
+        this.IDHogar = IDHogar;
     }
 
     public void setIDRol(int IDRol) {

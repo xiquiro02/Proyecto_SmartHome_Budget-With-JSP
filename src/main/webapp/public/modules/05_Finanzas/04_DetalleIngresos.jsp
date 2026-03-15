@@ -6,7 +6,6 @@
         response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/04_iniciarSesion.jsp");
         return;
     }
-    Integer idRol = (Integer) session.getAttribute("idRol");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/06_Finanzas/estilosDetalleEgresos.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/05_Finanzas/estilosDetalleIngresos.css">
     <title>SmartHome Budget</title>
 </head>
 <body>
@@ -25,38 +24,33 @@
             <span class="material-symbols-outlined">arrow_back_ios_new</span>
         </a>
         <div class="encabezado__contenedorTitulo">
-            <h1 class="encabezado__titulo">Detalle de Egresos</h1>
+            <h1 class="encabezado__titulo">Detalle de Ingresos</h1>
         </div>
     </header>
 
     <main class="consultarFacturas">
 
         <c:choose>
-            <c:when test="${empty egresos}">
+            <c:when test="${empty ingresos}">
                 <div style="text-align:center;padding:40px 20px;color:#888;">
-                    <p>No hay egresos registrados.</p>
+                    <p>No hay ingresos registrados este mes.</p>
                 </div>
             </c:when>
             <c:otherwise>
-                <c:forEach var="egreso" items="${egresos}">
+                <c:forEach var="ingreso" items="${ingresos}">
                 <div class="facturaLista">
-                    <div class="facturaCard facturaCard--rojo">
+                    <div class="facturaCard facturaCard--verde">
                         <div class="facturaCard__borde"></div>
                         <div class="facturaCard__contenido">
                             <div class="facturaCard__encabezado">
-                                <h3 class="facturaCard__titulo">
-                                    <c:choose>
-                                        <c:when test="${not empty egreso.nombreFactura}">${egreso.nombreFactura}</c:when>
-                                        <c:otherwise>${egreso.nombreCategoria}</c:otherwise>
-                                    </c:choose>
-                                </h3>
-                                <span class="facturaCard__etiqueta facturaCard__etiqueta--pendiente">
-                                    $ <fmt:formatNumber value="${egreso.monto}" pattern="#,##0.00"/>
+                                <h3 class="facturaCard__titulo">${ingreso.nombreCategoria}</h3>
+                                <span class="facturaCard__etiqueta facturaCard__etiqueta--pagada">
+                                    $ <fmt:formatNumber value="${ingreso.monto}" pattern="#,##0.00"/>
                                 </span>
                             </div>
                             <p class="facturaCard__detalles">
-                                <fmt:formatDate value="${egreso.fechaVencimiento}" pattern="dd MMM yyyy" type="date"/>
-                                — ${egreso.nombreCategoria}
+                                <fmt:formatDate value="${ingreso.fechaIngreso}" pattern="dd MMM yyyy" type="date"/>
+                                <c:if test="${not empty ingreso.descripcion}"> — ${ingreso.descripcion}</c:if>
                             </p>
                         </div>
                     </div>
@@ -64,17 +58,15 @@
                 </c:forEach>
 
                 <div class="totalPagado">
-                    <h3 class="totalPagado__titulo">Total egresos</h3>
-                    <p class="totalPagado__monto">$ <fmt:formatNumber value="${totalEgresos}" pattern="#,##0.00"/></p>
+                    <h3 class="totalPagado__titulo">Total ingresos</h3>
+                    <p class="totalPagado__monto">$ <fmt:formatNumber value="${totalIngresos}" pattern="#,##0.00"/></p>
                 </div>
             </c:otherwise>
         </c:choose>
 
-        <% if (idRol == null || idRol != 3) { %>
-        <a href="${pageContext.request.contextPath}/Finanzas?accion=formEgreso" class="consultarFacturas__boton">
-            <button class="boton boton--registrar">+ Registrar nuevo egreso</button>
+        <a href="${pageContext.request.contextPath}/Finanzas?accion=formIngreso" class="consultarFacturas__boton">
+            <button class="boton boton--registrar">+ Registrar nuevo ingreso</button>
         </a>
-        <% } %>
         <a href="${pageContext.request.contextPath}/Finanzas" class="consultarFacturas__boton">
             <button class="boton boton--volver">Volver</button>
         </a>

@@ -1,0 +1,311 @@
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.contenedor-lista {
+    padding: 20px;
+    background: #FFFFFF;
+    margin: 0 auto;
+}
+
+/* ===== TARJETA MERCADO ===== */
+.tarjetaMercado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #FADFBB; 
+    border: 2px solid #FF9810;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(46, 204, 113, 0.15);
+}
+
+.tarjetaMercado__encabezado {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.tarjetaMercado__icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.tarjetaMercado__icono img {
+    width: 40px;
+    height: 40px;
+}
+
+.tarjetaMercado__info {
+    flex: 1;
+}
+
+.tarjetaMercado__nombre {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 4px;
+}
+
+.tarjetaMercado__categoria {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+}
+
+.tarjetaMercado__etiquetas {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.etiqueta {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.etiqueta--completa {
+    background: #FF9810;
+    color: #FFFFFF;
+}
+
+.etiqueta--total {
+    background: #FF9810;
+    color: #FFFFFF;
+}
+
+/* ===== ESTADÍSTICAS ===== */
+.estadisticas {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.estadisticas__item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.estadisticas__numero {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.estadisticas__numero--comprado {
+    background: #C9EED8;
+    color: #2ECC71;
+}
+
+.estadisticas__numero--pendiente {
+    background: #FFE5CC;
+    color: #FF9810;
+}
+
+.estadisticas__texto {
+    font-size: 14px;
+    font-weight: 500;
+    color: #666666;
+}
+
+/* ===== FECHA ===== */
+.fecha {
+    font-size: 13px;
+    font-weight: 400;
+    color: #999999;
+    margin-bottom: 16px;
+}
+
+/* ===== TÍTULO DE SECCIÓN ===== */
+.tituloSeccion {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 16px;
+}
+
+/* ===== LISTA DE PRODUCTOS ===== */
+.listaProductos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.producto {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: #FADFBB; 
+    border: 2px solid #FF9810;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.producto:hover {
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(46, 204, 113, 0.2);
+}
+
+.producto--completado {
+    background: #FADFBB;
+    border-color: #FF9810;
+}
+
+.producto__label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    cursor: pointer;
+}
+
+/* ocultamos checkbox real */
+.producto__input {
+    display: none;
+}
+
+.producto__circulo{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid #FF9810;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.producto__circulo::after{
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #FF9810;
+    transform: scale(0);
+    transition: transform 0.2s ease;
+}
+
+/* CUANDO SE MARCA */
+.producto__input:checked + .producto__circulo::after {
+    transform: scale(3);
+}
+
+
+/* fondo verde del item */
+.producto__label:has(.producto__input:checked) {
+    background: #FADFBB; 
+}
+
+.producto__info {
+    flex: 1;
+}
+
+.producto__nombre {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 2px;
+}
+
+.producto__cantidad {
+    font-size: 13px;
+    font-weight: 400;
+    color: #666666;
+}
+
+/* ===== ACCIONES ===== */
+.acciones {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.acciones a{
+    flex: 1; 
+    display: flex;
+    max-width: 300px;
+    margin: 0 auto;
+    text-decoration: none;
+}
+
+.boton {
+    width: 100%;
+}
+
+.acciones__volver{
+    text-decoration: none;
+    display: block;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.acciones__marcar{
+    text-decoration: none;
+}
+
+.acciones__desmarcado{
+    text-decoration: none;
+}
+
+.boton--marcar {
+    background: #FFFFFF;
+    color: #2196F3;
+    border: 2px solid #2196F3;
+}
+
+
+/* ===== Media Queries ===== */
+@media (max-width: 375px) {
+    .encabezado__titulo {
+        font-size: 14px;
+    }
+
+    .tarjetaMercado__nombre {
+        font-size: 18px;
+    }
+
+    .producto__nombre {
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 768px) {
+    .contenedor {
+        padding: 90px 20px 40px 20px;
+    }
+
+    .acciones {
+        max-width: 500px;
+        margin: 0 auto 16px auto;
+    }
+
+    .boton--volver {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}

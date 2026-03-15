@@ -15,17 +15,16 @@ public class CategoriaEgreso {
         this.nombreCategoriaEgreso = nombreCategoriaEgreso;
     }
 
-    // Getters y setters
     public int getIdCategoriaEgreso() {
         return idCategoriaEgreso;
     }
 
-    public void setIdCategoriaEgreso(int idCategoriaEgreso) {
-        this.idCategoriaEgreso = idCategoriaEgreso;
-    }
-
     public String getNombreCategoriaEgreso() {
         return nombreCategoriaEgreso;
+    }
+
+    public void setIdCategoriaEgreso(int idCategoriaEgreso) {
+        this.idCategoriaEgreso = idCategoriaEgreso;
     }
 
     public void setNombreCategoriaEgreso(String nombreCategoriaEgreso) {

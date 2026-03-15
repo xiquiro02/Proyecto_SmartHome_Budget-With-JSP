@@ -27,30 +27,30 @@
                 </c:choose>
             </div>
         </c:if>
+        
+<form class="factura__formulario" action="${pageContext.request.contextPath}/Facturas" method="post">
+        <input type="hidden" name="accion" value="actualizar">
+        <input type="hidden" name="idEgreso" value="${factura.idEgresos}">
 
-        <form class="factura__formulario" action="${pageContext.request.contextPath}/Facturas" method="post">
-            <input type="hidden" name="accion" value="actualizar">
-            <input type="hidden" name="idEgreso" value="${factura.idEgresos}">
+        <div class="factura__grupo">
+            <label class="factura__label">Nombre de la factura *</label>
+            <input type="text" name="nombreFactura" class="factura__input"
+                   value="${factura.nombreFactura}" maxlength="150" required>
+        </div>
 
-            <div class="factura__grupo">
-                <label class="factura__label">Nombre de la factura *</label>
-                <input type="text" name="nombreFactura" class="factura__input"
-                       value="${factura.nombreFactura}" maxlength="150" required>
-            </div>
+        <div class="factura__grupo">
+            <label class="factura__label">Categoría *</label>
+            <select name="idCategoriaEgreso" class="factura__select" required>
+                <c:forEach var="cat" items="${categorias}">
+                    <option value="${cat.idCategoriaEgreso}"
+                        ${cat.idCategoriaEgreso == factura.idCategoriaEgreso ? 'selected' : ''}>
+                        ${cat.nombreCategoriaEgreso}
+                    </option>
+                </c:forEach>
+            </select>
+        </div>
 
-            <div class="factura__grupo">
-                <label class="factura__label">Categoría *</label>
-                <select name="idCategoriaEgreso" class="factura__select" required>
-                    <c:forEach var="cat" items="${categorias}">
-                        <option value="${cat.IDCategoriaEgreso}"
-                            ${cat.IDCategoriaEgreso == factura.idCategoriaEgreso ? 'selected' : ''}>
-                            ${cat.NombreCategoriaEgreso}
-                        </option>
-                    </c:forEach>
-                </select>
-            </div>
-
-            <div class="factura__fila">
+        <div class="factura__fila">
                 <div class="factura__grupo factura__grupo--medio">
                     <label class="factura__label">Monto *</label>
                     <input type="number" name="monto" class="factura__input"
@@ -59,7 +59,7 @@
                 <div class="factura__grupo factura__grupo--medio">
                     <label class="factura__label">Vencimiento *</label>
                     <input type="date" name="fechaVencimiento" class="factura__input factura__input--fecha"
-                           value="<fmt:formatDate value='${factura.fechaVencimiento}' pattern='yyyy-MM-dd' type='date'/>" required>
+                           value="${f.fechaVencimientoFormateada}" required>
                 </div>
             </div>
 
@@ -67,9 +67,9 @@
                 <label class="factura__label">Método de pago *</label>
                 <select name="idMetodoPago" class="factura__select" required>
                     <c:forEach var="met" items="${metodosPago}">
-                        <option value="${met.IDMetodoPago}"
-                            ${met.IDMetodoPago == factura.idMetodoPago ? 'selected' : ''}>
-                            ${met.NombreMetodoPago}
+                        <option value="${met.idMetodoPago}"
+                            ${met.idMetodoPago  == factura.idMetodoPago ? 'selected' : ''}>
+                            ${met.nombreMetodoPago}
                         </option>
                     </c:forEach>
                 </select>

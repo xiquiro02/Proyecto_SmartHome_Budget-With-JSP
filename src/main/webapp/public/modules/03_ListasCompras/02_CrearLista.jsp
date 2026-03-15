@@ -30,21 +30,6 @@
                        placeholder="Ej: Mercado mensual" maxlength="100" required>
             </div>
 
-            <div class="formulario__etiquetas">
-                <div class="etiqueta etiqueta--aseo">
-                    <img src="${pageContext.request.contextPath}/asset/imagenes/Aseo.png" alt="Aseo"><span>Aseo</span>
-                </div>
-                <div class="etiqueta etiqueta--alimentos">
-                    <img src="${pageContext.request.contextPath}/asset/imagenes/alimentos-saludables.png" alt="Alimentos"><span>Alimentos</span>
-                </div>
-                <div class="etiqueta etiqueta--personal">
-                    <img src="${pageContext.request.contextPath}/asset/imagenes/maquillaje.png" alt="Personal"><span>Personal</span>
-                </div>
-                <div class="etiqueta etiqueta--otros">
-                    <img src="${pageContext.request.contextPath}/asset/imagenes/cajas.png" alt="Otros"><span>Otros</span>
-                </div>
-            </div>
-
             <div class="formulario__campo">
                 <label class="formulario__etiqueta">Fecha de creación:</label>
                 <label class="formulario__fecha">

@@ -25,7 +25,7 @@
             <div class="mensaje mensaje--exito">✅ Factura registrada correctamente.</div>
         </c:if>
         <c:if test="${param.exito == 'eliminada'}">
-            <div class="mensaje mensaje--exito">✅ Factura eliminada correctamente.</div>
+            <div class="mensaje mensaje--exito">🗑️ Factura eliminada correctamente.</div>
         </c:if>
         <c:if test="${param.exito == 'pagada'}">
             <div class="mensaje mensaje--exito">✅ Factura marcada como pagada.</div>
@@ -34,7 +34,6 @@
             <div class="mensaje mensaje--error">⚠️ No tienes permiso para realizar esa acción.</div>
         </c:if>
     </header>
-
     <main class="facturas">
         <%-- Solo ADMINISTRADOR y COTITULAR pueden registrar --%>
         <c:if test="${sessionScope.idRol == 1 || sessionScope.idRol == 2}">

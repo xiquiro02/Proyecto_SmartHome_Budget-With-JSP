@@ -15,17 +15,16 @@ public class MetodoPago {
         this.nombreMetodoPago = nombreMetodoPago;
     }
 
-    // Getters y setters
     public int getIdMetodoPago() {
         return idMetodoPago;
     }
 
-    public void setIdMetodoPago(int idMetodoPago) {
-        this.idMetodoPago = idMetodoPago;
-    }
-
     public String getNombreMetodoPago() {
         return nombreMetodoPago;
+    }
+
+    public void setIdMetodoPago(int idMetodoPago) {
+        this.idMetodoPago = idMetodoPago;
     }
 
     public void setNombreMetodoPago(String nombreMetodoPago) {

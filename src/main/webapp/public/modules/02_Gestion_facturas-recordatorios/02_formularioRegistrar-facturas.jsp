@@ -27,14 +27,15 @@
             <div class="mensaje mensaje--error">⚠️ ${error}</div>
         </c:if>
 
-        <form class="factura__formulario" action="${pageContext.request.contextPath}/Facturas" method="post">
+        <form class="factura__formulario" id="registroFactura" action="${pageContext.request.contextPath}/Facturas" method="post">
             <input type="hidden" name="accion" value="registrar">
 
             <div class="factura__grupo">
                 <label class="factura__label">Nombre de la factura *</label>
                 <input type="text" name="nombreFactura" class="factura__input"
                        placeholder="Ej: Factura de electricidad"
-                       maxlength="150" required>
+                       maxlength="150" pattern=".*\S.*" 
+                       title="No puede estar vacío o contener solo espacios" required>
             </div>
 
             <div class="factura__grupo">
@@ -51,11 +52,13 @@
                 <div class="factura__grupo factura__grupo--medio">
                     <label class="factura__label">Monto a pagar *</label>
                     <input type="number" name="monto" class="factura__input"
-                           placeholder="0.00" min="0.01" step="0.01" required>
+                           placeholder="0.00" min="0.01" max="9999999.99" step="0.01" required>
                 </div>
                 <div class="factura__grupo factura__grupo--medio">
                     <label class="factura__label">Vencimiento *</label>
-                    <input type="date" name="fechaVencimiento" class="factura__input factura__input--fecha" required>
+                    <input type="date" name="fechaVencimiento" 
+                           class="factura__input factura__input--fecha" 
+                           min="2000-01-01" max="2100-12-31" required>
                 </div>
             </div>
 
@@ -89,7 +92,7 @@
 
             <div class="factura__grupo">
                 <label class="factura__label">Notas adicionales (opcional)</label>
-                <textarea name="descripcion" class="factura__textarea"
+                <textarea name="descripcion" class="factura__textarea" maxlength="500"
                           placeholder="Agrega detalles sobre esta factura..."></textarea>
             </div>
 
@@ -102,12 +105,13 @@
             </div>
 
             <div class="factura__boton">
-                <button type="submit" class="boton boton--registrar">Guardar</button>
+                <button type="submit" class="boton boton--registrar" id="btnGuardarFactura">Guardar</button>
             </div>
             <a href="${pageContext.request.contextPath}/Facturas" class="factura__boton">
                 <button type="button" class="boton boton--cancelar">Cancelar</button>
             </a>
         </form>
     </main>
+    <script src="${pageContext.request.contextPath}/asset/js/validacionesFormularioFacturas.js"></script>
 </body>
 </html>

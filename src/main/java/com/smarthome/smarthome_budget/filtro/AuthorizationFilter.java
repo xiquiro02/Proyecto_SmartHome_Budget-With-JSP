@@ -72,15 +72,11 @@ public class AuthorizationFilter implements Filter {
 
         // Módulo finanzas: solo ROL 1 (ADMIN) y ROL 2 (COTITULAR) tienen acceso completo
         // ROL 3 (INVITADO) no tiene acceso a finanzas
-        if (path.startsWith("/Finanzas") || path.contains("/06_Finanzas/")) {
+        if (path.startsWith("/Finanzas") || path.contains("/05_Finanzas/")) {
             return idRol == 1 || idRol == 2;
         }
 
-        // Tiendas: solo ROL 1 y ROL 2
-        if (path.startsWith("/Tiendas") || path.contains("/05_TiendasCercanas/")) {
-            return idRol == 1 || idRol == 2;
-        }
-
+        
         // Facturas: todos pueden ver, pero escritura solo ROL 1 y 2
         // El control granular lo hace el servlet
         if (path.startsWith("/Facturas") || path.contains("/02_Gestion_facturas")) {

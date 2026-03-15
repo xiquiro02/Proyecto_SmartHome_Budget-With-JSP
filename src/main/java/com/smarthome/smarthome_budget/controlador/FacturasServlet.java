@@ -78,16 +78,26 @@ public class FacturasServlet extends HttpServlet {
                 break;
             case "filtroEstado":
                 String estado = req.getParameter("estado");
+                if (estado != null && !estado.isEmpty()) {
+                    req.setAttribute("modoFiltro", "estado");
+                }
                 mostrarLista(req, resp, dao, idHogar, estado, null, null, null);
                 break;
             case "filtroCategoria":
                 String catParam = req.getParameter("idCategoria");
-                mostrarLista(req, resp, dao, idHogar, null, parsearInt(catParam), null, null);
+                Integer idCat = (catParam == null || catParam.isEmpty()) ? null : Integer.parseInt(catParam);
+                if (idCat != null) {
+                    req.setAttribute("modoFiltro", "categoria"); 
+                }
+                mostrarLista(req, resp, dao, idHogar, null, idCat, null, null);
                 break;
             case "filtroFecha":
-                mostrarLista(req, resp, dao, idHogar, null, null,
-                        parsearInt(req.getParameter("mes")),
-                        parsearInt(req.getParameter("anio")));
+                Integer mes = parsearInt(req.getParameter("mes"));
+                Integer anio = parsearInt(req.getParameter("anio"));
+                if (mes > 0 && anio > 0) {
+                    req.setAttribute("modoFiltro", "fecha");
+                }
+                mostrarLista(req, resp, dao, idHogar, null, null, mes, anio);
                 break;
             case "editar":
                 mostrarFormularioEditar(req, resp, dao, idHogar);
@@ -99,13 +109,16 @@ public class FacturasServlet extends HttpServlet {
                 mostrarHistorial(req, resp, dao, idHogar, null, null, null, null);
                 break;
             case "historialCategoria":
-                mostrarHistorial(req, resp, dao, idHogar,
-                        parsearInt(req.getParameter("idCategoria")), null, null, null);
+                String catParamHistorial = req.getParameter("idCategoria");
+                Integer idCatHistorial = (catParamHistorial == null || catParamHistorial.isEmpty()) ? null : Integer.parseInt(catParamHistorial);
+                mostrarHistorial(req, resp, dao, idHogar, idCatHistorial, null, null, null);
                 break;
             case "historialFecha":
-                mostrarHistorial(req, resp, dao, idHogar, null,
-                        parsearInt(req.getParameter("mes")),
-                        parsearInt(req.getParameter("anio")), null);
+                String mesParamHistorial = req.getParameter("mes");
+                String anioParamHistorial = req.getParameter("anio");
+                Integer mesHistorial = (mesParamHistorial == null || mesParamHistorial.isEmpty()) ? null : Integer.parseInt(mesParamHistorial);
+                Integer anioHistorial = (anioParamHistorial == null || anioParamHistorial.isEmpty()) ? null : Integer.parseInt(anioParamHistorial);
+                mostrarHistorial(req, resp, dao, idHogar, null, mesHistorial, anioHistorial, null);
                 break;
             case "historialMonto":
                 mostrarHistorial(req, resp, dao, idHogar, null, null, null,
@@ -189,7 +202,7 @@ public class FacturasServlet extends HttpServlet {
             facturas = dao.listarPorCategoria(idHogar, idCategoria);
             filtroActivo = "categoria";
             req.setAttribute("categoriaFiltro", idCategoria);
-        } else if (mes != null && anio != null) {
+        } else if (mes != null && mes > 0 && anio != null && anio > 0) {
             facturas = dao.listarPorMes(idHogar, mes, anio);
             filtroActivo = "fecha";
             req.setAttribute("mesFiltro", mes);
@@ -201,17 +214,10 @@ public class FacturasServlet extends HttpServlet {
         cargarCatalogos(req);
         req.setAttribute("facturas", facturas);
         req.setAttribute("filtroActivo", filtroActivo);
+        String modoFiltro = (String) req.getAttribute("modoFiltro");
 
-        // Elegir la vista según el filtro
-        if ("estado".equals(filtroActivo)) {
-            forward(req, resp, "06_Consultar-Facturas.-Filtro-Estado.jsp");
-        } else if ("categoria".equals(filtroActivo)) {
-            forward(req, resp, "04_Consultar-Facturas.-Filtro-Categoria..jsp");
-        } else if ("fecha".equals(filtroActivo)) {
-            forward(req, resp, "05_Consultar-Facturas.-Filtro-Fecha.jsp");
-        } else {
-            forward(req, resp, "03_Consultar-Facturas.jsp");
-        }
+        // Todos los filtros ahora usan la misma vista unificada
+        forward(req, resp, "03_Consultar-Facturas.jsp");
     }
 
     private void mostrarFormularioEditar(HttpServletRequest req, HttpServletResponse resp,
@@ -229,7 +235,7 @@ public class FacturasServlet extends HttpServlet {
         }
         cargarCatalogos(req);
         req.setAttribute("factura", factura);
-        forward(req, resp, "07_EditarFactura.jsp");
+        forward(req, resp, "04_EditarFactura.jsp");
     }
 
     private void mostrarConfirmarEliminar(HttpServletRequest req, HttpServletResponse resp,
@@ -246,7 +252,7 @@ public class FacturasServlet extends HttpServlet {
             return;
         }
         req.setAttribute("factura", factura);
-        forward(req, resp, "09_EliminarFactura.jsp");
+        forward(req, resp, "06_EliminarFactura.jsp");
     }
 
     private void mostrarHistorial(HttpServletRequest req, HttpServletResponse resp,
@@ -257,16 +263,17 @@ public class FacturasServlet extends HttpServlet {
         List<RegistroEgreso> historial;
         String filtroActivo = "ninguno";
 
-        if (idCategoria != null) {
+        // Solo aplicar filtros si los parámetros no son nulos y tienen valores válidos
+        if (idCategoria != null && idCategoria > 0) {
             historial = dao.listarPagadasPorCategoria(idHogar, idCategoria);
             filtroActivo = "categoria";
             req.setAttribute("categoriaFiltro", idCategoria);
-        } else if (mes != null && anio != null) {
+        } else if (mes != null && mes > 0 && anio != null && anio > 0) {
             historial = dao.listarPagadasPorMes(idHogar, mes, anio);
             filtroActivo = "fecha";
             req.setAttribute("mesFiltro", mes);
             req.setAttribute("anioFiltro", anio);
-        } else if (rango != null) {
+        } else if (rango != null && !rango.isEmpty()) {
             BigDecimal min = BigDecimal.ZERO;
             BigDecimal max = new BigDecimal("999999999");
             switch (rango) {
@@ -288,15 +295,8 @@ public class FacturasServlet extends HttpServlet {
         req.setAttribute("cantidadPagadas", totales[1].intValue());
         req.setAttribute("filtroActivo", filtroActivo);
 
-        if ("categoria".equals(filtroActivo)) {
-            forward(req, resp, "12_HistorialPagos-Filtrar-categoria.jsp");
-        } else if ("fecha".equals(filtroActivo)) {
-            forward(req, resp, "13_HistorialPagos-Filtrar-Fecha.jsp");
-        } else if ("monto".equals(filtroActivo)) {
-            forward(req, resp, "14_HistorialPagos-Filtrar-Monto.jsp");
-        } else {
-            forward(req, resp, "11_HistorialPagos.jsp");
-        }
+        // Todos los filtros ahora usan la misma vista unificada
+        forward(req, resp, "08_HistorialPagos.jsp");
     }
 
     // ─── Métodos de procesamiento ─────────────────────────────────────────────
@@ -311,18 +311,18 @@ public class FacturasServlet extends HttpServlet {
             return;
         }
 
-        String nombreFactura = req.getParameter("nombreFactura");
+        String nombreFactura = req.getParameter("nombreFactura")!= null ? req.getParameter("nombreFactura").trim() : "";
         String montoStr      = req.getParameter("monto");
         String catStr        = req.getParameter("idCategoriaEgreso");
         String metStr        = req.getParameter("idMetodoPago");
         String fechaStr      = req.getParameter("fechaVencimiento");
-        String descripcion   = req.getParameter("descripcion");
+        String descripcion   = req.getParameter("descripcion")!= null ? req.getParameter("descripcion").trim() : "";
         String estadoPago    = req.getParameter("estadoPago");
 
         // Validaciones
         if (estaVacio(nombreFactura) || estaVacio(montoStr) || estaVacio(catStr)
                 || estaVacio(metStr) || estaVacio(fechaStr) || estaVacio(estadoPago)) {
-            req.setAttribute("error", "Todos los campos obligatorios deben completarse.");
+            req.setAttribute("error", "Todos los campos obligatorios deben completarse sin espacios en blanco.");
             cargarCatalogos(req);
             forward(req, resp, "02_formularioRegistrar-facturas.jsp");
             return;
@@ -442,7 +442,7 @@ public class FacturasServlet extends HttpServlet {
         boolean ok = dao.actualizar(egreso);
 
         if (ok) {
-            forward(req, resp, "08_ConfirmacionEdicion.jsp");
+            forward(req, resp, "05_ConfirmacionEdicion.jsp");
         } else {
             resp.sendRedirect(req.getContextPath() + "/Facturas?accion=editar&id=" + id + "&error=error_db");
         }

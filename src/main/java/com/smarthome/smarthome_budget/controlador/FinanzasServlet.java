@@ -26,7 +26,7 @@ public class FinanzasServlet extends HttpServlet {
     private final RegistroEgresoDao egresoDao   = new RegistroEgresoDao();
     private final PresupuestoMensualDao presDao  = new PresupuestoMensualDao();
 
-    private static final String BASE = "/public/modules/06_Finanzas/";
+    private static final String BASE = "/public/modules/05_Finanzas/";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

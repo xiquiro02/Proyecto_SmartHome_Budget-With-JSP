@@ -128,7 +128,7 @@ public class ListasComprasServlet extends HttpServlet {
         req.setAttribute("lista", lista);
         req.setAttribute("detalles", detalles);
         // Vista unificada para todos los tipos de lista
-        forward(req, resp, "14_VerDetalleLista.jsp");
+        forward(req, resp, "14_VerDetallesLista.jsp");
     }
 
     private void mostrarConfirmarEliminar(HttpServletRequest req, HttpServletResponse resp, int idHogar)
@@ -347,9 +347,9 @@ public class ListasComprasServlet extends HttpServlet {
         req.setAttribute("todosComprados", todos);
         req.setAttribute("idLista", idLista);
         if (todos) {
-            forward(req, resp, "17_ProductosComprado-Todos.jsp");
+            forward(req, resp, "14_VerDetallesLista.jsp");
         } else {
-            forward(req, resp, "18_ProductosPendientes-Todos.jsp");
+            forward(req, resp, "14_VerDetallesLista.jsp");
         }
     }
 

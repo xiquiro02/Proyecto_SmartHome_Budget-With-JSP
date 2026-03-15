@@ -3,12 +3,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/* Clase encargada de gestionar la conexión física entre la aplicación Java y el motor de base de datos MySQL.*/
+    /* 
+    Clase: claseConexión.
+    Propósito: Gestionar la conexión física entre la aplicación Java y el motor de base de datos MySQL.
+    */
+
 public class claseConexion 
 {
+    // Atributos
     // Configuración de la cadena de conexión (URL de la base de datos local)
     static String BD = "jdbc:mysql://localhost:3306/SmartHome_BudgetBD";
-    // Credenciales de acceso al servidor de base de datos
+    // Credenciales de acceso al servidor de base de datos.
     static String usuario = "root";
     static String password = "Sali20302002";
 

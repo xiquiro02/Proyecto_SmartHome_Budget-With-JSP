@@ -17,7 +17,6 @@
     </a>
     <div class="encabezado__contenedorTitulo">
         <h1 class="encabezado__titulo">Agregar producto</h1>
-        <p style="font-size:0.85rem; color:#666; margin:0;">Lista: <strong>${lista.nombreLista}</strong></p>
     </div>
 </header>
 <main class="formulario">
@@ -38,7 +37,7 @@
             </div>
 
             <div class="formulario__campo">
-                <label class="formulario__etiqueta">Cantidad: * (solo números enteros &gt; 0)</label>
+                <label class="formulario__etiqueta">Cantidad: *</label>
                 <input type="number" name="cantidad" class="formulario__input"
                        min="1" max="999" value="1" required>
             </div>

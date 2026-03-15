@@ -9,12 +9,8 @@ import java.time.format.DateTimeFormatter;
  * Mapea la tabla Registro_Egresos de la base de datos.
  */
 public class RegistroEgreso {
-
-    private int idEgresos;
-    private int idHogar;
-    private int idUsuario;
-    private String nombreFactura;
-    private BigDecimal monto;
+    private String Descripcion;
+    private BigDecimal Monto;
     private int idCategoriaEgreso;
     private String nombreCategoria;
     private int idMetodoPago;
@@ -23,6 +19,8 @@ public class RegistroEgreso {
     private LocalDateTime fechaVencimiento;
     private String descripcion;
     private String estadoPago;
+    private int idEgresos;
+    private int idHogar;
 
     public RegistroEgreso() {}
 

@@ -57,6 +57,11 @@
     color: #FFFFFF;
 }
 
+.consultarFacturas__filtro-enlace--activo {
+    background-color: #2196F3;
+    color: #FFFFFF;
+}
+
 .consultarFacturas__filtro-imagen{
     width: 10%;
     height: 80%;
@@ -187,4 +192,323 @@
     width: 40%;
     padding: 20px;
     font-size: 20px;
+}
+
+.boton--cancelar {
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+/* Estilos de paneles de filtros */
+.panelFiltro {
+    position: absolute;
+    top: 210px;
+    left: 0;
+    width: 100%;
+    min-height: 10vh;
+    z-index: 2;
+    padding-top: 20px;
+    padding: 20px;
+}
+
+.panelFiltro--oculto {
+    display: none !important;
+}
+
+/* Filtro por categoría */
+.filtroCategoria {
+    width: 60%;
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.50);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.filtroCategoria__titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.filtroCategoria__opcion {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filtroCategoria__opcion:has(input[type="radio"]:checked) {
+    background: #E3F2FD;
+    border-color: #2196F3;
+}
+
+.filtroCategoria__opcion input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #2196F3;
+}
+
+.filtroCategoria__opcion-texto {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.filtroCategoria__opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filtroCategoria__acciones {
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    margin-top:25px;
+    gap:30px;
+}
+
+/* Panel Filtro por mes */
+.panelMesFiltro {
+    position: absolute;
+    top: 245px;
+    left: 0;
+    width: 100%;
+    min-height: 10vh;
+    z-index: 2;
+    padding-top: 20px;
+    padding: 20px;
+}
+
+/* Filtro por fecha */
+.filtroFecha {
+    width: 60%;
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.50);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.filtroMes__titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.filtroMes__gridMeses {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filtroMes__mes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+    text-align: center;
+}
+
+.filtroMes__mes:hover {
+    border-color: #2196F3;
+    background: #F5F5F5;
+}
+
+.filtroMes__mes--activo {
+    background: #2196F3;
+    border-color: #2196F3;
+    color: #FFFFFF;
+}
+
+.filtroMes__mes input[type="radio"] {
+    display: none;
+}
+
+.filtroMes__mes input:checked + *{
+    font-weight:bold;
+}
+
+.filtroMes__mes:has(input:checked){
+    background: #E3F2FD;
+    border-color: #2196F3;
+    box-shadow:0 0 0 2px #E3F2FD;
+}
+
+.filtroMes__anio {
+    margin-bottom: 20px;
+}
+
+.filtroMes__anio-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 8px;
+}
+
+.filtroMes__anio-select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.filtroFecha__acciones {
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    margin-top:25px;
+    gap:30px;
+}
+
+/* Filtro por monto */
+.panelEstadoFiltro {
+    position: absolute;
+    top: 245px;
+    left: 0;
+    width: 100%;
+    min-height: 10vh;
+    z-index: 2;
+    padding-top: 20px;
+    padding: 20px;
+}
+
+/* Filtro por estado */
+.filtroEstado {
+    width: 60%;
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.50);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.filtroEstado__titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.filtroEstado__opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filtroEstado__opcion {
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filtroEstado__opcion:hover {
+    border-color: #2196F3;
+    background: #F5F5F5;
+}
+
+.filtroEstado__opcion input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #2196F3;
+}
+
+.filtroEstado__opcion-contenido {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filtroEstado__opcion-titulo {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.filtroEstado__acciones {
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    margin-top:25px;
+    gap:30px;
+}
+
+/* Estilos comunes de filtros */
+.boton--aplicar {
+    background: #2196F3;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.boton--aplicar:hover {
+    background-color: white;
+    color: #2196F3;
+    border: 2px solid #2196F3;
+    transform: translateY(-1px);
+}
+
+.enlace-ver-todas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2ECC71;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.enlace-ver-todas:hover {
+    background-color: white;
+    color: #2ECC71;
+    border: 2px solid #2ECC71;
+    transform: translateY(-1px);
+}
+
+.enlace-ver-todas:active {
+    color: #2ECC71;
+    border: 2px solid #2ECC71;
+    transform: translateY(-1px);
+}
+
+.boton--aplicar,
+.enlace-ver-todas{
+    flex: 1;
+    text-align: center;
 }

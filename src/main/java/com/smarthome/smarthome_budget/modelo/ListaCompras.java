@@ -1,6 +1,7 @@
 package com.smarthome.smarthome_budget.modelo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Modelo para Lista_Compras.
@@ -21,22 +22,81 @@ public class ListaCompras {
 
     public ListaCompras() {}
 
-    public int getIdListaCompras() { return idListaCompras; }
-    public void setIdListaCompras(int idListaCompras) { this.idListaCompras = idListaCompras; }
-    public int getIdHogar() { return idHogar; }
-    public void setIdHogar(int idHogar) { this.idHogar = idHogar; }
-    public int getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
-    public String getNombreLista() { return nombreLista; }
-    public void setNombreLista(String nombreLista) { this.nombreLista = nombreLista; }
-    public LocalDateTime getFechaCreacion() { return fechaCreacion; }
-    public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
-    public String getEstadoLista() { return estadoLista; }
-    public void setEstadoLista(String estadoLista) { this.estadoLista = estadoLista; }
-    public int getTotalProductos() { return totalProductos; }
-    public void setTotalProductos(int totalProductos) { this.totalProductos = totalProductos; }
-    public int getTotalComprados() { return totalComprados; }
-    public void setTotalComprados(int totalComprados) { this.totalComprados = totalComprados; }
-    public int getTotalPendientes() { return totalPendientes; }
-    public void setTotalPendientes(int totalPendientes) { this.totalPendientes = totalPendientes; }
+    public int getIdListaCompras() { 
+        return idListaCompras; 
+    }
+    
+    public void setIdListaCompras(int idListaCompras) { 
+        this.idListaCompras = idListaCompras; 
+    }
+    
+    public int getIdHogar() { 
+        return idHogar; 
+    }
+    
+    public void setIdHogar(int idHogar) { 
+        this.idHogar = idHogar; 
+    }
+    
+    public int getIdUsuario() { 
+        return idUsuario; 
+    }
+    
+    public void setIdUsuario(int idUsuario) { 
+        this.idUsuario = idUsuario; 
+    }
+    
+    public String getNombreLista() { 
+        return nombreLista; 
+    }
+    
+    public void setNombreLista(String nombreLista) { 
+        this.nombreLista = nombreLista; 
+    }
+    
+    public LocalDateTime getFechaCreacion() { 
+        return fechaCreacion; 
+    }
+    
+    public void setFechaCreacion(LocalDateTime fechaCreacion) { 
+        this.fechaCreacion = fechaCreacion; 
+    }
+    
+    public String getEstadoLista() { 
+        return estadoLista; 
+    }
+    
+    public void setEstadoLista(String estadoLista) { 
+        this.estadoLista = estadoLista; 
+    }
+    
+    public int getTotalProductos() { 
+        return totalProductos; 
+    }
+    
+    public void setTotalProductos(int totalProductos) { 
+        this.totalProductos = totalProductos; 
+    }
+    
+    public int getTotalComprados() { 
+        return totalComprados; 
+    }
+    
+    public void setTotalComprados(int totalComprados) { 
+        this.totalComprados = totalComprados; 
+    }
+    
+    public int getTotalPendientes() { 
+        return totalPendientes; 
+    }
+    
+    public void setTotalPendientes(int totalPendientes) { 
+        this.totalPendientes = totalPendientes; 
+    }
+    
+    public String getFechaCreacionFormateada() {
+        if (this.fechaCreacion == null) return "";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
+        return this.fechaCreacion.format(formatter);
+    }
 }

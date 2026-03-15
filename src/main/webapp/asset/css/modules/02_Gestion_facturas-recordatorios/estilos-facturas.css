@@ -44,6 +44,34 @@
     line-height: 1.5;
 }
 
+.mensaje {
+    margin: 10px 0; 
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600; 
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 400px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid transparent;
+    z-index: 100; /* Asegura que esté por encima de otros elementos */
+}
+
+.mensaje--exito {
+    background-color: #dcfce7 !important; 
+    color: #15803d !important;            
+    border-color: #bbf7d0 !important;     
+}
+
+.mensaje--error {
+    background-color: #fee2e2; 
+    color: #b91c1c;            
+    border-color: #fecaca;     
+}
+
 .facturas{
     margin-top: 50px;
     display: flex;

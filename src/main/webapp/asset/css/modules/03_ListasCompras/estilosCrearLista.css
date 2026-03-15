@@ -12,10 +12,11 @@
 .formulario__campo {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 15px;
 }
 
 .formulario__etiqueta {
+    margin-top: 20px;
     font-size: 14px;
     font-weight: 600;
     color: #000000;
