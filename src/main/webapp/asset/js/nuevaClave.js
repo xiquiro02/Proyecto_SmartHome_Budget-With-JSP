@@ -1,57 +1,83 @@
-// Validación de contraseñas para formulario de Nueva Clave
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM cargado - Inicializando validación de Nueva Clave");
-    
+document.addEventListener('DOMContentLoaded', function () {
     const formulario = document.querySelector('.contenido__formulario');
-    
-    if (formulario) {
-        formulario.addEventListener('submit', function(e) {
-            console.log("=== FORMULARO NUEVA CLAVE ENVIADO ===");
-            
-            const nuevaClave = document.getElementById('nueva_clave').value;
-            const confirmarClave = document.getElementById('confirmar_clave').value;
-            
-            console.log("Nueva clave: " + nuevaClave);
-            console.log("Confirmar clave: " + confirmarClave);
-            
-            // Validar que las contraseñas coincidan
-            if (nuevaClave !== confirmarClave) {
-                console.log("ERROR: Las contraseñas no coinciden");
-                e.preventDefault();
-                alert('Las contraseñas no coinciden. Por favor, verifica los campos.');
-                return false;
-            }
-            
-            // Validar requisitos mínimos (coincidentes con expresión regular /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
-            
-            // Validar longitud mínima de 8 caracteres
-            if (nuevaClave.length < 8) {
-                console.log("ERROR: La contraseña debe tener mínimo 8 caracteres");
-                e.preventDefault();
-                alert('La contraseña debe tener mínimo 8 caracteres.');
-                return false;
-            }
-            
-            // Validar que tenga al menos una letra (mayúscula o minúscula)
-            if (!/[A-Za-z]/.test(nuevaClave)) {
-                console.log("ERROR: La contraseña debe incluir al menos una letra");
-                e.preventDefault();
-                alert('La contraseña debe incluir al menos una letra.');
-                return false;
-            }
-            
-            // Validar que tenga al menos un número
-            if (!/\d/.test(nuevaClave)) {
-                console.log("ERROR: La contraseña debe incluir al menos un número");
-                e.preventDefault();
-                alert('La contraseña debe incluir al menos un número.');
-                return false;
-            }
-            
-            console.log("VALIDACIÓN EXITOSA - Enviando formulario...");
-            return true; // Permitir envío
-        });
-    } else {
-        console.error("ERROR: No se encontró el formulario con la clase '.contenido__formulario'");
-    }
+    if (!formulario) return;
+
+    formulario.addEventListener('submit', function (e) {
+        const nuevaClave     = document.getElementById('nueva_clave')?.value?.trim() || "";
+        const confirmarClave = document.getElementById('confirmar_clave')?.value?.trim() || "";
+
+        // ── Validar longitud ──────────────────────────────────────────────────
+        if (nuevaClave.length < 8) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Contraseña muy corta',
+                text: 'La contraseña debe tener al menos 8 caracteres.',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#1E88E5'
+            });
+            return false;
+        }
+
+        // ── Validar letra ─────────────────────────────────────────────────────
+        if (!/[A-Za-z]/.test(nuevaClave)) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Contraseña inválida',
+                text: 'La contraseña debe incluir al menos una letra.',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#1E88E5'
+            });
+            return false;
+        }
+
+        // ── Validar número ────────────────────────────────────────────────────
+        if (!/\d/.test(nuevaClave)) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Contraseña inválida',
+                text: 'La contraseña debe incluir al menos un número.',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#1E88E5'
+            });
+            return false;
+        }
+
+        // ── Validar coincidencia ──────────────────────────────────────────────
+        if (nuevaClave !== confirmarClave) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Contraseñas no coinciden',
+                text: 'Verifica que ambas contraseñas sean iguales.',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#1E88E5'
+            });
+            return false;
+        }
+
+        return true;
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const error  = params.get('error');
+    if (!error) return;
+
+    const mensajes = {
+        vacia:          'La contraseña no puede estar vacía.',
+        sesionexpirada: 'El enlace de recuperación expiró. Solicita uno nuevo.',
+        true:           'No se pudo actualizar la contraseña. Intenta de nuevo.'
+    };
+
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: mensajes[error] || 'Ocurrió un error inesperado.',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#1E88E5'
+    }).then(() => {
+        window.history.replaceState({}, document.title, window.location.pathname);
+    });
 });

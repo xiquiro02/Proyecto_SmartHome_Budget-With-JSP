@@ -5,11 +5,9 @@ public class MetodoPago {
     private int idMetodoPago;
     private String nombreMetodoPago;
 
-    // Constructor vacío
     public MetodoPago() {
     }
 
-    // Constructor con todos los atributos
     public MetodoPago(int idMetodoPago, String nombreMetodoPago) {
         this.idMetodoPago = idMetodoPago;
         this.nombreMetodoPago = nombreMetodoPago;

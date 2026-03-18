@@ -1,31 +1,23 @@
 package com.smarthome.smarthome_budget.modelo;
 
 public class Hogar {
-    private String NombreHogar;
-        private int IDHogar;
 
-    public Hogar() {
-    }
+    private int idHogar;
+    private String nombreHogar;
 
-    public Hogar(String NombreHogar, int IDHogar) {
-        this.NombreHogar = NombreHogar;
-        this.IDHogar = IDHogar;
-    }
-   
-    public String getNombreHogar() {
-        return NombreHogar;
-    }
-    
-        public int getIDHogar() {
-        return IDHogar;
+    public Hogar() {}
+
+    public Hogar(int idHogar, String nombreHogar) {
+        this.idHogar = idHogar;
+        this.nombreHogar = nombreHogar;
     }
 
-    public void setNombreHogar(String NombreHogar) {
-        this.NombreHogar = NombreHogar;
-    }
-    
-    public void setIDHogar(int IDHogar) {
-        this.IDHogar = IDHogar;
-    }
+    public int getIdHogar()             { return idHogar; }
+    public void setIdHogar(int v)       { this.idHogar = v; }
 
+    public int getIDHogar()             { return idHogar; }
+    public void setIDHogar(int v)       { this.idHogar = v; }
+
+    public String getNombreHogar()      { return nombreHogar; }
+    public void setNombreHogar(String v){ this.nombreHogar = v; }
 }

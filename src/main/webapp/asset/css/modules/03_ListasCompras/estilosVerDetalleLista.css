@@ -5,18 +5,46 @@
     margin: 0 auto;
 }
 
-/* ===== TARJETA MERCADO ===== */
+/* Variaciones de fondo del contenedor según estado de la lista */
+.contenedor-lista--pendiente {
+    background: #FFFFFF;
+}
+.contenedor-lista--progreso {
+    background: #F0F7FF;
+}
+.contenedor-lista--completa {
+    background: #F0FFF4;
+}
+
+/* ===== TARJETA MERCADO — COLOR BASE ===== */
 .tarjetaMercado {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background: #FADFBB; 
-    border: 2px solid #FF9810;
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(46, 204, 113, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* CORRECCIÓN 1: Colores según estado de la lista */
+.tarjetaMercado--pendiente {
+    background: #FADFBB;
+    border: 2px solid #FF9810;
+    box-shadow: 0 2px 8px rgba(255, 152, 16, 0.20);
+}
+
+.tarjetaMercado--progreso {
+    background: #D6E9FF;
+    border: 2px solid #2196F3;
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.20);
+}
+
+.tarjetaMercado--completa {
+    background: #C9EED8;
+    border: 2px solid #2ECC71;
+    box-shadow: 0 2px 8px rgba(46, 204, 113, 0.25);
 }
 
 .tarjetaMercado__encabezado {
@@ -72,13 +100,21 @@
     font-weight: 600;
 }
 
-.etiqueta--completa {
+/* Etiquetas de estado de la lista */
+.etiqueta--pendiente {
     background: #FF9810;
     color: #FFFFFF;
 }
-
+.etiqueta--proceso {
+    background: #2196F3;
+    color: #FFFFFF;
+}
+.etiqueta--completa {
+    background: #2ECC71;
+    color: #FFFFFF;
+}
 .etiqueta--total {
-    background: #FF9810;
+    background: #555555;
     color: #FFFFFF;
 }
 
@@ -155,25 +191,33 @@
     margin-bottom: 24px;
 }
 
+/* ─── Producto PENDIENTE (estado por defecto) ─── */
 .producto {
     display: flex;
     align-items: center;
     gap: 14px;
     padding: 16px;
-    background: #FADFBB; 
+    background: #FADFBB;
     border: 2px solid #FF9810;
     border-radius: 12px;
     transition: all 0.2s ease;
+    position: relative;
 }
 
 .producto:hover {
     transform: translateX(4px);
-    box-shadow: 0 2px 8px rgba(46, 204, 113, 0.2);
+    box-shadow: 0 2px 8px rgba(255, 152, 16, 0.25);
 }
 
+/* ─── CORRECCIÓN 2: Producto COMPRADO — diferenciación visual clara ─── */
 .producto--completado {
-    background: #FADFBB;
-    border-color: #FF9810;
+    background: #C9EED8;        /* fondo verde claro */
+    border-color: #2ECC71;      /* borde verde */
+    opacity: 0.85;              /* ligeramente transparente para indicar "hecho" */
+}
+
+.producto--completado:hover {
+    box-shadow: 0 2px 8px rgba(46, 204, 113, 0.25);
 }
 
 .producto__label {
@@ -184,12 +228,13 @@
     cursor: pointer;
 }
 
-/* ocultamos checkbox real */
+/* Ocultamos checkbox real — el círculo hace de indicador */
 .producto__input {
     display: none;
 }
 
-.producto__circulo{
+/* ─── Círculo indicador de estado ─── */
+.producto__circulo {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -197,32 +242,44 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+    background: transparent;
+    position: relative;
 }
 
-.producto__circulo::after{
+/* Relleno interior del círculo (vacío cuando no está checked) */
+.producto__circulo::after {
     content: "";
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background: #FF9810;
     transform: scale(0);
     transition: transform 0.2s ease;
+    position: absolute;
 }
 
-/* CUANDO SE MARCA */
+/* CUANDO EL CHECKBOX ESTÁ CHECKED — selector funciona porque son hermanos directos */
+.producto__input:checked + .producto__circulo {
+    border-color: #2ECC71;
+    background: #2ECC71;
+}
+
 .producto__input:checked + .producto__circulo::after {
-    transform: scale(3);
-}
-
-
-/* fondo verde del item */
-.producto__label:has(.producto__input:checked) {
-    background: #FADFBB; 
+    content: "✓";
+    width: auto;
+    height: auto;
+    background: transparent;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+    transform: scale(1);
 }
 
 .producto__info {
     flex: 1;
+    min-width: 0;
 }
 
 .producto__nombre {
@@ -230,12 +287,40 @@
     font-weight: 600;
     color: #000000;
     margin-bottom: 2px;
+    transition: all 0.2s ease;
+}
+
+/* CORRECCIÓN: Nombre tachado cuando el producto está comprado */
+.producto__nombre--tachado {
+    text-decoration: line-through;
+    color: #666666;
+    font-weight: 400;
 }
 
 .producto__cantidad {
     font-size: 13px;
     font-weight: 400;
     color: #666666;
+}
+
+/* ─── Acciones individuales del producto ─── */
+.producto__acciones {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.producto__acciones a {
+    text-decoration: none;
+    font-size: 16px;
+    padding: 4px;
+    border-radius: 6px;
+    transition: background 0.15s ease;
+}
+
+.producto__acciones a:hover {
+    background: rgba(0, 0, 0, 0.08);
 }
 
 /* ===== ACCIONES ===== */
@@ -245,8 +330,8 @@
     margin-bottom: 16px;
 }
 
-.acciones a{
-    flex: 1; 
+.acciones a {
+    flex: 1;
     display: flex;
     max-width: 300px;
     margin: 0 auto;
@@ -257,18 +342,18 @@
     width: 100%;
 }
 
-.acciones__volver{
+.acciones__volver {
     text-decoration: none;
     display: block;
     max-width: 300px;
     margin: 0 auto;
 }
 
-.acciones__marcar{
+.acciones__marcar {
     text-decoration: none;
 }
 
-.acciones__desmarcado{
+.acciones__desmarcado {
     text-decoration: none;
 }
 
@@ -277,7 +362,6 @@
     color: #2196F3;
     border: 2px solid #2196F3;
 }
-
 
 /* ===== Media Queries ===== */
 @media (max-width: 375px) {
@@ -295,7 +379,7 @@
 }
 
 @media (min-width: 768px) {
-    .contenedor {
+    .contenedor-lista {
         padding: 90px 20px 40px 20px;
     }
 

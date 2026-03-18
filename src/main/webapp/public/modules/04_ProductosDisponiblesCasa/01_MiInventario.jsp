@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/01_menuPrincipal.jsp" class="inventario__boton">
+    <a href="${pageContext.request.contextPath}/Menu" class="inventario__boton">
         <button class="boton boton--volver">Volver</button>
     </a>
 </main>

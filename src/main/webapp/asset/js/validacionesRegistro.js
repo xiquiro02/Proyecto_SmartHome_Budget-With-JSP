@@ -1,80 +1,135 @@
-function validarFormulario() {
+function validarFormularioRegistro() {
 
-    const nombre = document.getElementById("nombre").value;
-    const apellido1 = document.getElementById("apellido").value;
-    const apellido2 = document.getElementById("segundoApellido").value;
-    const correo = document.getElementById("correo").value;
-    const telefono = document.getElementById("telefono").value;
-    const contrasena = document.getElementById("password").value;
-    const confirmarContrasena = document.getElementById("confirmarPassword").value;
-    const codigoInvitacion = document.getElementById("codigoInvitacion").value;
+    const documento         = document.getElementById("documento")?.value?.trim() || "";
+    const nombre            = document.getElementById("nombre")?.value?.trim() || "";
+    const apellido1         = document.getElementById("apellido")?.value?.trim() || "";
+    const apellido2         = document.getElementById("segundoApellido")?.value?.trim() || "";
+    const correo            = document.getElementById("correo")?.value?.trim() || "";
+    const telefono          = document.getElementById("telefono")?.value?.trim() || "";
+    const contrasena        = document.getElementById("password")?.value?.trim() || "";
+    const confirmarContrasena = document.getElementById("confirmarPassword")?.value?.trim() || "";
+    const codigoInvitacion  = document.getElementById("codigoInvitacion")?.value?.trim() || "";
 
-    if (!nombre || !apellido1 || !correo || !telefono || !contrasena || !confirmarContrasena) {
+    // ── Campos obligatorios ────────────────────────────────────────────────────
+    if (!documento || !nombre || !apellido1 || !correo || !telefono || !contrasena || !confirmarContrasena) {
         Swal.fire({
-            icon: 'error',
+            icon: 'warning',
             title: 'Campos incompletos',
-            text: '¡Todos los campos son obligatorios!. Por favor, completa todos los campos.',
+            text: 'Por favor completa todos los campos obligatorios.',
             confirmButtonText: 'Entendido',
-            confirmButtonColor: '#007bff'
+            confirmButtonColor: '#1E88E5'
         });
         return false;
     }
 
-    const reglasLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
-    if (!reglasLetras.test(nombre) || !reglasLetras.test(apellido1) || (apellido2 && !reglasLetras.test(apellido2))) {
+    // ── Documento (Colombia: Solo números, entre 6 y 11 dígitos) ──────────────────
+    const reglasDocumento = /^[0-9]{6,11}$/;
+
+    if (!reglasDocumento.test(documento)) {
         Swal.fire({
             icon: 'error',
-            title: '¡Oops!',
-            text: '¡Solo se permiten letras!. Por favor, verifica.',
+            title: 'Documento inválido',
+            text: 'El documento debe contener solo números y tener entre 6 y 11 dígitos.',
             confirmButtonText: 'Entendido',
-            confirmButtonColor: '#007bff'
+            confirmButtonColor: '#1E88E5'
         });
         return false;
     }
 
+    // ── Nombre y apellidos (solo letras) ──────────────────────────────────────
+    const reglasLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
+    if (!reglasLetras.test(nombre) || !reglasLetras.test(apellido1) ||
+        (apellido2 && !reglasLetras.test(apellido2))) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Nombre inválido',
+            text: 'El nombre y los apellidos solo pueden contener letras.',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#1E88E5'
+        });
+        return false;
+    }
+
+    // ── Correo ────────────────────────────────────────────────────────────────
+    const reglasCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!reglasCorreo.test(correo)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Correo inválido',
+            text: 'Por favor ingresa un correo electrónico válido.',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#1E88E5'
+        });
+        return false;
+    }
+
+    // ── Teléfono ──────────────────────────────────────────────────────────────
     const reglasTelefono = /^[0-9]{8,15}$/;
     if (!reglasTelefono.test(telefono)) {
         Swal.fire({
             icon: 'error',
             title: 'Teléfono inválido',
-            text: '¡Solo se permiten números!. Por favor, verifica.',
+            text: 'El teléfono debe contener solo números, entre 8 y 15 dígitos.',
             confirmButtonText: 'Entendido',
-            confirmButtonColor: '#007bff'
+            confirmButtonColor: '#1E88E5'
         });
         return false;
     }
 
-    const reglasContrasena = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!reglasContrasena.test(contrasena)) {
+    // ── Contraseña (mínimo 8 caracteres, letras y números) ─────────────
+    if (contrasena.length < 8) {
         Swal.fire({
             icon: 'error',
-            title: '¡Oops!',
-            text: '¡La contraseña debe tener al menos 8 caracteres, una letra y un número!. Por favor, verifica.',
+            title: 'Contraseña muy corta',
+            text: 'La contraseña debe tener al menos 8 caracteres.',
             confirmButtonText: 'Entendido',
-            confirmButtonColor: '#007bff'
+            confirmButtonColor: '#1E88E5'
         });
         return false;
     }
 
+    if (!/[A-Za-z]/.test(contrasena)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Contraseña inválida',
+            text: 'La contraseña debe incluir al menos una letra.',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#1E88E5'
+        });
+        return false;
+    }
+
+    if (!/\d/.test(contrasena)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Contraseña inválida',
+            text: 'La contraseña debe incluir al menos un número.',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#1E88E5'
+        });
+        return false;
+    }
+
+    // ── Confirmar contraseña ──────────────────────────────────────────────────
     if (contrasena !== confirmarContrasena) {
         Swal.fire({
             icon: 'error',
-            title: '¡Oops!',
-            text: '¡Las contraseñas no coinciden!. Por favor, verifica.',
+            title: 'Contraseñas no coinciden',
+            text: 'Verifica que ambas contraseñas sean iguales.',
             confirmButtonText: 'Entendido',
-            confirmButtonColor: '#007bff'
+            confirmButtonColor: '#1E88E5'
         });
         return false;
     }
 
-    // Validar código de invitación (opcional)
-    if (!validarCodigoInvitacion(codigoInvitacion)) {
+    // ── Código de invitación (opcional) ───────────────────────────────────────
+    if (codigoInvitacion && !/^[A-Za-z0-9]{4,50}$/.test(codigoInvitacion)) {
         Swal.fire({
-            icon: 'error',
+            icon: 'warning',
             title: 'Código inválido',
-            text: 'El código de invitación debe tener entre 4 y 10 caracteres, solo letras y números.',
+            text: 'El código de invitación solo puede contener letras y números.',
             confirmButtonText: 'Entendido',
-            confirmButtonColor: '#007bff'
+            confirmButtonColor: '#1E88E5'
         });
         return false;
     }
@@ -82,69 +137,30 @@ function validarFormulario() {
     return true;
 }
 
-// Función para validar código de invitación
-function validarCodigoInvitacion(codigo) {
-    // Si está vacío, es válido (campo opcional)
-    if (!codigo || codigo.trim() === '') {
-        return true;
-    }
-    
-    // Si tiene contenido, validar formato
-    const reglasCodigo = /^[A-Za-z0-9]{4,10}$/;
-    return reglasCodigo.test(codigo.trim());
-}
-
-window.onload = function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const error = urlParams.get('error');
-
+window.addEventListener('DOMContentLoaded', function () {
+    const params = new URLSearchParams(window.location.search);
+    const error  = params.get('error');
     if (!error) return;
 
-    let icono = 'error';
-    let titulo = '¡Oops!';
-    let mensaje = '¡Algo salió mal!. Por favor, verifica.';
+    const errores = {
+        campos_vacios:    { icon: 'warning', titulo: 'Campos incompletos',    msg: 'Por favor completa todos los campos obligatorios.' },
+        correo_existe:    { icon: 'info',    titulo: 'Correo registrado',      msg: 'Este correo electrónico ya está registrado.' },
+        documento_existe: { icon: 'info',    titulo: 'Documento registrado',   msg: 'Este número de documento ya está registrado.' },
+        codigo_invalido:  { icon: 'warning', titulo: 'Código inválido',        msg: 'El código de invitación no es válido o ha expirado.' },
+        registro_fallido: { icon: 'error',   titulo: 'Error al registrar',     msg: 'No se pudo completar el registro. Intenta de nuevo.' },
+        crear_hogar:      { icon: 'error',   titulo: 'Error interno',          msg: 'No se pudo crear el hogar. Intenta de nuevo.' },
+        error_db:         { icon: 'error',   titulo: 'Error del sistema',      msg: 'Ocurrió un error interno. Inténtalo más tarde.' }
+    };
 
-    switch (error) {
-        case 'campos_vacios':
-            icono = "warning";
-            titulo = 'Campos incompletos';
-            mensaje = '¡Todos los campos son obligatorios!. Por favor, completa todos los campos.';
-            break;
-        case 'contrasena_no_coincide':
-            icono = "error";
-            titulo = 'Contraseña';
-            mensaje = '¡Las contraseñas no coinciden!. Por favor, verifica.';
-            break;
-        case 'correo_ya_registrado':
-            icono = "info";
-            titulo = "Correo duplicado";
-            mensaje = '¡El correo electrónico ya está registrado!. Por favor, verifica.';
-            break;
-        case 'error_db':
-            icono = "error";
-            titulo = "Error técnico";
-            mensaje = 'Ocurrió un error interno. Inténtalo más tarde.';
-            break;
-        case 'codigo_invalido':
-            icono = "warning";
-            titulo = 'Código inválido';
-            mensaje = 'El código de invitación no es válido o ha expirado.';
-            break;
-        case 'correo_existe':
-            icono = "info";
-            titulo = "Correo duplicado";
-            mensaje = '¡El correo electrónico ya está registrado!. Por favor, verifica.';
-            break;
-    }
+    const e = errores[error] || { icon: 'error', titulo: 'Error', msg: 'Ocurrió un error inesperado.' };
 
     Swal.fire({
-        icon: icono,
-        title: titulo,
-        text: mensaje,
+        icon: e.icon,
+        title: e.titulo,
+        text: e.msg,
         confirmButtonText: 'Entendido',
-        confirmButtonColor: '#007bff'
-    })
-        .then(() => {
-            window.history.replaceState({}, this.document.title, window.location.pathname);
-        });
-}
+        confirmButtonColor: '#1E88E5'
+    }).then(() => {
+        window.history.replaceState({}, document.title, window.location.pathname);
+    });
+});

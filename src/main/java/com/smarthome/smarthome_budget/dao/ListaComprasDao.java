@@ -8,54 +8,50 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO para Lista_Compras.
- * Sin CategoriaLista — eliminado de la BD.
- */
 public class ListaComprasDao {
 
+    // language=sql
     private static final String SQL_INSERT =
-        "INSERT INTO Lista_Compras (IDHogar, IDUsuario, NombreLista, FechaCreacion, EstadoLista) " +
-        "VALUES (?, ?, ?, NOW(), 'Pendiente')";
-
+        "INSERT INTO Lista_Compras (IDHogar, NombreLista, FechaCreacion, EstadoLista) " +
+        "VALUES (?, ?, NOW(), 'Pendiente')";
+    // language=sql
     private static final String SQL_SELECT_ALL =
         "SELECT lc.*, " +
-        "  (SELECT COUNT(*) FROM Detalle_Lista_Compras d WHERE d.IDListaCompras = lc.IDListaCompras) AS totalProductos, " +
-        "  (SELECT COUNT(*) FROM Detalle_Lista_Compras d WHERE d.IDListaCompras = lc.IDListaCompras AND d.Comprado = true) AS totalComprados " +
+        "  (SELECT COUNT(*) FROM Detalle_ListaCompras d WHERE d.IDListaCompras = lc.IDListaCompras) AS totalProductos, " +
+        "  (SELECT COUNT(*) FROM Detalle_ListaCompras d WHERE d.IDListaCompras = lc.IDListaCompras AND d.Comprado = true) AS totalComprados " +
         "FROM Lista_Compras lc WHERE lc.IDHogar = ? ORDER BY lc.FechaCreacion DESC";
-
+    // language=sql
     private static final String SQL_SELECT_BY_ID =
         "SELECT lc.*, " +
-        "  (SELECT COUNT(*) FROM Detalle_Lista_Compras d WHERE d.IDListaCompras = lc.IDListaCompras) AS totalProductos, " +
-        "  (SELECT COUNT(*) FROM Detalle_Lista_Compras d WHERE d.IDListaCompras = lc.IDListaCompras AND d.Comprado = true) AS totalComprados " +
+        "  (SELECT COUNT(*) FROM Detalle_ListaCompras d WHERE d.IDListaCompras = lc.IDListaCompras) AS totalProductos, " +
+        "  (SELECT COUNT(*) FROM Detalle_ListaCompras d WHERE d.IDListaCompras = lc.IDListaCompras AND d.Comprado = true) AS totalComprados " +
         "FROM Lista_Compras lc WHERE lc.IDListaCompras = ? AND lc.IDHogar = ?";
-
+    // language=sql
     private static final String SQL_UPDATE =
         "UPDATE Lista_Compras SET NombreLista=?, EstadoLista=? WHERE IDListaCompras=? AND IDHogar=?";
-
+    // language=sql
     private static final String SQL_DELETE =
         "DELETE FROM Lista_Compras WHERE IDListaCompras=? AND IDHogar=?";
-
+    // language=sql
     private static final String SQL_ACTUALIZAR_ESTADO_AUTO =
         "UPDATE Lista_Compras SET EstadoLista = " +
         "  CASE " +
-        "    WHEN (SELECT COUNT(*) FROM Detalle_Lista_Compras d WHERE d.IDListaCompras = ? AND d.Comprado = false) = 0 " +
-        "     AND (SELECT COUNT(*) FROM Detalle_Lista_Compras d WHERE d.IDListaCompras = ?) > 0 " +
+        "    WHEN (SELECT COUNT(*) FROM Detalle_ListaCompras d WHERE d.IDListaCompras = ? AND d.Comprado = false) = 0 " +
+        "     AND (SELECT COUNT(*) FROM Detalle_ListaCompras d WHERE d.IDListaCompras = ?) > 0 " +
         "    THEN 'Completa' " +
-        "    WHEN (SELECT COUNT(*) FROM Detalle_Lista_Compras d WHERE d.IDListaCompras = ? AND d.Comprado = true) > 0 " +
+        "    WHEN (SELECT COUNT(*) FROM Detalle_ListaCompras d WHERE d.IDListaCompras = ? AND d.Comprado = true) > 0 " +
         "    THEN 'En progreso' " +
         "    ELSE 'Pendiente' " +
         "  END " +
         "WHERE IDListaCompras = ?";
 
-    // ─── CRUD Lista ──────────────────────────────────────────────────────────
+    // ── CRUD Lista ────────────────────────────────────────────────────────────
 
     public int insertar(ListaCompras lista) {
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, lista.getIdHogar());
-            ps.setInt(2, lista.getIdUsuario());
-            ps.setString(3, lista.getNombreLista().trim());
+            ps.setString(2, lista.getNombreLista().trim());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) return rs.getInt(1);
@@ -108,10 +104,9 @@ public class ListaComprasDao {
         return false;
     }
 
-    /** Elimina la lista y en cascada sus detalles. */
+    /* Elimina la lista y sus detalles en orden correcto (FK) */
     public boolean eliminar(int idLista, int idHogar) {
-        // Primero eliminar detalles
-        String sqlDet = "DELETE FROM Detalle_Lista_Compras WHERE IDListaCompras = ?";
+        String sqlDet = "DELETE FROM Detalle_ListaCompras WHERE IDListaCompras = ?";
         try (Connection con = claseConexion.MetodoConectar()) {
             try (PreparedStatement psDet = con.prepareStatement(sqlDet)) {
                 psDet.setInt(1, idLista);
@@ -128,10 +123,7 @@ public class ListaComprasDao {
         return false;
     }
 
-    /**
-     * Recalcula el estado de la lista automáticamente según cuántos
-     * productos están comprados. Llamar tras cada cambio en detalles.
-     */
+    /* Recalcula estado automáticamente según productos comprados */
     public void recalcularEstado(int idLista) {
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR_ESTADO_AUTO)) {
@@ -149,13 +141,14 @@ public class ListaComprasDao {
         ListaCompras l = new ListaCompras();
         l.setIdListaCompras(rs.getInt("IDListaCompras"));
         l.setIdHogar(rs.getInt("IDHogar"));
-        l.setIdUsuario(rs.getInt("IDUsuario"));
         l.setNombreLista(rs.getString("NombreLista"));
         l.setFechaCreacion(rs.getObject("FechaCreacion", LocalDateTime.class));
         l.setEstadoLista(rs.getString("EstadoLista"));
-        l.setTotalProductos(rs.getInt("totalProductos"));
-        l.setTotalComprados(rs.getInt("totalComprados"));
-        l.setTotalPendientes(l.getTotalProductos() - l.getTotalComprados());
+        int total    = rs.getInt("totalProductos");
+        int comprados = rs.getInt("totalComprados");
+        l.setTotalProductos(total);
+        l.setTotalComprados(comprados);
+        l.setTotalPendientes(total - comprados);
         return l;
     }
 }

@@ -5,11 +5,9 @@ public class CategoriaEgreso {
     private int idCategoriaEgreso;
     private String nombreCategoriaEgreso;
 
-    // Constructor vacío
     public CategoriaEgreso() {
     }
 
-    // Constructor con todos los atributos
     public CategoriaEgreso(int idCategoriaEgreso, String nombreCategoriaEgreso) {
         this.idCategoriaEgreso = idCategoriaEgreso;
         this.nombreCategoriaEgreso = nombreCategoriaEgreso;

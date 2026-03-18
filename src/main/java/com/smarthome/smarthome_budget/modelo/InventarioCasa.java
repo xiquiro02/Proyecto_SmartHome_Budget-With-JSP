@@ -1,77 +1,113 @@
 package com.smarthome.smarthome_budget.modelo;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-/**
- * Modelo para Inventario_Casa.
- * Representa un producto registrado en el hogar con su stock actual.
- */
 public class InventarioCasa {
+
     private int idInventario;
+    private BigDecimal stockActual;                  
+    private LocalDateTime fechaActualizacion; 
     private int idProducto;
     private int idHogar;
-    private int cantidad;
-    private LocalDateTime fechaRegistro;
-
-    // Campos auxiliares (JOIN con Producto y Tipo_Producto)
+    // Campos auxiliares de JOIN 
     private String nombreProducto;
     private String descripcion;
     private int idTipoProducto;
     private String nombreTipoProducto;
-    private int stockMinimo;  // alerta si cantidad <= stockMinimo
+    
+    
+    private static final BigDecimal STOCK_MINIMO_ALERTA = new BigDecimal("2.00");
 
-    public InventarioCasa() {}
+    public InventarioCasa() {
+        this.stockActual = BigDecimal.ZERO;
+    }
 
-    // ─── Getters y Setters ────────────────────────────────────────────────────
+    public InventarioCasa(int idInventario, BigDecimal stockActual, LocalDateTime fechaActualizacion,
+                          int idProducto, int idHogar, String nombreProducto, String descripcion, int idTipoProducto, String nombreTipoProducto) {
+        this.idInventario = idInventario;
+        this.stockActual = (stockActual != null) ? stockActual : BigDecimal.ZERO;
+        this.fechaActualizacion = fechaActualizacion;
+        this.idProducto = idProducto;
+        this.idHogar = idHogar;
+        this.nombreProducto = nombreProducto;
+        this.descripcion = descripcion;
+        this.idTipoProducto = idTipoProducto;
+        this.nombreTipoProducto = nombreTipoProducto;
+    }
 
-    public int getIdInventario() { return idInventario; }
-    public void setIdInventario(int idInventario) { this.idInventario = idInventario; }
-    public int getIdProducto() { return idProducto; }
-    public void setIdProducto(int idProducto) { this.idProducto = idProducto; }
-    public int getIdHogar() { return idHogar; }
-    public void setIdHogar(int idHogar) { this.idHogar = idHogar; }
-    public int getCantidad() { return cantidad; }
-    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
-    public LocalDateTime getFechaRegistro() { return fechaRegistro; }
-    public void setFechaRegistro(LocalDateTime fechaRegistro) { this.fechaRegistro = fechaRegistro; }
-    public String getNombreProducto() { return nombreProducto; }
-    public void setNombreProducto(String nombreProducto) { this.nombreProducto = nombreProducto; }
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-    public int getIdTipoProducto() { return idTipoProducto; }
-    public void setIdTipoProducto(int idTipoProducto) { this.idTipoProducto = idTipoProducto; }
-    public String getNombreTipoProducto() { return nombreTipoProducto; }
-    public void setNombreTipoProducto(String nombreTipoProducto) { this.nombreTipoProducto = nombreTipoProducto; }
-    public int getStockMinimo() { return stockMinimo; }
-    public void setStockMinimo(int stockMinimo) { this.stockMinimo = stockMinimo; }
+    // ── Getters / Setters ─────────────────────────────────────────────────────
 
-    /** Retorna true si el stock actual es <= al stock mínimo (alerta de reposición). */
-    public boolean isStockBajo() { return cantidad <= stockMinimo; }
+    public int getIdInventario()            { return idInventario; }
+    public void setIdInventario(int v)      { this.idInventario = v; }
 
-    /** Retorna true si el producto está agotado (cantidad == 0). */
-    public boolean isAgotado() { return cantidad == 0; }
+    public BigDecimal getStockActual()             { return stockActual; }
+    public void setStockActual(BigDecimal v)       { this.stockActual = (v != null) ? v : BigDecimal.ZERO; }
 
-    /** Color CSS según tipo de producto (para tarjetas). */
+    public BigDecimal getCantidad()                { return stockActual; }
+    public void setCantidad(BigDecimal v)          { this.stockActual = (v != null) ? v : BigDecimal.ZERO; }
+
+    public LocalDateTime getFechaActualizacion()        { return fechaActualizacion; }
+    public void setFechaActualizacion(LocalDateTime v)  { this.fechaActualizacion = v; }
+
+    public LocalDateTime getFechaRegistro()             { return fechaActualizacion; }
+    public void setFechaRegistro(LocalDateTime v)       { this.fechaActualizacion = v; }
+
+    public int getIdProducto()              { return idProducto; }
+    public void setIdProducto(int v)        { this.idProducto = v; }
+
+    public int getIdHogar()                 { return idHogar; }
+    public void setIdHogar(int v)           { this.idHogar = v; }
+
+    public String getNombreProducto()       { return nombreProducto; }
+    public void setNombreProducto(String v) { this.nombreProducto = v; }
+
+    public String getDescripcion()          { return descripcion; }
+    public void setDescripcion(String v)    { this.descripcion = v; }
+
+    public int getIdTipoProducto()          { return idTipoProducto; }
+    public void setIdTipoProducto(int v)    { this.idTipoProducto = v; }
+
+    public String getNombreTipoProducto()       { return nombreTipoProducto; }
+    public void setNombreTipoProducto(String v) { this.nombreTipoProducto = v; }
+
+    public BigDecimal getStockMinimo()             { return STOCK_MINIMO_ALERTA; }
+    public void setStockMinimo(int v)       { /* ignorado — valor fijo */ }
+
+    public boolean isAgotado() { 
+        return stockActual == null || stockActual.compareTo(BigDecimal.ZERO) <= 0; 
+    }
+        public boolean isStockBajo() { 
+        if (stockActual == null) return false;
+        return stockActual.compareTo(BigDecimal.ZERO) > 0 && 
+               stockActual.compareTo(STOCK_MINIMO_ALERTA) <= 0; 
+    }
+
     public String getColorCSS() {
         if (nombreTipoProducto == null) return "gris";
         switch (nombreTipoProducto.toLowerCase()) {
-            case "alimentos":    return "verde";
-            case "aseo":         return "azul";
-            case "personal":     return "morado";
-            case "ropa y calzado": return "naranja";
-            default:             return "gris";
+            case "alimentos":       return "verde";
+            case "aseo":            return "azul";
+            case "personal":        return "morado";
+            case "ropa y calzado":  return "naranja";
+            default:                return "gris";
         }
     }
 
-    /** Icono según tipo. */
     public String getIconoProducto() {
         if (nombreTipoProducto == null) return "cajas.png";
         switch (nombreTipoProducto.toLowerCase()) {
-            case "alimentos":    return "alimentos-saludables.png";
-            case "aseo":         return "Aseo.png";
-            case "personal":     return "maquillaje.png";
-            case "ropa y calzado": return "Ropa-calzado.jpg";
-            default:             return "cajas.png";
+            case "alimentos":       return "alimentos-saludables.png";
+            case "aseo":            return "Aseo.png";
+            case "personal":        return "maquillaje.png";
+            case "ropa y calzado":  return "Ropa-calzado.jpg";
+            default:                return "cajas.png";
         }
+    }
+
+    public String getFechaActualizacionFormateada() {
+        if (fechaActualizacion == null) return "";
+        return fechaActualizacion.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
     }
 }

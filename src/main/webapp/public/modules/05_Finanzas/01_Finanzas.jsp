@@ -110,7 +110,7 @@
         </div>
         <% } %>
 
-        <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/01_menuPrincipal.jsp" class="finanzas__boton">
+        <a href="${pageContext.request.contextPath}/Menu" class="finanzas__boton">
             <button class="boton boton--volver">Volver</button>
         </a>
     </main>

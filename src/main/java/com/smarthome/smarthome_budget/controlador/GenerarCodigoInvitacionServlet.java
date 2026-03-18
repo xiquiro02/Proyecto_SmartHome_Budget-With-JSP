@@ -21,58 +21,71 @@ public class GenerarCodigoInvitacionServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-
         if (usuario == null) {
-            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/04_iniciarSesion.jsp?error=sesion_requerida");
+            response.sendRedirect(request.getContextPath() +
+                "/public/modules/01_autenticacion/04_iniciarSesion.jsp?error=sesion_requerida");
+            return;
+        }
+
+        Integer idHogar = (Integer) request.getSession().getAttribute("idHogar");
+        if (idHogar == null) {
+            response.sendRedirect(request.getContextPath() + "/Menu?error=sin_hogar");
             return;
         }
 
         String idRolParam = request.getParameter("idRol");
-
         if (idRolParam == null || idRolParam.trim().isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/public/modules/MenuPrincipal/01_menuPrincipal.jsp?error=rol_requerido");
+            response.sendRedirect(request.getContextPath() + "/Menu?error=rol_requerido");
             return;
         }
 
         try {
             int idRol = Integer.parseInt(idRolParam.trim());
-
             if (idRol < 1 || idRol > 3) {
-                response.sendRedirect(request.getContextPath() + "/public/modules/MenuPrincipal/01_menuPrincipal.jsp?error=rol_invalido");
+                response.sendRedirect(request.getContextPath() + "/Menu?error=rol_invalido");
                 return;
             }
 
+            // Solo el ADMINISTRADOR (rol 1) puede generar códigos
             DetallesHogaresDao detallesDao = new DetallesHogaresDao();
-            Roles rolUsuario = detallesDao.obtenerRolDeUsuarioEnHogar(usuario.getIDUsuario(), 1);
+            Roles rolUsuario = detallesDao.obtenerRolDeUsuarioEnHogar(usuario.getIDUsuario(), idHogar);
 
-            if (rolUsuario == null || !"ADMINISTRADOR".equals(rolUsuario.getNombreRol())) {
-                response.sendRedirect(request.getContextPath() + "/public/modules/MenuPrincipal/01_menuPrincipal.jsp?error=acceso_denegado");
+            if (rolUsuario == null || rolUsuario.getIdRol() != 1) {
+                response.sendRedirect(request.getContextPath() + "/Menu?error=acceso_denegado");
                 return;
             }
 
             CodigosInvitacionDao codigosDao = new CodigosInvitacionDao();
-            String codigoGenerado = codigosDao.generarCodigo(1, idRol);
+            String codigoGenerado = codigosDao.generarCodigo(idHogar, idRol);
 
             if (codigoGenerado == null) {
-                response.sendRedirect(request.getContextPath() + "/public/modules/MenuPrincipal/01_menuPrincipal.jsp?error=generar_codigo");
+                response.sendRedirect(request.getContextPath() + "/Menu?error=generar_codigo");
                 return;
             }
 
             request.getSession().setAttribute("codigo_generado", codigoGenerado);
             request.getSession().setAttribute("rol_asignado", obtenerNombreRol(idRol));
-            response.sendRedirect(request.getContextPath() + "/public/modules/MenuPrincipal/02_codigoGenerado.jsp");
+
+            response.sendRedirect(request.getContextPath() + "/Menu?accion=codigoGenerado");
 
         } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/public/modules/MenuPrincipal/01_menuPrincipal.jsp?error=rol_invalido");
+            response.sendRedirect(request.getContextPath() + "/Menu?error=rol_invalido");
         }
+    }
+
+    // GET: redirigir a menú si alguien accede directamente
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.sendRedirect(request.getContextPath() + "/Menu");
     }
 
     private String obtenerNombreRol(int idRol) {
         switch (idRol) {
-            case 1: return "ADMINISTRADOR";
-            case 2: return "COTITULAR";
-            case 3: return "INVITADO";
-            default: return "DESCONOCIDO";
+            case 1: return "Administrador";
+            case 2: return "Cotitular";
+            case 3: return "Invitado";
+            default: return "Desconocido";
         }
     }
 }

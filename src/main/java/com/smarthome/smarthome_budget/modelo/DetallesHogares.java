@@ -1,50 +1,50 @@
 package com.smarthome.smarthome_budget.modelo;
 
 public class DetallesHogares {
-    private int IDDetallesHogar;
-    private int IDUsuario;
-    private int IDHogar;
-    private int IDRol;
+    private int idDetallesHogar;
+    private int idUsuario;
+    private int idHogar;
+    private int idRol;
 
     public DetallesHogares() {
     }
 
-    public DetallesHogares(int IDDetallesHogar, int IDUsuario, int IDHogar, int IDRol) {
-        this.IDDetallesHogar = IDDetallesHogar;
-        this.IDUsuario = IDUsuario;
-        this.IDHogar = IDHogar;
-        this.IDRol = IDRol;
+    public DetallesHogares(int idDetallesHogar, int idUsuario, int idHogar, int idRol) {
+        this.idDetallesHogar = idDetallesHogar;
+        this.idUsuario = idUsuario;
+        this.idHogar = idHogar;
+        this.idRol = idRol;
     }
 
-    public int getIDDetallesHogar() {
-        return IDDetallesHogar;
+    public int getIdDetallesHogar() {
+        return idDetallesHogar;
     }
 
-    public int getIDUsuario() {
-        return IDUsuario;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public int getIDHogar() {
-        return IDHogar;
+    public int getIdHogar() {
+        return idHogar;
     }
 
-    public int getIDRol() {
-        return IDRol;
+    public int getIdRol() {
+        return idRol;
     }
 
-    public void setIDDetallesHogar(int IDDetallesHogar) {
-        this.IDDetallesHogar = IDDetallesHogar;
+    public void setIdDetallesHogar(int idDetallesHogar) {
+        this.idDetallesHogar = idDetallesHogar;
     }
 
-    public void setIDUsuario(int IDUsuario) {
-        this.IDUsuario = IDUsuario;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public void setIDHogar(int IDHogar) {
-        this.IDHogar = IDHogar;
+    public void setIdHogar(int idHogar) {
+        this.idHogar = idHogar;
     }
 
-    public void setIDRol(int IDRol) {
-        this.IDRol = IDRol;
+    public void setIdRol(int idRol) {
+        this.idRol = idRol;
     }
 }

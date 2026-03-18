@@ -1,40 +1,40 @@
 package com.smarthome.smarthome_budget.modelo;
 
 public class DetallesPermisos {
-    private int IDDetallesPermiso;
-    private int IDRol;
-    private int IDPermiso;
+    private int idDetallesPermiso;
+    private int idRol;
+    private int idPermiso;
 
     public DetallesPermisos() {
     }
 
-    public DetallesPermisos(int IDDetallesPermiso, int IDRol, int IDPermiso) {
-        this.IDDetallesPermiso = IDDetallesPermiso;
-        this.IDRol = IDRol;
-        this.IDPermiso = IDPermiso;
+    public DetallesPermisos(int idDetallesPermiso, int idRol, int idPermiso) {
+        this.idDetallesPermiso = idDetallesPermiso;
+        this.idRol = idRol;
+        this.idPermiso = idPermiso;
     }
 
-    public int getIDDetallesPermiso() {
-        return IDDetallesPermiso;
+    public int getIdDetallesPermiso() {
+        return idDetallesPermiso;
     }
 
-    public void setIDDetallesPermiso(int IDDetallesPermiso) {
-        this.IDDetallesPermiso = IDDetallesPermiso;
+    public int getIdRol() {
+        return idRol;
     }
 
-    public int getIDRol() {
-        return IDRol;
+    public int getIdPermiso() {
+        return idPermiso;
     }
 
-    public void setIDRol(int IDRol) {
-        this.IDRol = IDRol;
+    public void setIdDetallesPermiso(int idDetallesPermiso) {
+        this.idDetallesPermiso = idDetallesPermiso;
     }
 
-    public int getIDPermiso() {
-        return IDPermiso;
+    public void setIdRol(int idRol) {
+        this.idRol = idRol;
     }
 
-    public void setIDPermiso(int IDPermiso) {
-        this.IDPermiso = IDPermiso;
+    public void setIdPermiso(int idPermiso) {
+        this.idPermiso = idPermiso;
     }
 }

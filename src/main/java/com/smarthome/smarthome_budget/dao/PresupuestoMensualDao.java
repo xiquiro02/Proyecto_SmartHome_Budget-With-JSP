@@ -7,56 +7,61 @@ import com.smarthome.smarthome_budget.modelo.PresupuestoMensual;
 
 public class PresupuestoMensualDao {
 
-    /** Guarda o actualiza presupuesto del mes (UPSERT) */
+    // language=sql
+    private static final String SQL_UPSERT =
+        "INSERT INTO Presupuesto_Mensual (IDHogar, MontoMax, Mes, Anio, FechaCreacion) " +
+        "VALUES (?, ?, ?, ?, NOW()) " +
+        "ON DUPLICATE KEY UPDATE MontoMax = VALUES(MontoMax)";
+    // language=sql
+    private static final String SQL_SELECT_MES_ACTUAL =
+        "SELECT * FROM Presupuesto_Mensual " +
+        "WHERE IDHogar = ? AND Mes = MONTH(NOW()) AND Anio = YEAR(NOW())";
+    // language=sql
+    private static final String SQL_TOTAL_EGRESOS_MES =
+        "SELECT COALESCE(SUM(Monto), 0) FROM Registro_Egresos " +
+        "WHERE IDHogar = ? AND EstadoPago = 'Pagada' " +
+        "AND MONTH(FechaVencimiento) = MONTH(NOW()) AND YEAR(FechaVencimiento) = YEAR(NOW())";
+
+    /** Guarda o actualiza el presupuesto del mes (UPSERT por constraint unique IDHogar+Mes+Anio) */
     public boolean guardar(PresupuestoMensual p) {
-        String sql = "INSERT INTO Presupuesto_Mensual (IDHogar, MontoMax, Mes, Anio, Alerta80, AlertaSuperePresupuesto, FechaCreacion) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, NOW()) " +
-                     "ON DUPLICATE KEY UPDATE MontoMax=VALUES(MontoMax), Alerta80=VALUES(Alerta80), AlertaSuperePresupuesto=VALUES(AlertaSuperePresupuesto)";
         try (Connection con = claseConexion.MetodoConectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(SQL_UPSERT)) {
             ps.setInt(1, p.getIdHogar());
             ps.setBigDecimal(2, p.getMontoMax());
             ps.setInt(3, p.getMes());
             ps.setInt(4, p.getAnio());
-            ps.setBoolean(5, p.isAlerta80());
-            ps.setBoolean(6, p.isAlertaSuperePresupuesto());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Error al guardar presupuesto: " + e.getMessage());
-            return false;
         }
+        return false;
     }
 
-    /** Obtiene presupuesto del mes actual; null si no existe */
+    /** Obtiene el presupuesto del mes actual; null si no existe */
     public PresupuestoMensual obtenerMesActual(int idHogar) {
-        String sql = "SELECT * FROM Presupuesto_Mensual WHERE IDHogar = ? AND Mes = MONTH(NOW()) AND Anio = YEAR(NOW())";
         try (Connection con = claseConexion.MetodoConectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(SQL_SELECT_MES_ACTUAL)) {
             ps.setInt(1, idHogar);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return mapear(rs);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return mapear(rs);
+            }
         } catch (SQLException e) {
             System.err.println("Error al obtener presupuesto: " + e.getMessage());
         }
         return null;
     }
 
-    /**
-     * Total de egresos del mes actual para el hogar.
-     * CORRECCIÓN: la tabla Registro_Egresos no tiene columna FechaEgreso.
-     * Se usa FechaVencimiento para facturas pagadas del mes actual.
+    /*
+     * Total de egresos pagados del mes actual para el hogar.
+     * Usa FechaVencimiento de facturas con EstadoPago='Pagada'.
      */
     public BigDecimal totalEgresosMesActual(int idHogar) {
-        // Suma los egresos registrados como 'Pagada' cuya FechaVencimiento es del mes actual
-        // También suma los egresos del módulo Finanzas (EstadoPago='Pagada') del mes
-        String sql = "SELECT COALESCE(SUM(Monto), 0) FROM Registro_Egresos " +
-                     "WHERE IDHogar = ? AND EstadoPago = 'Pagada' " +
-                     "AND MONTH(FechaVencimiento) = MONTH(NOW()) AND YEAR(FechaVencimiento) = YEAR(NOW())";
         try (Connection con = claseConexion.MetodoConectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(SQL_TOTAL_EGRESOS_MES)) {
             ps.setInt(1, idHogar);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getBigDecimal(1);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getBigDecimal(1);
+            }
         } catch (SQLException e) {
             System.err.println("Error al calcular egresos mes: " + e.getMessage());
         }
@@ -70,8 +75,6 @@ public class PresupuestoMensualDao {
         p.setMontoMax(rs.getBigDecimal("MontoMax"));
         p.setMes(rs.getInt("Mes"));
         p.setAnio(rs.getInt("Anio"));
-        p.setAlerta80(rs.getBoolean("Alerta80"));
-        p.setAlertaSuperePresupuesto(rs.getBoolean("AlertaSuperePresupuesto"));
         p.setFechaCreacion(rs.getObject("FechaCreacion", java.time.LocalDateTime.class));
         return p;
     }

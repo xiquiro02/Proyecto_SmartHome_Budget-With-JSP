@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -141,9 +142,9 @@ public class InventarioServlet extends HttpServlet {
         switch (orden) {
             case "menorIgual2": inventario = dao.listarStockBajo(idHogar);             break;
             case "mayorIgual10":
-                // filtrar >= 10
                 inventario = dao.listarOrdenadoCantidadDesc(idHogar);
-                inventario.removeIf(i -> i.getCantidad() < 10);
+                BigDecimal diez = new BigDecimal("10");
+                inventario.removeIf(i -> i.getCantidad().compareTo(diez) < 0);
                 break;
             case "asc":  inventario = dao.listarOrdenadoCantidadAsc(idHogar);          break;
             case "desc": inventario = dao.listarOrdenadoCantidadDesc(idHogar);         break;
@@ -199,15 +200,17 @@ public class InventarioServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String nombre     = req.getParameter("nombreProducto");
-        int cantidad      = parseInt(req.getParameter("cantidad"));
+        BigDecimal cantidad = parseBigDecimal(req.getParameter("cantidad"));
         int idTipo        = parseInt(req.getParameter("idTipoProducto"));
         String descripcion = nvl(req.getParameter("descripcion"));
 
-        if (vacio(nombre) || cantidad <= 0) {
+        if (vacio(nombre) || cantidad.compareTo(BigDecimal.ZERO) <= 0) {
             req.setAttribute("error", "Nombre y cantidad (> 0) son obligatorios.");
             req.setAttribute("tiposProducto", new ProductoDao().listarTipos());
-            forward(req, resp, "02_RegistrarProductoDisponibles.jsp"); return;
+            forward(req, resp, "02_RegistrarProductoDisponibles.jsp"); 
+            return;
         }
+        
         if (idTipo <= 0) idTipo = 5; // Otros
 
         // Actualizar descripción si se ingresó
@@ -244,9 +247,9 @@ public class InventarioServlet extends HttpServlet {
             throws ServletException, IOException {
 
         int id       = parseInt(req.getParameter("idInventario"));
-        int cantidad = parseInt(req.getParameter("cantidad"));
+        BigDecimal cantidad = parseBigDecimal(req.getParameter("cantidad"));
 
-        if (cantidad < 0) {
+        if (cantidad.compareTo(BigDecimal.ZERO) < 0) {
             resp.sendRedirect(req.getContextPath() + "/Inventario?accion=editar&id=" + id + "&error=cantidad_invalida");
             return;
         }
@@ -325,9 +328,21 @@ public class InventarioServlet extends HttpServlet {
     private int idHogar(HttpServletRequest req) {
         return (Integer) req.getSession().getAttribute("idHogar");
     }
+    
     private int idRol(HttpServletRequest req) {
         return (Integer) req.getSession().getAttribute("idRol");
     }
+    
+    private BigDecimal parseBigDecimal(String s) {
+        try {
+            if (s == null || s.trim().isEmpty()) return BigDecimal.ZERO;
+            // Limpia comas y espacios para evitar errores de formato
+            return new BigDecimal(s.trim().replace(",", "."));
+        } catch (Exception e) {
+            return BigDecimal.ZERO;
+        }
+    }   
+    
     private int parseInt(String s) {
         try { return Integer.parseInt(s); } catch (Exception e) { return 0; }
     }

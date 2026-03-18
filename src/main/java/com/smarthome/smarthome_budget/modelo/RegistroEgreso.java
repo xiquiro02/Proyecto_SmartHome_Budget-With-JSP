@@ -4,133 +4,92 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Modelo que representa una factura/egreso del hogar.
- * Mapea la tabla Registro_Egresos de la base de datos.
- */
 public class RegistroEgreso {
-    private String Descripcion;
-    private BigDecimal Monto;
-    private int idCategoriaEgreso;
-    private String nombreCategoria;
-    private int idMetodoPago;
-    private String nombreMetodoPago;
+
+    private int idEgresos;
+    private String descripcionPago;       
+    private BigDecimal monto;
     private LocalDateTime fechaPago;
     private LocalDateTime fechaVencimiento;
-    private String descripcion;
     private String estadoPago;
-    private int idEgresos;
     private int idHogar;
+    private int idCategoriaEgreso;
+    private int idMetodoPago;
+    //  Campos auxiliares de JOIN
+    private String nombreCategoriaEgreso;
+    private String nombreMetodoPago;
 
     public RegistroEgreso() {}
 
-    public int getIdEgresos() { 
-        return idEgresos; 
+    public RegistroEgreso(int idEgresos, String descripcionPago, BigDecimal monto,
+                          LocalDateTime fechaPago, LocalDateTime fechaVencimiento,
+                          String estadoPago, int idHogar,
+                          int idCategoriaEgreso, String nombreCategoriaEgreso,
+                          int idMetodoPago, String nombreMetodoPago) {
+        this.idEgresos = idEgresos;
+        this.descripcionPago = descripcionPago;
+        this.monto = monto;
+        this.fechaPago = fechaPago;
+        this.fechaVencimiento = fechaVencimiento;
+        this.estadoPago = estadoPago;
+        this.idHogar = idHogar;
+        this.idCategoriaEgreso = idCategoriaEgreso;
+        this.nombreCategoriaEgreso = nombreCategoriaEgreso;
+        this.idMetodoPago = idMetodoPago;
+        this.nombreMetodoPago = nombreMetodoPago;
     }
-    
-    public void setIdEgresos(int idEgresos) { 
-        this.idEgresos = idEgresos; 
-    }
-    
-    public int getIdHogar() { 
-        return idHogar; 
-    }
-    
-    public void setIdHogar(int idHogar) { 
-        this.idHogar = idHogar; 
-    }
-    
-    public int getIdUsuario() { 
-        return idUsuario; 
-    }
-    
-    public void setIdUsuario(int idUsuario) { 
-        this.idUsuario = idUsuario; 
-    }
-    
-    public String getNombreFactura() { 
-        return nombreFactura; 
-    }
-    
-    public void setNombreFactura(String nombreFactura) { 
-        this.nombreFactura = nombreFactura; 
-    }
-    
-    public BigDecimal getMonto() { 
-        return monto; 
-    }
-    
-    public void setMonto(BigDecimal monto) { 
-        this.monto = monto; 
-    }
-    
-    public int getIdCategoriaEgreso() { 
-        return idCategoriaEgreso; 
-    }
-    
-    public void setIdCategoriaEgreso(int idCategoriaEgreso) { 
-        this.idCategoriaEgreso = idCategoriaEgreso; 
-    }
-    
-    public String getNombreCategoria() { 
-        return nombreCategoria; 
-    }
-    
-    public void setNombreCategoria(String nombreCategoria) { 
-        this.nombreCategoria = nombreCategoria; 
-    }
-    
-    public int getIdMetodoPago() { 
-        return idMetodoPago; 
-    }
-    
-    public void setIdMetodoPago(int idMetodoPago) { 
-        this.idMetodoPago = idMetodoPago; 
-    }
-    
-    public String getNombreMetodoPago() { 
-        return nombreMetodoPago; 
-    }
-    
-    public void setNombreMetodoPago(String nombreMetodoPago) { 
-        this.nombreMetodoPago = nombreMetodoPago; 
-    }
-    
-    public LocalDateTime getFechaPago() { 
-        return fechaPago; 
-    }
-    
-    public void setFechaPago(LocalDateTime fechaPago) { 
-        this.fechaPago = fechaPago; 
-    }
-    
-    public LocalDateTime getFechaVencimiento() { 
-        return fechaVencimiento; 
-    }
-    
-    public void setFechaVencimiento(LocalDateTime fechaVencimiento) { 
-        this.fechaVencimiento = fechaVencimiento; 
-    }
-    
-    public String getDescripcion() { 
-        return descripcion; 
-    }
-    
-    public void setDescripcion(String descripcion) { 
-        this.descripcion = descripcion; 
-    }
-    
-    public String getEstadoPago() { 
-        return estadoPago; 
-    }
-    
-    public void setEstadoPago(String estadoPago) { 
-        this.estadoPago = estadoPago; 
-    }
-    
+
+    // ── Getters / Setters ─────────────────────────────────────────────────────
+
+    public int getIdEgresos()             { return idEgresos; }
+    public void setIdEgresos(int v)       { this.idEgresos = v; }
+
+    public String getDescripcionPago()          { return descripcionPago; }
+    public void setDescripcionPago(String v)    { this.descripcionPago = v; }
+
+    public String getNombreFactura()            { return descripcionPago; }
+    public void setNombreFactura(String v)      { this.descripcionPago = v; }
+
+    public String getDescripcion()              { return descripcionPago; }
+    public void setDescripcion(String v)        { this.descripcionPago = v; }
+
+    public BigDecimal getMonto()                { return monto; }
+    public void setMonto(BigDecimal v)          { this.monto = v; }
+
+    public LocalDateTime getFechaPago()         { return fechaPago; }
+    public void setFechaPago(LocalDateTime v)   { this.fechaPago = v; }
+
+    public LocalDateTime getFechaVencimiento()        { return fechaVencimiento; }
+    public void setFechaVencimiento(LocalDateTime v)  { this.fechaVencimiento = v; }
+
+    public String getEstadoPago()               { return estadoPago; }
+    public void setEstadoPago(String v)         { this.estadoPago = v; }
+
+    public int getIdHogar()                     { return idHogar; }
+    public void setIdHogar(int v)               { this.idHogar = v; }
+
+    public int getIdCategoriaEgreso()           { return idCategoriaEgreso; }
+    public void setIdCategoriaEgreso(int v)     { this.idCategoriaEgreso = v; }
+
+    public int getIdMetodoPago()                { return idMetodoPago; }
+    public void setIdMetodoPago(int v)          { this.idMetodoPago = v; }
+
+    public String getNombreCategoriaEgreso()        { return nombreCategoriaEgreso; }
+    public void setNombreCategoriaEgreso(String v)  { this.nombreCategoriaEgreso = v; }
+
+    public String getNombreCategoria()              { return nombreCategoriaEgreso; }
+    public void setNombreCategoria(String v)        { this.nombreCategoriaEgreso = v; }
+
+    public String getNombreMetodoPago()         { return nombreMetodoPago; }
+    public void setNombreMetodoPago(String v)   { this.nombreMetodoPago = v; }
+
     public String getFechaVencimientoFormateada() {
-        if (this.fechaVencimiento == null) return "";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
-        return this.fechaVencimiento.format(formatter);
+        if (fechaVencimiento == null) return "";
+        return fechaVencimiento.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
+    }
+
+    public String getFechaPagoFormateada() {
+        if (fechaPago == null) return "";
+        return fechaPago.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
     }
 }

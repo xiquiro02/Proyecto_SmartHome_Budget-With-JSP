@@ -20,7 +20,7 @@
 </head>
 <body>
     <header class="encabezado">
-        <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/01_menuPrincipal.jsp">
+        <a href="${pageContext.request.contextPath}/Menu">
             <span class="material-symbols-outlined">arrow_back_ios_new</span>
         </a>
     </header>

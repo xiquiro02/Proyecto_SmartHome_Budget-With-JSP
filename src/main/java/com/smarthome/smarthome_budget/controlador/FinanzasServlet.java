@@ -127,7 +127,6 @@ public class FinanzasServlet extends HttpServlet {
                 break;
             }
 
-            // ── DEFAULT: dashboard ──────────────────────────────────────────
             default:
                 BigDecimal totalIngresos = ingresoDao.totalMesActual(idHogar);
                 BigDecimal totalEgresos  = presDao.totalEgresosMesActual(idHogar);
@@ -170,7 +169,6 @@ public class FinanzasServlet extends HttpServlet {
 
                     RegistroIngreso ingreso = new RegistroIngreso();
                     ingreso.setIdHogar(idHogar);
-                    ingreso.setIdUsuario(usuario.getIDUsuario());
                     ingreso.setMonto(monto);
                     ingreso.setIdCategoriaIngreso(idCat);
                     ingreso.setDescripcion(desc);
@@ -204,7 +202,6 @@ public class FinanzasServlet extends HttpServlet {
 
                     RegistroEgreso egreso = new RegistroEgreso();
                     egreso.setIdHogar(idHogar);
-                    egreso.setIdUsuario(usuario.getIDUsuario());
                     egreso.setMonto(monto);
                     egreso.setIdCategoriaEgreso(idCat);
                     egreso.setDescripcion(desc);
@@ -234,16 +231,14 @@ public class FinanzasServlet extends HttpServlet {
                 try {
                     BigDecimal monto = new BigDecimal(req.getParameter("montoMax").replace(",", "").replace("$", "").trim());
                     int mes          = Integer.parseInt(req.getParameter("mes"));
-                    boolean al80     = "on".equals(req.getParameter("alerta80"));
-                    boolean alSup    = "on".equals(req.getParameter("alertaSuperado"));
+                    // CORRECCIÓN FASE 3: eliminados setAlerta80() y setAlertaSuperePresupuesto()
+                    // Las alertas son lógica calculada en el modelo — no se persisten en BD
 
                     PresupuestoMensual p = new PresupuestoMensual();
                     p.setIdHogar(idHogar);
                     p.setMontoMax(monto);
                     p.setMes(mes);
                     p.setAnio(java.time.LocalDate.now().getYear());
-                    p.setAlerta80(al80);
-                    p.setAlertaSuperePresupuesto(alSup);
 
                     presDao.guardar(p);
                     resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=resumen");

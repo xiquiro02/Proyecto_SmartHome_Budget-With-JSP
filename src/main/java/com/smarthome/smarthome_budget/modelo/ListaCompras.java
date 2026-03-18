@@ -3,100 +3,66 @@ package com.smarthome.smarthome_budget.modelo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Modelo para Lista_Compras.
- * CategoriaLista fue eliminado de la BD — NO existe en este modelo.
- */
 public class ListaCompras {
+
     private int idListaCompras;
-    private int idHogar;
-    private int idUsuario;
     private String nombreLista;
     private LocalDateTime fechaCreacion;
-    private String estadoLista;       // Pendiente | En progreso | Completa
-
-    // campos auxiliares calculados (no en BD)
+    private String estadoLista;
+    private int idHogar;
+    // ── Campos auxiliares calculados por DAO 
     private int totalProductos;
     private int totalComprados;
     private int totalPendientes;
 
     public ListaCompras() {}
 
-    public int getIdListaCompras() { 
-        return idListaCompras; 
+    public ListaCompras(int idListaCompras, String nombreLista, LocalDateTime fechaCreacion,
+                        String estadoLista, int idHogar,
+                        int totalProductos, int totalComprados, int totalPendientes) {
+        this.idListaCompras = idListaCompras;
+        this.nombreLista = nombreLista;
+        this.fechaCreacion = fechaCreacion;
+        this.estadoLista = estadoLista;
+        this.idHogar = idHogar;
+        this.totalProductos = totalProductos;
+        this.totalComprados = totalComprados;
+        this.totalPendientes = totalPendientes;
     }
-    
-    public void setIdListaCompras(int idListaCompras) { 
-        this.idListaCompras = idListaCompras; 
-    }
-    
-    public int getIdHogar() { 
-        return idHogar; 
-    }
-    
-    public void setIdHogar(int idHogar) { 
-        this.idHogar = idHogar; 
-    }
-    
-    public int getIdUsuario() { 
-        return idUsuario; 
-    }
-    
-    public void setIdUsuario(int idUsuario) { 
-        this.idUsuario = idUsuario; 
-    }
-    
-    public String getNombreLista() { 
-        return nombreLista; 
-    }
-    
-    public void setNombreLista(String nombreLista) { 
-        this.nombreLista = nombreLista; 
-    }
-    
-    public LocalDateTime getFechaCreacion() { 
-        return fechaCreacion; 
-    }
-    
-    public void setFechaCreacion(LocalDateTime fechaCreacion) { 
-        this.fechaCreacion = fechaCreacion; 
-    }
-    
-    public String getEstadoLista() { 
-        return estadoLista; 
-    }
-    
-    public void setEstadoLista(String estadoLista) { 
-        this.estadoLista = estadoLista; 
-    }
-    
-    public int getTotalProductos() { 
-        return totalProductos; 
-    }
-    
-    public void setTotalProductos(int totalProductos) { 
-        this.totalProductos = totalProductos; 
-    }
-    
-    public int getTotalComprados() { 
-        return totalComprados; 
-    }
-    
-    public void setTotalComprados(int totalComprados) { 
-        this.totalComprados = totalComprados; 
-    }
-    
-    public int getTotalPendientes() { 
-        return totalPendientes; 
-    }
-    
-    public void setTotalPendientes(int totalPendientes) { 
-        this.totalPendientes = totalPendientes; 
-    }
-    
+
+    // ── Getters / Setters ─────────────────────────────────────────────────────
+
+    public int getIdListaCompras()              { return idListaCompras; }
+    public void setIdListaCompras(int v)        { this.idListaCompras = v; }
+
+    public String getNombreLista()              { return nombreLista; }
+    public void setNombreLista(String v)        { this.nombreLista = v; }
+
+    public LocalDateTime getFechaCreacion()     { return fechaCreacion; }
+    public void setFechaCreacion(LocalDateTime v){ this.fechaCreacion = v; }
+
+    public String getEstadoLista()              { return estadoLista; }
+    public void setEstadoLista(String v)        { this.estadoLista = v; }
+
+    public int getIdHogar()                     { return idHogar; }
+    public void setIdHogar(int v)               { this.idHogar = v; }
+
+    public int getTotalProductos()              { return totalProductos; }
+    public void setTotalProductos(int v)        { this.totalProductos = v; }
+
+    public int getTotalComprados()              { return totalComprados; }
+    public void setTotalComprados(int v)        { this.totalComprados = v; }
+
+    public int getTotalPendientes()             { return totalPendientes; }
+    public void setTotalPendientes(int v)       { this.totalPendientes = v; }
+
     public String getFechaCreacionFormateada() {
-        if (this.fechaCreacion == null) return "";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
-        return this.fechaCreacion.format(formatter);
+        if (fechaCreacion == null) return "";
+        return fechaCreacion.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
+    }
+
+    public int getPorcentajeCompletado() {
+        if (totalProductos == 0) return 0;
+        return (totalComprados * 100) / totalProductos;
     }
 }

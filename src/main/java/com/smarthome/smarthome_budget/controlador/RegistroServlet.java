@@ -23,52 +23,63 @@ public class RegistroServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
-        String nombre = request.getParameter("nombre");
-        String primerApellido = request.getParameter("apellido1");
+        String documento       = request.getParameter("documento");
+        String nombre          = request.getParameter("nombre");
+        String primerApellido  = request.getParameter("apellido1");
         String segundoApellido = request.getParameter("apellido2");
-        String correo = request.getParameter("correo");
-        String telefono = request.getParameter("telefono");
-        String contrasena = request.getParameter("contrasena");
+        String correo          = request.getParameter("correo");
+        String telefono        = request.getParameter("telefono");
+        String contrasena      = request.getParameter("contrasena");
         String codigoInvitacion = request.getParameter("codigoInvitacion");
 
-        if (nombre == null || nombre.trim().isEmpty() ||
-            primerApellido == null || primerApellido.trim().isEmpty() ||
-            correo == null || correo.trim().isEmpty() ||
-            telefono == null || telefono.trim().isEmpty() ||
-            contrasena == null || contrasena.trim().isEmpty()) {
-            
-            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/02_registrarse.jsp?error=campos_vacios");
+        if (estaVacio(documento) || estaVacio(nombre) || estaVacio(primerApellido) ||
+            estaVacio(correo) || estaVacio(telefono) || estaVacio(contrasena)) {
+            response.sendRedirect(request.getContextPath() +
+                "/public/modules/01_autenticacion/02_registrarse.jsp?error=campos_vacios");
             return;
         }
 
-        // Validación de código de invitación FUERA del try-catch
+        // Validar código de invitación antes del flujo principal
         if (codigoInvitacion != null && !codigoInvitacion.trim().isEmpty()) {
             try {
                 CodigosInvitacionDao codigosDao = new CodigosInvitacionDao();
                 CodigosInvitacion codigoValido = codigosDao.validarCodigo(codigoInvitacion.trim());
-
                 if (codigoValido == null) {
-                    response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/02_registrarse.jsp?error=codigo_invalido");
-                    return; // CORTAR EJECUCIÓN - NO entrar al try-catch general
+                    response.sendRedirect(request.getContextPath() +
+                        "/public/modules/01_autenticacion/02_registrarse.jsp?error=codigo_invalido");
+                    return;
                 }
             } catch (Exception e) {
-                // Si hay error en la validación del código, mostrar error específico
-                response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/02_registrarse.jsp?error=codigo_invalido");
+                response.sendRedirect(request.getContextPath() +
+                    "/public/modules/01_autenticacion/02_registrarse.jsp?error=codigo_invalido");
                 return;
             }
         }
 
         try {
             UsuarioDao usuarioDao = new UsuarioDao();
-            
+
+            // Verificar correo duplicado
             if (usuarioDao.correoExiste(correo.trim().toLowerCase())) {
-                response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/02_registrarse.jsp?error=correo_existe");
+                response.sendRedirect(request.getContextPath() +
+                    "/public/modules/01_autenticacion/02_registrarse.jsp?error=correo_existe");
                 return;
             }
 
+            // Verificar documento duplicado
+            if (usuarioDao.documentoExiste(documento.trim())) {
+                response.sendRedirect(request.getContextPath() +
+                    "/public/modules/01_autenticacion/02_registrarse.jsp?error=documento_existe");
+                return;
+            }
+
+            // Construir objeto Usuario con todos los campos de BD
             Usuario usuario = new Usuario();
+            usuario.setDocumento(documento.trim());
             usuario.setNombreUsuario(nombre.trim());
+            // setPrimerApellido es alias de setApellido en el modelo
             usuario.setPrimerApellido(primerApellido.trim());
+            // setSegundoApellido concatena si no está vacío
             usuario.setSegundoApellido(segundoApellido != null ? segundoApellido.trim() : "");
             usuario.setCorreo(correo.trim().toLowerCase());
             usuario.setTelefono(telefono.trim());
@@ -77,7 +88,8 @@ public class RegistroServlet extends HttpServlet {
             int idUsuario = usuarioDao.registrarUsuario(usuario);
 
             if (idUsuario == -1) {
-                response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/02_registrarse.jsp?error=registro_fallido");
+                response.sendRedirect(request.getContextPath() +
+                    "/public/modules/01_autenticacion/02_registrarse.jsp?error=registro_fallido");
                 return;
             }
 
@@ -88,59 +100,63 @@ public class RegistroServlet extends HttpServlet {
             }
 
         } catch (Exception e) {
-            // Catch general solo para errores inesperados del flujo principal
-            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/02_registrarse.jsp?error=error_db");
+            System.err.println("Error inesperado en registro: " + e.getMessage());
+            response.sendRedirect(request.getContextPath() +
+                "/public/modules/01_autenticacion/02_registrarse.jsp?error=error_db");
         }
     }
 
-    private void registroSinCodigo(int idUsuario, String nombre, HttpServletRequest request, HttpServletResponse response) 
+    private void registroSinCodigo(int idUsuario, String nombre,
+                                   HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        
         HogarDao hogarDao = new HogarDao();
         int idHogar = hogarDao.crearHogar("Hogar de " + nombre);
 
         if (idHogar == -1) {
-            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/02_registrarse.jsp?error=crear_hogar");
+            response.sendRedirect(request.getContextPath() +
+                "/public/modules/01_autenticacion/02_registrarse.jsp?error=crear_hogar");
             return;
         }
 
         DetallesHogaresDao detallesDao = new DetallesHogaresDao();
-        boolean relacionCreada = detallesDao.crearRelacion(idUsuario, idHogar, 1);
+        boolean relacionCreada = detallesDao.crearRelacion(idUsuario, idHogar, 1); // rol 1 = Administrador
 
         if (!relacionCreada) {
-            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/02_registrarse.jsp?error=crear_relacion");
+            response.sendRedirect(request.getContextPath() +
+                "/public/modules/01_autenticacion/02_registrarse.jsp?error=crear_relacion");
             return;
         }
 
-        response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/03_ConfirmacionRegistro.jsp?nombre=" + URLEncoder.encode(nombre, "UTF-8"));
+        response.sendRedirect(request.getContextPath() +
+            "/public/modules/01_autenticacion/03_ConfirmacionRegistro.jsp?nombre=" +
+            URLEncoder.encode(nombre, "UTF-8"));
     }
 
-    private void registroConCodigo(int idUsuario, String codigo, String nombre, HttpServletRequest request, HttpServletResponse response) 
+    private void registroConCodigo(int idUsuario, String codigo, String nombre,
+                                   HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        
         CodigosInvitacionDao codigosDao = new CodigosInvitacionDao();
-        // El código ya fue validado en doPost, aquí solo obtenemos los datos
-        CodigosInvitacion codigoValido = codigosDao.validarCodigo(codigo); // Para obtener IDHogar e IDRol
+        CodigosInvitacion codigoValido = codigosDao.validarCodigo(codigo);
 
         DetallesHogaresDao detallesDao = new DetallesHogaresDao();
         boolean relacionCreada = detallesDao.crearRelacion(
-            idUsuario, 
-            codigoValido.getIDHogar(), 
+            idUsuario,
+            codigoValido.getIDHogar(),
             codigoValido.getIDRol()
         );
 
         if (!relacionCreada) {
-            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/02_registrarse.jsp?error=crear_relacion");
+            response.sendRedirect(request.getContextPath() +
+                "/public/modules/01_autenticacion/02_registrarse.jsp?error=crear_relacion");
             return;
         }
 
-        boolean codigoMarcado = codigosDao.marcarComoUsado(codigo);
+        codigosDao.marcarComoUsado(codigo);
 
-        if (!codigoMarcado) {
-            response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/02_registrarse.jsp?error=marcar_codigo");
-            return;
-        }
-
-        response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/03_ConfirmacionRegistro.jsp?nombre=" + URLEncoder.encode(nombre, "UTF-8"));
+        response.sendRedirect(request.getContextPath() +
+            "/public/modules/01_autenticacion/03_ConfirmacionRegistro.jsp?nombre=" +
+            URLEncoder.encode(nombre, "UTF-8"));
     }
+
+    private boolean estaVacio(String s) { return s == null || s.trim().isEmpty(); }
 }

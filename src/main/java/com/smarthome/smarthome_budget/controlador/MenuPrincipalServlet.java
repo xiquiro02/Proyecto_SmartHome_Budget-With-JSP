@@ -14,13 +14,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * Servlet del menú principal.
- * Carga los datos reales del dashboard (próximo pago, presupuesto disponible)
- * filtrando siempre por el IDHogar del usuario en sesión.
- *
- * GET /Menu → 01_menuPrincipal.jsp con atributos de sesión
- */
 @WebServlet("/Menu")
 public class MenuPrincipalServlet extends HttpServlet {
 
@@ -66,6 +59,19 @@ public class MenuPrincipalServlet extends HttpServlet {
         req.setAttribute("totalEgresos", totalEgresos);
         req.setAttribute("disponible",   disponible);
         req.setAttribute("idRol",        idRol);
+
+        String accion = req.getParameter("accion");
+        if ("codigoGenerado".equals(accion)) {
+            String codigoGenerado = (String) session.getAttribute("codigo_generado");
+            String rolAsignado    = (String) session.getAttribute("rol_asignado");
+            if (codigoGenerado != null) {
+                req.setAttribute("codigoGenerado", codigoGenerado);
+                req.setAttribute("rolAsignado", rolAsignado);
+                // Limpiar de sesión tras pasarlo a la vista
+                session.removeAttribute("codigo_generado");
+                session.removeAttribute("rol_asignado");
+            }
+        }
 
         req.getRequestDispatcher(BASE + "01_menuPrincipal.jsp").forward(req, resp);
     }

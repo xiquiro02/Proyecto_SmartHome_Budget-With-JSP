@@ -7,71 +7,66 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO para Detalle_Lista_Compras.
- * Controla RF14: no duplicados, solo enteros positivos > 0.
- * Controla RF18: marcar/desmarcar comprado (reversible).
- */
 public class DetalleListaComprasDao {
 
+    // language=sql
     private static final String SQL_INSERT =
-        "INSERT INTO Detalle_Lista_Compras (IDListaCompras, IDProducto, Cantidad, Comprado) VALUES (?,?,?,false)";
-
+        "INSERT INTO Detalle_ListaCompras (IDListaCompras, IDProducto, Cantidad, Comprado) " +
+        "VALUES (?,?,?,false)";
+    // language=sql
     private static final String SQL_SELECT_POR_LISTA =
         "SELECT d.*, p.NombreProducto, tp.NombreTipoProducto " +
-        "FROM Detalle_Lista_Compras d " +
+        "FROM Detalle_ListaCompras d " +
         "JOIN Producto p ON d.IDProducto = p.IDProducto " +
         "JOIN Tipo_Producto tp ON p.IDTipoProducto = tp.IDTipoProducto " +
         "WHERE d.IDListaCompras = ? ORDER BY d.Comprado ASC, p.NombreProducto ASC";
-
+    // language=sql
     private static final String SQL_SELECT_BY_ID =
         "SELECT d.*, p.NombreProducto, tp.NombreTipoProducto " +
-        "FROM Detalle_Lista_Compras d " +
+        "FROM Detalle_ListaCompras d " +
         "JOIN Producto p ON d.IDProducto = p.IDProducto " +
         "JOIN Tipo_Producto tp ON p.IDTipoProducto = tp.IDTipoProducto " +
         "WHERE d.IDDetalleLista = ?";
-
+    // language=sql
     private static final String SQL_EXISTE_PRODUCTO =
-        "SELECT IDDetalleLista FROM Detalle_Lista_Compras WHERE IDListaCompras=? AND IDProducto=?";
-
+        "SELECT IDDetalleLista FROM Detalle_ListaCompras WHERE IDListaCompras=? AND IDProducto=?";
+    // language=sql
     private static final String SQL_UPDATE_CANTIDAD =
-        "UPDATE Detalle_Lista_Compras SET Cantidad=? WHERE IDDetalleLista=?";
-
+        "UPDATE Detalle_ListaCompras SET Cantidad=? WHERE IDDetalleLista=?";
+    // language=sql
+    private static final String SQL_UPDATE_CANTIDAD_SUMA =
+        "UPDATE Detalle_ListaCompras SET Cantidad = Cantidad + ? WHERE IDDetalleLista=?";
+    // language=sql
     private static final String SQL_MARCAR_COMPRADO =
-        "UPDATE Detalle_Lista_Compras SET Comprado=? WHERE IDDetalleLista=?";
-
+        "UPDATE Detalle_ListaCompras SET Comprado=? WHERE IDDetalleLista=?";
+    // language=sql
     private static final String SQL_MARCAR_TODOS =
-        "UPDATE Detalle_Lista_Compras SET Comprado=? WHERE IDListaCompras=?";
-
+        "UPDATE Detalle_ListaCompras SET Comprado=? WHERE IDListaCompras=?";
+    // language=sql
     private static final String SQL_DELETE =
-        "DELETE FROM Detalle_Lista_Compras WHERE IDDetalleLista=?";
-
-    // ─── Operaciones ─────────────────────────────────────────────────────────
-
-    /**
-     * RF14: Agrega un producto a la lista.
-     * Si el producto ya existe, incrementa la cantidad en lugar de duplicar.
-     * Retorna: 1=agregado, 2=cantidad incrementada, -1=error
+        "DELETE FROM Detalle_ListaCompras WHERE IDDetalleLista=?";
+    
+    /*
+     * Agrega un producto a la lista.
+     * Si ya existe, incrementa cantidad. No duplica.
+     * Retorna: 1=nuevo, 2=cantidad sumada, -1=error
      */
     public int agregarProducto(int idLista, int idProducto, int cantidad) {
-        if (cantidad <= 0) return -1; // RF14: solo enteros positivos > 0
+        if (cantidad <= 0) return -1;
 
-        // Verificar duplicado
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement psBuscar = con.prepareStatement(SQL_EXISTE_PRODUCTO)) {
             psBuscar.setInt(1, idLista);
             psBuscar.setInt(2, idProducto);
             try (ResultSet rs = psBuscar.executeQuery()) {
                 if (rs.next()) {
-                    // RF14: ya existe → actualizar cantidad sumando
                     int idDetalle = rs.getInt("IDDetalleLista");
-                    String sqlSum = "UPDATE Detalle_Lista_Compras SET Cantidad = Cantidad + ? WHERE IDDetalleLista = ?";
-                    try (PreparedStatement psUp = con.prepareStatement(sqlSum)) {
+                    try (PreparedStatement psUp = con.prepareStatement(SQL_UPDATE_CANTIDAD_SUMA)) {
                         psUp.setInt(1, cantidad);
                         psUp.setInt(2, idDetalle);
                         psUp.executeUpdate();
                     }
-                    return 2; // señal: era duplicado, se sumó
+                    return 2;
                 }
             }
         } catch (SQLException e) {
@@ -79,7 +74,6 @@ public class DetalleListaComprasDao {
             return -1;
         }
 
-        // No existe → insertar
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(SQL_INSERT)) {
             ps.setInt(1, idLista);
@@ -87,12 +81,11 @@ public class DetalleListaComprasDao {
             ps.setInt(3, cantidad);
             return ps.executeUpdate() > 0 ? 1 : -1;
         } catch (SQLException e) {
-            System.err.println("Error agregando producto a lista: " + e.getMessage());
+            System.err.println("Error agregando producto: " + e.getMessage());
         }
         return -1;
     }
 
-    /** Lista todos los detalles de una lista ordenados: pendientes primero. */
     public List<DetalleListaCompras> listarPorLista(int idLista) {
         List<DetalleListaCompras> lista = new ArrayList<>();
         try (Connection con = claseConexion.MetodoConectar();
@@ -120,7 +113,6 @@ public class DetalleListaComprasDao {
         return null;
     }
 
-    /** Actualiza la cantidad de un producto. RF14: solo enteros > 0. */
     public boolean actualizarCantidad(int idDetalle, int nuevaCantidad) {
         if (nuevaCantidad <= 0) return false;
         try (Connection con = claseConexion.MetodoConectar();
@@ -134,7 +126,7 @@ public class DetalleListaComprasDao {
         return false;
     }
 
-    /** RF18: Marca/desmarca un producto como comprado (reversible). */
+    /** Marca/desmarca un producto (reversible) */
     public boolean toggleComprado(int idDetalle, boolean comprado) {
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(SQL_MARCAR_COMPRADO)) {
@@ -142,12 +134,11 @@ public class DetalleListaComprasDao {
             ps.setInt(2, idDetalle);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error toggling comprado: " + e.getMessage());
+            System.err.println("Error en toggle comprado: " + e.getMessage());
         }
         return false;
     }
 
-    /** Marca/desmarca TODOS los productos de una lista. */
     public boolean marcarTodos(int idLista, boolean comprado) {
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(SQL_MARCAR_TODOS)) {
@@ -160,7 +151,6 @@ public class DetalleListaComprasDao {
         return false;
     }
 
-    /** Elimina un producto de la lista. */
     public boolean eliminar(int idDetalle) {
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(SQL_DELETE)) {
@@ -180,7 +170,7 @@ public class DetalleListaComprasDao {
         d.setCantidad(rs.getInt("Cantidad"));
         d.setComprado(rs.getBoolean("Comprado"));
         d.setNombreProducto(rs.getString("NombreProducto"));
-        d.setTipoProducto(rs.getString("NombreTipoProducto"));
+        d.setNombreTipoProducto(rs.getString("NombreTipoProducto"));
         return d;
     }
 }

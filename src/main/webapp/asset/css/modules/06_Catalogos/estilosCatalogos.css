@@ -1,0 +1,154 @@
+/* ── Contenedor principal ─────────────────────────────────────────── */
+.catalogos {
+    padding: 16px 20px 100px;
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ── Sección formulario ────────────────────────────────────────────── */
+.catalogos__formulario {
+    background: var(--contenedor-gradient-bg, linear-gradient(to right, #a4dbf4, #ccffd3));
+    border-radius: var(--contenedor-radius, 12px);
+    padding: 20px;
+    box-shadow: var(--contenedor-shadow, 0 5px 12px rgba(0,0,0,0.12));
+}
+
+.catalogos__subtitulo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 12px;
+}
+
+.catalogos__grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.catalogos__label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.catalogos__inputRow {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.catalogos__input {
+    flex: 1;
+    padding: 0.8rem 10px;
+    border: 3px solid #000;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.catalogos__input:focus {
+    border-color: #1E88E5;
+}
+
+.catalogos__btnGuardar {
+    white-space: nowrap;
+    margin-top: 0;
+    padding: 0.8rem 1rem;
+}
+
+/* ── Sección lista ─────────────────────────────────────────────────── */
+.catalogos__lista {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.catalogos__vacio {
+    text-align: center;
+    color: #999;
+    font-size: 0.95rem;
+    padding: 20px 0;
+}
+
+.catalogos__items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ── Ítem individual ───────────────────────────────────────────────── */
+.catalogos__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 16px;
+    background: #F8F9FA;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.catalogos__item:hover {
+    border-color: #1E88E5;
+    box-shadow: 0 2px 8px rgba(30, 136, 229, 0.15);
+}
+
+.catalogos__itemNombre {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000;
+    flex: 1;
+}
+
+.catalogos__itemAcciones {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.catalogos__formEliminar {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.catalogos__btnAccion {
+    width: auto;
+    padding: 6px 12px;
+    font-size: 14px;
+    margin-top: 0;
+    border-radius: 8px;
+}
+
+/* ── Mensajes ──────────────────────────────────────────────────────── */
+.mensaje--error {
+    background: #ffe0e0;
+    border: 1px solid #E51E1E;
+    color: #c00;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* ── Responsive ────────────────────────────────────────────────────── */
+@media (max-width: 375px) {
+    .catalogos__inputRow {
+        flex-direction: column;
+    }
+    .catalogos__btnGuardar {
+        width: 100%;
+    }
+}

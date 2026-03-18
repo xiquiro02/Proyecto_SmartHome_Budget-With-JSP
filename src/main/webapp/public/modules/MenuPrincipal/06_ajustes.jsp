@@ -155,8 +155,37 @@
                     <span class="material-symbols-outlined">chevron_right</span>
                 </a>
             </section>
-            <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/01_menuPrincipal.jsp"
+            <a href="${pageContext.request.contextPath}/Menu"
                 class="ajustes__boton">
+                
+            <%
+                Integer idRolAjustes = (Integer) session.getAttribute("idRol");
+                if (idRolAjustes != null && (idRolAjustes == 1 || idRolAjustes == 2)) {
+            %>
+            <section class="ajustes__seccion">
+                <h3 class="ajustes__seccion-titulo">Catálogos</h3>
+                <a href="${pageContext.request.contextPath}/Catalogos?tipo=categoriaEgreso" class="ajustes__item">
+                    <img class="ajustes__item-icono" src="${pageContext.request.contextPath}/asset/imagenes/Registrar-egresos.png" alt="Cat. Egresos">
+                    <div class="ajustes__item-contenido"><p class="ajustes__item-titulo">Categorías de Egresos</p></div>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </a>
+                <a href="${pageContext.request.contextPath}/Catalogos?tipo=categoriaIngreso" class="ajustes__item">
+                    <img class="ajustes__item-icono" src="${pageContext.request.contextPath}/asset/imagenes/ingresos-pasivos.png" alt="Cat. Ingresos">
+                    <div class="ajustes__item-contenido"><p class="ajustes__item-titulo">Categorías de Ingresos</p></div>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </a>
+                <a href="${pageContext.request.contextPath}/Catalogos?tipo=metodoPago" class="ajustes__item">
+                    <img class="ajustes__item-icono" src="${pageContext.request.contextPath}/asset/imagenes/metodo-de-pago.png" alt="Métodos de Pago">
+                    <div class="ajustes__item-contenido"><p class="ajustes__item-titulo">Métodos de Pago</p></div>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </a>
+                <a href="${pageContext.request.contextPath}/Catalogos?tipo=tipoProducto" class="ajustes__item">
+                    <img class="ajustes__item-icono" src="${pageContext.request.contextPath}/asset/imagenes/productos.png" alt="Tipos de Producto">
+                    <div class="ajustes__item-contenido"><p class="ajustes__item-titulo">Tipos de Producto</p></div>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </a>
+            </section>
+            <% } %>
                 <button class="boton boton--volver">Volver</button>
             </a>
         </main>

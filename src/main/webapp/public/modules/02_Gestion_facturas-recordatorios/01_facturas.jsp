@@ -103,9 +103,11 @@
             </div>
         </div>
 
-        <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/01_menuPrincipal.jsp" class="tarjetaAccion__boton">
+        <a href="${pageContext.request.contextPath}/Menu" class="tarjetaAccion__boton">
             <button class="boton boton--volver">Volver</button>
         </a>
     </main>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="${pageContext.request.contextPath}/asset/js/confirmacionesFacturas.js"></script>
 </body>
 </html>

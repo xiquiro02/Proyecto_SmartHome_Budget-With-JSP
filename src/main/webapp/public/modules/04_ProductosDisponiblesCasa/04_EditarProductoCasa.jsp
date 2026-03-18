@@ -68,5 +68,7 @@
         </form>
     </div>
 </main>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="${pageContext.request.contextPath}/asset/js/confirmacionesInventario.js"></script>
 </body>
 </html>

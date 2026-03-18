@@ -3,81 +3,63 @@ package com.smarthome.smarthome_budget.modelo;
 import java.time.LocalDateTime;
 
 public class CodigosInvitacion {
-    private String Codigo;
-    private LocalDateTime FechaCreacion;
-    private LocalDateTime FechaExpiracion;
-    private String Estado;
-    private int IDCodigo;
-    private int IDHogar;
-    private int IDRol;
 
+    private int idCodigo;
+    private String codigo;
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaExpiracion;
+    private String estado;
+    private int idHogar;
+    private int idRol;
 
-    public CodigosInvitacion() {
+    public CodigosInvitacion() {}
+
+    public CodigosInvitacion(int idCodigo, String codigo, LocalDateTime fechaCreacion,
+                              LocalDateTime fechaExpiracion, String estado,
+                              int idHogar, int idRol) {
+        this.idCodigo = idCodigo;
+        this.codigo = codigo;
+        this.fechaCreacion = fechaCreacion;
+        this.fechaExpiracion = fechaExpiracion;
+        this.estado = estado;
+        this.idHogar = idHogar;
+        this.idRol = idRol;
     }
 
-    public CodigosInvitacion(String Codigo, LocalDateTime FechaCreacion, LocalDateTime FechaExpiracion, String Estado, int IDCodigo, int IDHogar, int IDRol) {
-        this.Codigo = Codigo;
-        this.FechaCreacion = FechaCreacion;
-        this.FechaExpiracion = FechaExpiracion;
-        this.Estado = Estado;
-        this.IDCodigo = IDCodigo;
-        this.IDHogar = IDHogar;
-        this.IDRol = IDRol;
-    }
+    public int getIdCodigo()                { return idCodigo; }
+    public void setIdCodigo(int v)          { this.idCodigo = v; }
 
-    public String getCodigo() {
-        return Codigo;
-    }
+    public int getIDCodigo()                { return idCodigo; }
+    public void setIDCodigo(int v)          { this.idCodigo = v; }
 
-    public LocalDateTime getFechaCreacion() {
-        return FechaCreacion;
-    }
+    public String getCodigo()               { return codigo; }
+    public void setCodigo(String v)         { this.codigo = v; }
 
-    public LocalDateTime getFechaExpiracion() {
-        return FechaExpiracion;
-    }
+    public LocalDateTime getFechaCreacion()         { return fechaCreacion; }
+    public void setFechaCreacion(LocalDateTime v)   { this.fechaCreacion = v; }
 
-    public String getEstado() {
-        return Estado;
-    }
+    public LocalDateTime getFechaExpiracion()       { return fechaExpiracion; }
+    public void setFechaExpiracion(LocalDateTime v) { this.fechaExpiracion = v; }
 
-    public int getIDCodigo() {
-        return IDCodigo;
-    }
+    public String getEstado()               { return estado; }
+    public void setEstado(String v)         { this.estado = v; }
 
-    public int getIDHogar() {
-        return IDHogar;
-    }
+    public int getIdHogar()                 { return idHogar; }
+    public void setIdHogar(int v)           { this.idHogar = v; }
 
-    public int getIDRol() {
-        return IDRol;
-    }
+    public int getIDHogar()                 { return idHogar; }
+    public void setIDHogar(int v)           { this.idHogar = v; }
 
-    public void setCodigo(String Codigo) {
-        this.Codigo = Codigo;
-    }
+    public int getIdRol()                   { return idRol; }
+    public void setIdRol(int v)             { this.idRol = v; }
 
-    public void setFechaCreacion(LocalDateTime FechaCreacion) {
-        this.FechaCreacion = FechaCreacion;
-    }
+    public int getIDRol()                   { return idRol; }
+    public void setIDRol(int v)             { this.idRol = v; }
 
-    public void setFechaExpiracion(LocalDateTime FechaExpiracion) {
-        this.FechaExpiracion = FechaExpiracion;
-    }
-
-    public void setEstado(String Estado) {
-        this.Estado = Estado;
-    }
-
-    public void setIDCodigo(int IDCodigo) {
-        this.IDCodigo = IDCodigo;
-    }
-
-    public void setIDHogar(int IDHogar) {
-        this.IDHogar = IDHogar;
-    }
-
-    public void setIDRol(int IDRol) {
-        this.IDRol = IDRol;
+    /* true si el código está activo y no ha expirado */
+    public boolean isValido() {
+        return "Activo".equals(estado) &&
+               fechaExpiracion != null &&
+               LocalDateTime.now().isBefore(fechaExpiracion);
     }
 }

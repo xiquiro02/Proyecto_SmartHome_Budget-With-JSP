@@ -10,27 +10,6 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Servlet central del módulo Listas de Compras.
- *
- * GET  /Listas                              → dashboard (01_listasCompras.jsp)
- * GET  /Listas?accion=crear                 → formulario nueva lista
- * GET  /Listas?accion=editar&id=X           → editar lista + sus productos
- * GET  /Listas?accion=verDetalle&id=X       → ver detalle con checkboxes
- * GET  /Listas?accion=confirmarEliminar&id=X
- * GET  /Listas?accion=agregarProducto&id=X  → formulario agregar producto
- * GET  /Listas?accion=editarProducto&idDetalle=X&idLista=X
- * GET  /Listas?accion=confirmarEliminarProd&idDetalle=X&idLista=X
- *
- * POST /Listas?accion=registrar             → crear lista
- * POST /Listas?accion=actualizar            → guardar cambios lista
- * POST /Listas?accion=eliminar              → eliminar lista
- * POST /Listas?accion=guardarProducto       → agregar producto a lista
- * POST /Listas?accion=actualizarProducto    → editar cantidad/nombre producto
- * POST /Listas?accion=eliminarProducto      → quitar producto de lista
- * POST /Listas?accion=toggleComprado        → marcar/desmarcar un producto
- * POST /Listas?accion=marcarTodos           → marcar/desmarcar todos
- */
 @WebServlet("/Listas")
 public class ListasComprasServlet extends HttpServlet {
 
@@ -191,7 +170,6 @@ public class ListasComprasServlet extends HttpServlet {
 
         ListaCompras lista = new ListaCompras();
         lista.setIdHogar(idHogar);
-        lista.setIdUsuario(usuario.getIDUsuario());
         lista.setNombreLista(nombre.trim());
 
         int id = new ListaComprasDao().insertar(lista);

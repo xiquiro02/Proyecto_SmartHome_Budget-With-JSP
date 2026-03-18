@@ -1,40 +1,28 @@
 package com.smarthome.smarthome_budget.modelo;
 
 public class Roles {
-    private String NombreRol;
-    private String Descripcion;
-    private int IDRol;
 
-    public Roles() {
-    }
+    private int idRol;
+    private String nombreRol;
+    private String descripcion;
 
-    public Roles(String NombreRol, String Descripcion, int IDRol) {
-        this.NombreRol = NombreRol;
-        this.Descripcion = Descripcion;
-        this.IDRol = IDRol;
-    }
+    public Roles() {}
 
-    public String getNombreRol() {
-        return NombreRol;
+    public Roles(int idRol, String nombreRol, String descripcion) {
+        this.idRol = idRol;
+        this.nombreRol = nombreRol;
+        this.descripcion = descripcion;
     }
 
-    public String getDescripcion() {
-        return Descripcion;
-    }
-    
-    public int getIDRol() {
-        return IDRol;
-    }
+    public int getIdRol()               { return idRol; }
+    public void setIdRol(int v)         { this.idRol = v; }
 
-    public void setNombreRol(String NombreRol) {
-        this.NombreRol = NombreRol;
-    }
-    
-    public void setDescripcion(String Descripcion) {
-        this.Descripcion = Descripcion;
-    }
-    
-    public void setIDRol(int IDRol) {
-        this.IDRol = IDRol;
-    }
+    public int getIDRol()               { return idRol; }
+    public void setIDRol(int v)         { this.idRol = v; }
+
+    public String getNombreRol()        { return nombreRol; }
+    public void setNombreRol(String v)  { this.nombreRol = v; }
+
+    public String getDescripcion()      { return descripcion; }
+    public void setDescripcion(String v){ this.descripcion = v; }
 }
