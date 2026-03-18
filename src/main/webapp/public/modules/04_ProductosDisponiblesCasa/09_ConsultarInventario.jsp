@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
-<%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -39,7 +39,7 @@
                     <p class="tarjetaProducto__detalle">Categoría: ${inv.nombreTipoProducto}</p>
                     <p class="tarjetaProducto__detalle">Cantidad: ${inv.cantidad}</p>
                     <p class="tarjetaProducto__detalle">
-                        Fecha: <fmt:formatDate value="${inv.fechaRegistro}" pattern="dd MMM yyyy" type="date"/>
+                        Fecha: ${inv.fechaActualizacionFormateada}
                     </p>
                     <c:if test="${inv.stockBajo && !inv.agotado}">
                         <p class="tarjetaProducto__alerta">⚠️ Stock bajo</p>

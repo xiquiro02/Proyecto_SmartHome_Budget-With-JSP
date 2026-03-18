@@ -49,7 +49,7 @@
                                 </span>
                             </div>
                             <p class="facturaCard__detalles">
-                                <fmt:formatDate value="${ingreso.fechaIngreso}" pattern="dd MMM yyyy" type="date"/>
+                                ${ingreso.fechaIngresoFormateada}
                                 <c:if test="${not empty ingreso.descripcion}"> — ${ingreso.descripcion}</c:if>
                             </p>
                         </div>
