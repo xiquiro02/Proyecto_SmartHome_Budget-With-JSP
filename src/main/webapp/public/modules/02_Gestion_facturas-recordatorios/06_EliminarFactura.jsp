@@ -14,9 +14,18 @@
         <div class="contenedor">
             <img class="contenido__icono-img" src="${pageContext.request.contextPath}/asset/imagenes/eliminar.png" alt="Eliminar">
             <h1 class="contenido__titulo">Eliminar factura</h1>
-            <p class="contenido__parrafo">¿Estás seguro de que deseas eliminar la factura <strong>"${factura.nombreFactura}"</strong>?</p>
+
+            <p class="contenido__parrafo">
+                ¿Estás seguro de que deseas eliminar la factura
+                <strong>"<c:choose>
+                    <c:when test="${not empty factura.descripcionPago}">${factura.descripcionPago}</c:when>
+                    <c:otherwise>${factura.nombreCategoriaEgreso}</c:otherwise>
+                </c:choose>"</strong>?
+            </p>
+
             <p class="contenido__parrafos">Monto: <fmt:formatNumber value="${factura.monto}" type="currency" currencySymbol="$"/></p>
             <p class="contenido__parrafos">Esta acción no se puede deshacer.</p>
+
             <div class="contenido__grupo">
                 <form action="${pageContext.request.contextPath}/Facturas" method="post">
                     <input type="hidden" name="accion" value="eliminar">
@@ -29,7 +38,7 @@
             </div>
         </div>
     </main>
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                <script src="${pageContext.request.contextPath}/asset/js/confirmacionesFacturas.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="${pageContext.request.contextPath}/asset/js/confirmacionesFacturas.js"></script>
 </body>
 </html>

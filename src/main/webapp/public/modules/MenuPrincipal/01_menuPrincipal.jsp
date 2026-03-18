@@ -84,8 +84,7 @@
                     <% if (proxPago != null) { %>
                     <div class="tarjetaResumen__fila">
                         <p class="tarjetaResumen__titulo">Próximo pago:</p>
-                        <%-- getNombreFactura() es alias de getDescripcionPago() — OK --%>
-                        <p class="tarjetaResumen__valor"><%= proxPago.getNombreFactura() %></p>
+                        <p class="tarjetaResumen__valor"><%= proxPago.getDescripcionPago() %></p>
                     </div>
                     <div class="tarjetaResumen__fila">
                         <p class="tarjetaResumen__titulo">Vence:</p>

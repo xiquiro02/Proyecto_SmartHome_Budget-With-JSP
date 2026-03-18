@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegistroEgresoDao {
-    
+
     // language=sql
     private static final String SQL_INSERT =
         "INSERT INTO Registro_Egresos " +
@@ -87,14 +87,13 @@ public class RegistroEgresoDao {
         "WHERE EstadoPago='Pendiente' AND FechaVencimiento < NOW()";
 
     // ── Insertar ───────────────────────────────────────────────────────────────
-    /* Registra una factura. Retorna el ID generado. */
+    /** Registra una factura. Retorna el ID generado o -1 si falla. */
     public int insertarEgreso(RegistroEgreso egreso) {
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, egreso.getIdHogar());
-            // getNombreFactura() es alias de getDescripcionPago() — compatible con controladores
-            String desc = egreso.getNombreFactura() != null ? egreso.getNombreFactura().trim() : "";
+            String desc = egreso.getDescripcionPago() != null ? egreso.getDescripcionPago().trim() : "";
             ps.setString(2, desc);
             ps.setBigDecimal(3, egreso.getMonto());
             ps.setInt(4, egreso.getIdCategoriaEgreso());
@@ -237,7 +236,7 @@ public class RegistroEgresoDao {
     public boolean actualizar(RegistroEgreso egreso) {
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(SQL_UPDATE)) {
-            String desc = egreso.getNombreFactura() != null ? egreso.getNombreFactura().trim() : "";
+            String desc = egreso.getDescripcionPago() != null ? egreso.getDescripcionPago().trim() : "";
             ps.setString(1, desc);
             ps.setBigDecimal(2, egreso.getMonto());
             ps.setInt(3, egreso.getIdCategoriaEgreso());
@@ -326,8 +325,9 @@ public class RegistroEgresoDao {
 
     // ── Módulo Finanzas ───────────────────────────────────────────────────────
 
-    /* Registra un egreso simple desde Finanzas (sin fecha de vencimiento futura) */
+    /** Registra un egreso simple desde Finanzas (sin fecha de vencimiento futura). */
     public boolean registrar(RegistroEgreso egreso) {
+        // language=sql
         String sql =
             "INSERT INTO Registro_Egresos " +
             "(IDHogar, DescripcionPago, Monto, IDCategoriaEgreso, IDMetodoPago, " +
@@ -336,7 +336,7 @@ public class RegistroEgresoDao {
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, egreso.getIdHogar());
-            String desc = egreso.getNombreFactura() != null ? egreso.getNombreFactura() : "Egreso";
+            String desc = egreso.getDescripcionPago() != null ? egreso.getDescripcionPago() : "Egreso";
             ps.setString(2, desc);
             ps.setBigDecimal(3, egreso.getMonto());
             ps.setInt(4, egreso.getIdCategoriaEgreso());
@@ -367,7 +367,6 @@ public class RegistroEgresoDao {
         RegistroEgreso e = new RegistroEgreso();
         e.setIdEgresos(rs.getInt("IDEgresos"));
         e.setIdHogar(rs.getInt("IDHogar"));
-        // DescripcionPago → getNombreFactura() por alias en el modelo
         e.setDescripcionPago(rs.getString("DescripcionPago"));
         e.setMonto(rs.getBigDecimal("Monto"));
         e.setIdCategoriaEgreso(rs.getInt("IDCategoriaEgreso"));

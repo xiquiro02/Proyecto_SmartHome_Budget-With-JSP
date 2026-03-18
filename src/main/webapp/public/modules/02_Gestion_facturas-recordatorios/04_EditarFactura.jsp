@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
-<%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,6 +15,7 @@
         <a href="${pageContext.request.contextPath}/Facturas?accion=lista"><span class="material-symbols-outlined">arrow_back_ios_new</span></a>
         <div class="encabezado__contenedorTitulo"><h1 class="encabezado__titulo">Editar Factura</h1></div>
     </header>
+
     <main class="factura">
         <c:if test="${not empty param.error}">
             <div class="mensaje mensaje--error">⚠️
@@ -27,30 +27,31 @@
                 </c:choose>
             </div>
         </c:if>
-        
-<form class="factura__formulario" action="${pageContext.request.contextPath}/Facturas" method="post">
-        <input type="hidden" name="accion" value="actualizar">
-        <input type="hidden" name="idEgreso" value="${factura.idEgresos}">
 
-        <div class="factura__grupo">
-            <label class="factura__label">Nombre de la factura *</label>
-            <input type="text" name="nombreFactura" class="factura__input"
-                   value="${factura.nombreFactura}" maxlength="150" required>
-        </div>
+        <form class="factura__formulario" action="${pageContext.request.contextPath}/Facturas" method="post">
+            <input type="hidden" name="accion" value="actualizar">
+            <input type="hidden" name="idEgreso" value="${factura.idEgresos}">
 
-        <div class="factura__grupo">
-            <label class="factura__label">Categoría *</label>
-            <select name="idCategoriaEgreso" class="factura__select" required>
-                <c:forEach var="cat" items="${categorias}">
-                    <option value="${cat.idCategoriaEgreso}"
-                        ${cat.idCategoriaEgreso == factura.idCategoriaEgreso ? 'selected' : ''}>
-                        ${cat.nombreCategoriaEgreso}
-                    </option>
-                </c:forEach>
-            </select>
-        </div>
+            <%-- Campo principal: descripcion (opcional — puede estar vacío) --%>
+            <div class="factura__grupo">
+                <label class="factura__label">Descripción</label>
+                <textarea name="descripcion" id="descripcion" class="factura__textarea"
+                          maxlength="500"><c:out value="${factura.descripcionPago}" default=""/></textarea>
+            </div>
 
-        <div class="factura__fila">
+            <div class="factura__grupo">
+                <label class="factura__label">Categoría *</label>
+                <select name="idCategoriaEgreso" class="factura__select" required>
+                    <c:forEach var="cat" items="${categorias}">
+                        <option value="${cat.idCategoriaEgreso}"
+                            ${cat.idCategoriaEgreso == factura.idCategoriaEgreso ? 'selected' : ''}>
+                            ${cat.nombreCategoriaEgreso}
+                        </option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <div class="factura__fila">
                 <div class="factura__grupo factura__grupo--medio">
                     <label class="factura__label">Monto *</label>
                     <input type="number" name="monto" class="factura__input"
@@ -59,7 +60,7 @@
                 <div class="factura__grupo factura__grupo--medio">
                     <label class="factura__label">Vencimiento *</label>
                     <input type="date" name="fechaVencimiento" class="factura__input factura__input--fecha"
-                           value="${f.fechaVencimientoFormateada}" required>
+                           value="${factura.fechaVencimientoISO}" required>
                 </div>
             </div>
 
@@ -68,7 +69,7 @@
                 <select name="idMetodoPago" class="factura__select" required>
                     <c:forEach var="met" items="${metodosPago}">
                         <option value="${met.idMetodoPago}"
-                            ${met.idMetodoPago  == factura.idMetodoPago ? 'selected' : ''}>
+                            ${met.idMetodoPago == factura.idMetodoPago ? 'selected' : ''}>
                             ${met.nombreMetodoPago}
                         </option>
                     </c:forEach>
@@ -88,11 +89,6 @@
                         <input type="radio" name="estadoPago" value="Vencida" ${factura.estadoPago == 'Vencida' ? 'checked' : ''}><span>Vencida</span>
                     </label>
                 </div>
-            </div>
-
-            <div class="factura__grupo">
-                <label class="factura__label">Notas adicionales (opcional)</label>
-                <textarea name="descripcion" class="factura__textarea">${factura.descripcion}</textarea>
             </div>
 
             <div class="factura__boton">

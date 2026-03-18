@@ -221,10 +221,10 @@ public class FacturasServlet extends HttpServlet {
 
         BigDecimal[] totales = dao.obtenerTotalPagado(idHogar);
         cargarCatalogos(req);
-        req.setAttribute("historial",        historial);
-        req.setAttribute("totalPagado",      totales[0]);
-        req.setAttribute("cantidadPagadas",  totales[1].intValue());
-        req.setAttribute("filtroActivo",     filtroActivo);
+        req.setAttribute("historial",       historial);
+        req.setAttribute("totalPagado",     totales[0]);
+        req.setAttribute("cantidadPagadas", totales[1].intValue());
+        req.setAttribute("filtroActivo",    filtroActivo);
         forward(req, resp, "08_HistorialPagos.jsp");
     }
 
@@ -238,14 +238,14 @@ public class FacturasServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/Facturas?error=sin_permiso"); return;
         }
 
-        String nombreFactura = nvl(req.getParameter("nombreFactura")).trim();
-        String montoStr      = req.getParameter("monto");
-        String catStr        = req.getParameter("idCategoriaEgreso");
-        String metStr        = req.getParameter("idMetodoPago");
-        String fechaStr      = req.getParameter("fechaVencimiento");
-        String estadoPago    = req.getParameter("estadoPago");
+        String descripcion = nvl(req.getParameter("descripcion")).trim();
+        String montoStr    = req.getParameter("monto");
+        String catStr      = req.getParameter("idCategoriaEgreso");
+        String metStr      = req.getParameter("idMetodoPago");
+        String fechaStr    = req.getParameter("fechaVencimiento");
+        String estadoPago  = req.getParameter("estadoPago");
 
-        if (estaVacio(nombreFactura) || estaVacio(montoStr) || estaVacio(catStr)
+        if (estaVacio(montoStr) || estaVacio(catStr)
                 || estaVacio(metStr) || estaVacio(fechaStr) || estaVacio(estadoPago)) {
             req.setAttribute("error", "Todos los campos obligatorios deben completarse.");
             cargarCatalogos(req);
@@ -279,7 +279,7 @@ public class FacturasServlet extends HttpServlet {
 
         RegistroEgreso egreso = new RegistroEgreso();
         egreso.setIdHogar(idHogar);
-        egreso.setNombreFactura(nombreFactura);          // alias → setDescripcionPago()
+        egreso.setDescripcionPago(descripcion); 
         egreso.setMonto(monto);
         egreso.setIdCategoriaEgreso(Integer.parseInt(catStr));
         egreso.setIdMetodoPago(Integer.parseInt(metStr));
@@ -306,15 +306,15 @@ public class FacturasServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/Facturas?error=sin_permiso"); return;
         }
 
-        int id           = parsearInt(req.getParameter("idEgreso"));
-        String nombre    = req.getParameter("nombreFactura");
-        String montoStr  = req.getParameter("monto");
-        String catStr    = req.getParameter("idCategoriaEgreso");
-        String metStr    = req.getParameter("idMetodoPago");
-        String fechaStr  = req.getParameter("fechaVencimiento");
-        String estado    = req.getParameter("estadoPago");
+        int id             = parsearInt(req.getParameter("idEgreso"));
+        String descripcion = nvl(req.getParameter("descripcion")).trim();
+        String montoStr    = req.getParameter("monto");
+        String catStr      = req.getParameter("idCategoriaEgreso");
+        String metStr      = req.getParameter("idMetodoPago");
+        String fechaStr    = req.getParameter("fechaVencimiento");
+        String estado      = req.getParameter("estadoPago");
 
-        if (id <= 0 || estaVacio(nombre) || estaVacio(montoStr) || estaVacio(catStr)
+        if (id <= 0 || estaVacio(montoStr) || estaVacio(catStr)
                 || estaVacio(metStr) || estaVacio(fechaStr) || estaVacio(estado)) {
             resp.sendRedirect(req.getContextPath() + "/Facturas?accion=editar&id=" + id + "&error=campos_vacios");
             return;
@@ -340,7 +340,7 @@ public class FacturasServlet extends HttpServlet {
         RegistroEgreso egreso = new RegistroEgreso();
         egreso.setIdEgresos(id);
         egreso.setIdHogar(idHogar);
-        egreso.setNombreFactura(nombre.trim());
+        egreso.setDescripcionPago(descripcion);  
         egreso.setMonto(monto);
         egreso.setIdCategoriaEgreso(Integer.parseInt(catStr));
         egreso.setIdMetodoPago(Integer.parseInt(metStr));
@@ -350,7 +350,7 @@ public class FacturasServlet extends HttpServlet {
 
         boolean ok = new RegistroEgresoDao().actualizar(egreso);
         if (ok) {
-            forward(req, resp, "05_ConfirmacionEdicion.jsp");
+            resp.sendRedirect(req.getContextPath() + "/Facturas?accion=lista&exito=editada");
         } else {
             resp.sendRedirect(req.getContextPath() + "/Facturas?accion=editar&id=" + id + "&error=error_db");
         }

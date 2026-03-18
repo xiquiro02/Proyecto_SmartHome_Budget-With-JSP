@@ -27,23 +27,27 @@
         <div class="consultarFacturas__filtros">
             <p class="consultarFacturas__filtro-label">Filtrar por:</p>
             <div class="consultarFacturas__filtro-grupo">
-                <a href="${pageContext.request.contextPath}/Facturas?accion=filtroCategoria" 
+                <a href="${pageContext.request.contextPath}/Facturas?accion=filtroCategoria"
                    class="consultarFacturas__filtro-enlace ${param.accion == 'filtroCategoria' ? 'consultarFacturas__filtro-enlace--activo' : ''}">
                     Categoría <img class="consultarFacturas__filtro-imagen" src="${pageContext.request.contextPath}/asset/imagenes/flecha.png" alt="">
                 </a>
-                <a href="${pageContext.request.contextPath}/Facturas?accion=filtroFecha" 
+                <a href="${pageContext.request.contextPath}/Facturas?accion=filtroFecha"
                    class="consultarFacturas__filtro-enlace ${param.accion == 'filtroFecha' ? 'consultarFacturas__filtro-enlace--activo' : ''}">
                     Fecha <img class="consultarFacturas__filtro-imagen" src="${pageContext.request.contextPath}/asset/imagenes/flecha.png" alt="">
                 </a>
-                <a href="${pageContext.request.contextPath}/Facturas?accion=filtroEstado" 
+                <a href="${pageContext.request.contextPath}/Facturas?accion=filtroEstado"
                    class="consultarFacturas__filtro-enlace ${param.accion == 'filtroEstado' ? 'consultarFacturas__filtro-enlace--activo' : ''}">
                     Estado <img class="consultarFacturas__filtro-imagen" src="${pageContext.request.contextPath}/asset/imagenes/flecha.png" alt="">
                 </a>
             </div>
         </div>
 
+        <%-- Mensajes de éxito --%>
         <c:if test="${param.exito == 'registrada'}">
             <div class="mensaje mensaje--exito">✅ Factura registrada correctamente.</div>
+        </c:if>
+        <c:if test="${param.exito == 'editada'}">
+            <div class="mensaje mensaje--exito">✅ Factura actualizada correctamente.</div>
         </c:if>
         <c:if test="${param.exito == 'pagada'}">
             <div class="mensaje mensaje--exito">✅ Factura marcada como pagada.</div>
@@ -64,7 +68,7 @@
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="f" items="${facturas}">
-                        <%-- Color de la tarjeta según estado --%>
+                        <%-- Color de tarjeta según estado --%>
                         <c:set var="color" value="naranja"/>
                         <c:if test="${f.estadoPago == 'Pagada'}"><c:set var="color" value="verde"/></c:if>
                         <c:if test="${f.estadoPago == 'Vencida'}"><c:set var="color" value="rojo"/></c:if>
@@ -74,13 +78,18 @@
                             <div class="facturaCard__contenido">
                                 <div class="facturaCard__encabezado">
                                     <h3 class="facturaCard__titulo">
-                                        ${f.nombreFactura} -
+                                        ${f.nombreCategoriaEgreso} —
                                         <fmt:formatNumber value="${f.monto}" type="currency" currencySymbol="$"/>
                                     </h3>
                                 </div>
-                                <p class="facturaCard__fecha">
-                                    Categoría: ${f.nombreCategoria}
-                                </p>
+                                <c:choose>
+                                    <c:when test="${not empty f.descripcionPago}">
+                                        <p class="facturaCard__fecha">${f.descripcionPago}</p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p class="facturaCard__fecha" style="color:#aaa;font-style:italic;">Sin descripción</p>
+                                    </c:otherwise>
+                                </c:choose>
                                 <p class="facturaCard__fecha">
                                     Vence: ${f.fechaVencimientoFormateada}
                                 </p>
@@ -117,16 +126,12 @@
             </c:choose>
         </div>
 
-        <%-- Paneles de filtros dinámicos --%>
-        
         <%-- Panel de filtro por categoría --%>
         <c:if test="${param.accion == 'filtroCategoria'}">
             <div class="panelFiltro ${not empty categoriaFiltro ? 'panelFiltro--oculto' : ''}">
                 <form action="${pageContext.request.contextPath}/Facturas" method="get" class="filtroCategoria">
                     <input type="hidden" name="accion" value="filtroCategoria">
-
                     <h3 class="filtroCategoria__titulo">Seleccionar categoría</h3>
-
                     <div class="filtroCategoria__opciones">
                         <c:forEach var="cat" items="${categorias}">
                             <label class="filtroCategoria__opcion">
@@ -136,7 +141,6 @@
                             </label>
                         </c:forEach>
                     </div>
-
                     <div class="filtroCategoria__acciones">
                         <button type="submit" class="boton boton--aplicar">Aplicar filtro</button>
                         <a href="${pageContext.request.contextPath}/Facturas?accion=lista" class="enlace-ver-todas">Ver todas</a>
@@ -150,7 +154,6 @@
             <div class="panelFiltro ${not empty mesFiltro ? 'panelFiltro--oculto' : ''}">
                 <form action="${pageContext.request.contextPath}/Facturas" method="get" class="filtroFecha">
                     <input type="hidden" name="accion" value="filtroFecha">
-                    
                     <div class="filtroMes">
                         <h3 class="filtroMes__titulo">Seleccionar mes</h3>
                         <div class="filtroMes__gridMeses">
@@ -190,9 +193,7 @@
             <div class="panelFiltro ${not empty estadoFiltro ? 'panelFiltro--oculto' : ''}">
                 <form action="${pageContext.request.contextPath}/Facturas" method="get" class="filtroEstado">
                     <input type="hidden" name="accion" value="filtroEstado">
-                    
                     <h3 class="filtroEstado__titulo">Seleccionar estado</h3>
-                    
                     <div class="filtroEstado__opciones">
                         <c:forEach var="est" items="${['Pendiente','Pagada','Vencida']}">
                             <label class="filtroEstado__opcion">
@@ -203,7 +204,6 @@
                             </label>
                         </c:forEach>
                     </div>
-                    
                     <div class="filtroEstado__acciones">
                         <button type="submit" class="boton boton--aplicar">Aplicar filtro</button>
                         <a href="${pageContext.request.contextPath}/Facturas?accion=lista" class="enlace-ver-todas">Ver todas</a>

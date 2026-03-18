@@ -27,16 +27,16 @@
             <div class="mensaje mensaje--error">⚠️ ${error}</div>
         </c:if>
 
-        <form class="factura__formulario" id="formRegistroFactura"  action="${pageContext.request.contextPath}/Facturas" method="post">
+        <form class="factura__formulario" id="formRegistroFactura" action="${pageContext.request.contextPath}/Facturas" method="post">
             <input type="hidden" name="accion" value="registrar">
 
             <div class="factura__grupo">
-                <label class="factura__label">Nombre de la factura *</label>
-                <input type="text" name="nombreFactura" class="factura__input"
-                       id="nombreFactura"
-                       placeholder="Ej: Factura de electricidad"
-                       maxlength="100" pattern=".*\S.*" 
-                       title="No puede estar vacío o contener solo espacios" required>
+                <label class="factura__label">Descripción</label>
+                <textarea name="descripcion" id="descripcion" class="factura__textarea" maxlength="500"
+                          placeholder="Ej: Factura de electricidad de mayo..."></textarea>
+                <div id="contadorCaracteres" style="text-align: right; font-size: 0.75rem; color: #666;">
+                    0 / 500 caracteres
+                </div>
             </div>
 
             <div class="factura__grupo">
@@ -58,14 +58,14 @@
                 <div class="factura__grupo factura__grupo--medio">
                     <label class="factura__label">Vencimiento *</label>
                     <input type="date" name="fechaVencimiento" id="fechaVencimiento"
-                           class="factura__input factura__input--fecha" 
+                           class="factura__input factura__input--fecha"
                            min="2024-01-01" max="2035-12-31" required>
                 </div>
             </div>
 
             <div class="factura__grupo">
                 <label class="factura__label">Método de pago *</label>
-                <select name="idMetodoPago" class="factura__select" required>
+                <select name="idMetodoPago" id="idMetodoPago" class="factura__select" required>
                     <option value="">Seleccionar método</option>
                     <c:forEach var="met" items="${metodosPago}">
                         <option value="${met.idMetodoPago}">${met.nombreMetodoPago}</option>
@@ -91,16 +91,6 @@
                 </div>
             </div>
 
-            <div class="factura__grupo">
-                <label class="factura__label">Notas adicionales (opcional)</label>
-                <textarea name="descripcion" id="descripcion" class="factura__textarea" maxlength="500"
-                          placeholder="Agrega detalles sobre esta factura..."></textarea>
-            </div>
-            
-                <div id="contadorCaracteres" style="text-align: right; font-size: 0.75rem; color: #666;">
-                    0 / 500 caracteres
-                </div>
-
             <div class="factura__recordatorio">
                 <div class="factura__recordatorio-header">
                     <img class="factura__recordatorio-icono" src="${pageContext.request.contextPath}/asset/imagenes/notificar-alerta.png" alt="Recordatorio">
@@ -117,6 +107,7 @@
             </a>
         </form>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="${pageContext.request.contextPath}/asset/js/validacionesFormularioFacturas.js"></script>
 </body>
 </html>

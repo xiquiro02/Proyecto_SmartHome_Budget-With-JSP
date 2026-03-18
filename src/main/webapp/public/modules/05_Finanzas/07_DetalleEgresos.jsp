@@ -45,18 +45,18 @@
                         <div class="facturaCard__contenido">
                             <div class="facturaCard__encabezado">
                                 <h3 class="facturaCard__titulo">
-                                    <c:choose>
-                                        <c:when test="${not empty egreso.nombreFactura}">${egreso.nombreFactura}</c:when>
-                                        <c:otherwise>${egreso.nombreCategoria}</c:otherwise>
-                                    </c:choose>
+                                    ${egreso.nombreCategoriaEgreso}
                                 </h3>
                                 <span class="facturaCard__etiqueta facturaCard__etiqueta--pendiente">
                                     $ <fmt:formatNumber value="${egreso.monto}" pattern="#,##0.00"/>
                                 </span>
                             </div>
+                            <c:if test="${not empty egreso.descripcionPago}">
+                                <p class="facturaCard__detalles">${egreso.descripcionPago}</p>
+                            </c:if>
                             <p class="facturaCard__detalles">
-                                <fmt:formatDate value="${egreso.fechaVencimiento}" pattern="dd MMM yyyy" type="date"/>
-                                — ${egreso.nombreCategoria}
+                                ${egreso.fechaVencimientoFormateada}
+                                — ${egreso.nombreCategoriaEgreso}
                             </p>
                         </div>
                     </div>
