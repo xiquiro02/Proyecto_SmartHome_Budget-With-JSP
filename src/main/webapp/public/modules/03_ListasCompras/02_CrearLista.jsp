@@ -18,16 +18,20 @@
 <main class="formulario">
     <div class="formulario__contenedor">
         <c:if test="${not empty error}">
-            <div class="mensaje mensaje--error">️${error}</div>
+            <div class="mensaje mensaje--error">⚠️ ${error}</div>
         </c:if>
 
-        <form action="${pageContext.request.contextPath}/Listas" method="post">
+        <form action="${pageContext.request.contextPath}/Listas" method="post" id="formCrearLista" novalidate>
             <input type="hidden" name="accion" value="registrar">
 
             <div class="formulario__campo">
                 <label class="formulario__etiqueta" for="nombreLista">Nombre de la lista: *</label>
                 <input type="text" id="nombreLista" name="nombreLista" class="formulario__input"
-                       placeholder="Ej: Mercado mensual" maxlength="100" required>
+                       placeholder="Ej: Mercado mensual"
+                       minlength="5" maxlength="50" required
+                       value="${not empty valorNombre ? valorNombre : ''}">
+                <small style="color:#888">Mínimo 5 y máximo 50 caracteres. Se permiten letras, números, espacios, puntos, guiones y guion bajo.</small>
+                <span id="errorNombre" style="color:#c00;font-size:12px;display:none;margin-top:4px;display:none"></span>
             </div>
 
             <div class="formulario__campo">
@@ -46,5 +50,40 @@
         </form>
     </div>
 </main>
+<script>
+(function () {
+    const form    = document.getElementById('formCrearLista');
+    const input   = document.getElementById('nombreLista');
+    const errSpan = document.getElementById('errorNombre');
+    // Letras (con tildes y ñ), números, espacios, . - _
+    const PATRON  = /^[\p{L}\p{N} .\-_]+$/u;
+
+    function mostrarError(msg) {
+        errSpan.textContent = msg;
+        errSpan.style.display = 'block';
+        input.style.borderColor = '#c00';
+    }
+    function limpiarError() {
+        errSpan.style.display = 'none';
+        input.style.borderColor = '';
+    }
+
+    function validar() {
+        const val = input.value.trim();
+        if (!val)              { mostrarError('El nombre es obligatorio.'); return false; }
+        if (val.length < 5)    { mostrarError('Mínimo 5 caracteres.'); return false; }
+        if (val.length > 50)   { mostrarError('Máximo 50 caracteres.'); return false; }
+        if (!PATRON.test(val)) { mostrarError('Solo letras, números, espacios, puntos, guiones y guion bajo.'); return false; }
+        limpiarError();
+        return true;
+    }
+
+    input.addEventListener('input', validar);
+    form.addEventListener('submit', function (e) {
+        input.value = input.value.trim();
+        if (!validar()) e.preventDefault();
+    });
+})();
+</script>
 </body>
 </html>

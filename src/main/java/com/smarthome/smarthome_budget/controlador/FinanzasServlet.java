@@ -19,14 +19,47 @@ import com.smarthome.smarthome_budget.modelo.RegistroEgreso;
 import com.smarthome.smarthome_budget.modelo.PresupuestoMensual;
 import com.smarthome.smarthome_budget.modelo.Usuario;
 
+/*
+ * FinanzasServlet — módulo Finanzas reestructurado.
+ *
+ * MENÚ PRINCIPAL (01_Finanzas.jsp):
+ *   Solo muestra "Resumen Financiero" y "Presupuesto Mensual" (Rol 1 y 2).
+ *   El registro de ingresos/egresos ocurre únicamente desde el detalle.
+ *
+ * ROLES:
+ *   Rol 1 (Administrador) → CRUD completo
+ *   Rol 2 (Adulto/Cotitular) → puede ver y crear; NO puede editar ni eliminar
+ *   Rol 3 (Invitado/Hijo) → sin acceso a finanzas
+ *
+ * ACCIONES GET:
+ *   (default/menu)    → 01_Finanzas.jsp
+ *   resumen           → 08_ResumenFinanciero.jsp
+ *   detalleIngresos   → 04_DetalleIngresos.jsp
+ *   formIngreso       → 02_RegistrarIngresos.jsp
+ *   editarIngreso     → 02_RegistrarIngresos.jsp (modo edición)
+ *   detalleEgresos    → 07_DetalleEgresos.jsp
+ *   formEgreso        → 05_RegistrarEgresos.jsp
+ *   editarEgreso      → 05_RegistrarEgresos.jsp (modo edición)
+ *   formPresupuesto   → 09_PresupuestoMensual.jsp  [solo Rol 1]
+ *
+ * ACCIONES POST:
+ *   guardarIngreso    → registra o actualiza ingreso
+ *   eliminarIngreso   → elimina ingreso  [solo Rol 1]
+ *   guardarEgreso     → registra o actualiza egreso
+ *   eliminarEgreso    → elimina egreso   [solo Rol 1]
+ *   guardarPresupuesto → guarda presupuesto mensual [solo Rol 1]
+ */
+
 @WebServlet("/Finanzas")
 public class FinanzasServlet extends HttpServlet {
 
     private final RegistroIngresoDao ingresoDao = new RegistroIngresoDao();
-    private final RegistroEgresoDao egresoDao   = new RegistroEgresoDao();
+    private final RegistroEgresoDao  egresoDao  = new RegistroEgresoDao();
     private final PresupuestoMensualDao presDao  = new PresupuestoMensualDao();
 
     private static final String BASE = "/public/modules/05_Finanzas/";
+
+    // ─── GET ──────────────────────────────────────────────────────────────────
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -38,81 +71,94 @@ public class FinanzasServlet extends HttpServlet {
             return;
         }
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        int idHogar     = (Integer) session.getAttribute("idHogar");
-        int idRol       = (Integer) session.getAttribute("idRol");
-        String accion   = req.getParameter("accion");
-        if (accion == null) accion = "";
+        int idHogar = (Integer) session.getAttribute("idHogar");
+        int idRol   = (Integer) session.getAttribute("idRol");
+
+        // Rol 3 no tiene acceso a finanzas
+        if (idRol == 3) {
+            resp.sendRedirect(req.getContextPath() + "/Menu?error=sin_permiso_finanzas");
+            return;
+        }
+
+        String accion = nvl(req.getParameter("accion"));
 
         switch (accion) {
 
-            // ── RESUMEN FINANCIERO ──────────────────────────────────────────
+            // ── RESUMEN ────────────────────────────────────────────────────
             case "resumen": {
-                BigDecimal totalIngresos = ingresoDao.totalMesActual(idHogar);
-                BigDecimal totalEgresos  = presDao.totalEgresosMesActual(idHogar);
-                BigDecimal disponible    = totalIngresos.subtract(totalEgresos);
-
-                PresupuestoMensual pres  = presDao.obtenerMesActual(idHogar);
-                if (pres != null) {
-                    pres.setTotalEgresos(totalEgresos);
-                    pres.setDisponible(pres.getMontoMax().subtract(totalEgresos));
-                }
-
-                req.setAttribute("totalIngresos", totalIngresos);
-                req.setAttribute("totalEgresos",  totalEgresos);
-                req.setAttribute("disponible",    disponible);
-                req.setAttribute("presupuesto",   pres);
-                req.getRequestDispatcher(BASE + "08_ResumenFinanciero.jsp").forward(req, resp);
+                cargarResumen(req, idHogar);
+                fwd(req, resp, "08_ResumenFinanciero.jsp");
                 break;
             }
 
-            // ── DETALLE INGRESOS ────────────────────────────────────────────
+            // ── DETALLE INGRESOS ───────────────────────────────────────────
             case "detalleIngresos": {
                 List<RegistroIngreso> ingresos = ingresoDao.listarPorHogar(idHogar);
-                BigDecimal total = ingresos.stream()
-                        .map(RegistroIngreso::getMonto)
+                BigDecimal total = ingresos.stream().map(RegistroIngreso::getMonto)
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
                 req.setAttribute("ingresos",      ingresos);
                 req.setAttribute("totalIngresos", total);
-                req.getRequestDispatcher(BASE + "04_DetalleIngresos.jsp").forward(req, resp);
+                fwd(req, resp, "04_DetalleIngresos.jsp");
                 break;
             }
 
-            // ── FORMULARIO REGISTRAR INGRESO ────────────────────────────────
+            // ── FORM NUEVO INGRESO ─────────────────────────────────────────
             case "formIngreso": {
                 req.setAttribute("categorias", ingresoDao.listarCategorias());
-                req.getRequestDispatcher(BASE + "02_RegistrarIngresos.jsp").forward(req, resp);
+                req.setAttribute("modoEdicion", false);
+                fwd(req, resp, "02_RegistrarIngresos.jsp");
                 break;
             }
 
-            // ── DETALLE EGRESOS ─────────────────────────────────────────────
+            // ── FORM EDITAR INGRESO (solo Rol 1) ───────────────────────────
+            case "editarIngreso": {
+                if (idRol != 1) { resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleIngresos&error=sin_permiso"); return; }
+                int id = parseInt(req.getParameter("id"));
+                RegistroIngreso ingreso = ingresoDao.obtenerPorId(id, idHogar);
+                if (ingreso == null) { resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleIngresos&error=no_encontrado"); return; }
+                req.setAttribute("categorias",   ingresoDao.listarCategorias());
+                req.setAttribute("ingreso",      ingreso);
+                req.setAttribute("modoEdicion",  true);
+                fwd(req, resp, "02_RegistrarIngresos.jsp");
+                break;
+            }
+
+            // ── DETALLE EGRESOS ────────────────────────────────────────────
             case "detalleEgresos": {
                 List<RegistroEgreso> egresos = egresoDao.listarPorHogar(idHogar);
-                BigDecimal total = egresos.stream()
-                        .map(RegistroEgreso::getMonto)
+                BigDecimal total = egresos.stream().map(RegistroEgreso::getMonto)
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
                 req.setAttribute("egresos",      egresos);
                 req.setAttribute("totalEgresos", total);
-                req.getRequestDispatcher(BASE + "07_DetalleEgresos.jsp").forward(req, resp);
+                fwd(req, resp, "07_DetalleEgresos.jsp");
                 break;
             }
 
-            // ── FORMULARIO REGISTRAR EGRESO ─────────────────────────────────
+            // ── FORM NUEVO EGRESO ──────────────────────────────────────────
             case "formEgreso": {
-                // sólo rol 1 y 2
-                if (idRol == 3) {
-                    resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=resumen&error=sin_permiso");
-                    return;
-                }
                 req.setAttribute("categorias", egresoDao.listarCategorias());
-                req.getRequestDispatcher(BASE + "05_RegistrarEgresos.jsp").forward(req, resp);
+                req.setAttribute("modoEdicion", false);
+                fwd(req, resp, "05_RegistrarEgresos.jsp");
                 break;
             }
 
-            // ── FORMULARIO PRESUPUESTO ──────────────────────────────────────
+            // ── FORM EDITAR EGRESO (solo Rol 1) ────────────────────────────
+            case "editarEgreso": {
+                if (idRol != 1) { resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleEgresos&error=sin_permiso"); return; }
+                int id = parseInt(req.getParameter("id"));
+                RegistroEgreso egreso = egresoDao.obtenerPorId(id, idHogar);
+                if (egreso == null) { resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleEgresos&error=no_encontrado"); return; }
+                req.setAttribute("categorias",  egresoDao.listarCategorias());
+                req.setAttribute("egreso",      egreso);
+                req.setAttribute("modoEdicion", true);
+                fwd(req, resp, "05_RegistrarEgresos.jsp");
+                break;
+            }
+
+            // ── PRESUPUESTO (solo Rol 1) ────────────────────────────────────
             case "formPresupuesto": {
-                if (idRol == 3) {
-                    resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=resumen&error=sin_permiso");
+                if (idRol != 1) {
+                    resp.sendRedirect(req.getContextPath() + "/Finanzas?error=sin_permiso");
                     return;
                 }
                 PresupuestoMensual pres = presDao.obtenerMesActual(idHogar);
@@ -123,24 +169,19 @@ public class FinanzasServlet extends HttpServlet {
                 }
                 req.setAttribute("presupuesto",  pres);
                 req.setAttribute("totalEgresos", totalEgresos);
-                req.getRequestDispatcher(BASE + "09_PresupuestoMensual.jsp").forward(req, resp);
+                fwd(req, resp, "09_PresupuestoMensual.jsp");
                 break;
             }
 
-            default:
-                BigDecimal totalIngresos = ingresoDao.totalMesActual(idHogar);
-                BigDecimal totalEgresos  = presDao.totalEgresosMesActual(idHogar);
-                PresupuestoMensual pres  = presDao.obtenerMesActual(idHogar);
-                if (pres != null) {
-                    pres.setTotalEgresos(totalEgresos);
-                    pres.setDisponible(pres.getMontoMax().subtract(totalEgresos));
-                }
-                req.setAttribute("totalIngresos", totalIngresos);
-                req.setAttribute("totalEgresos",  totalEgresos);
-                req.setAttribute("presupuesto",   pres);
-                req.getRequestDispatcher(BASE + "01_Finanzas.jsp").forward(req, resp);
+            // ── MENÚ PRINCIPAL (default) ────────────────────────────────────
+            default: {
+                cargarResumen(req, idHogar);
+                fwd(req, resp, "01_Finanzas.jsp");
+            }
         }
     }
+
+    // ─── POST ─────────────────────────────────────────────────────────────────
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -152,87 +193,140 @@ public class FinanzasServlet extends HttpServlet {
             return;
         }
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        int idHogar     = (Integer) session.getAttribute("idHogar");
-        int idRol       = (Integer) session.getAttribute("idRol");
-        String accion   = req.getParameter("accion");
-        if (accion == null) accion = "";
+        int idHogar = (Integer) session.getAttribute("idHogar");
+        int idRol   = (Integer) session.getAttribute("idRol");
+
+        if (idRol == 3) {
+            resp.sendRedirect(req.getContextPath() + "/Menu?error=sin_permiso_finanzas");
+            return;
+        }
+
+        String accion = nvl(req.getParameter("accion"));
 
         switch (accion) {
 
-            // ── GUARDAR INGRESO ─────────────────────────────────────────────
+            // ── GUARDAR INGRESO (nuevo o edición) ──────────────────────────
             case "guardarIngreso": {
                 try {
-                    BigDecimal monto = new BigDecimal(req.getParameter("monto").replace(",", "").replace("$", "").trim());
-                    int idCat        = Integer.parseInt(req.getParameter("idCategoriaIngreso"));
-                    String desc      = req.getParameter("descripcion");
+                    BigDecimal monto = parseMonto(req.getParameter("monto"));
+                    int idCat        = parseInt(req.getParameter("idCategoriaIngreso"));
+                    String desc      = nvl(req.getParameter("descripcion"));
+                    String idStr     = nvl(req.getParameter("idIngreso"));
 
                     RegistroIngreso ingreso = new RegistroIngreso();
                     ingreso.setIdHogar(idHogar);
                     ingreso.setMonto(monto);
                     ingreso.setIdCategoriaIngreso(idCat);
-                    ingreso.setDescripcion(desc);
+                    ingreso.setDescripcion(desc.isBlank() ? null : desc.trim());
 
-                    boolean ok = ingresoDao.registrar(ingreso);
+                    boolean ok;
+                    boolean esEdicion = !idStr.isEmpty() && parseInt(idStr) > 0;
+
+                    if (esEdicion && idRol == 1) {
+                        // Solo Rol 1 puede editar
+                        ingreso.setIdIngresos(parseInt(idStr));
+                        ok = ingresoDao.actualizar(ingreso);
+                    } else {
+                        ok = ingresoDao.registrar(ingreso);
+                    }
+
                     if (ok) {
-                        req.getRequestDispatcher(BASE + "03_RegistroIngresoExito.jsp").forward(req, resp);
+                        fwd(req, resp, "03_RegistroIngresoExito.jsp");
                     } else {
                         req.setAttribute("error", "No se pudo guardar el ingreso.");
                         req.setAttribute("categorias", ingresoDao.listarCategorias());
-                        req.getRequestDispatcher(BASE + "02_RegistrarIngresos.jsp").forward(req, resp);
+                        req.setAttribute("modoEdicion", esEdicion);
+                        fwd(req, resp, "02_RegistrarIngresos.jsp");
                     }
                 } catch (Exception e) {
                     req.setAttribute("error", "Datos inválidos: " + e.getMessage());
                     req.setAttribute("categorias", ingresoDao.listarCategorias());
-                    req.getRequestDispatcher(BASE + "02_RegistrarIngresos.jsp").forward(req, resp);
+                    req.setAttribute("modoEdicion", false);
+                    fwd(req, resp, "02_RegistrarIngresos.jsp");
                 }
                 break;
             }
 
-            // ── GUARDAR EGRESO ──────────────────────────────────────────────
-            case "guardarEgreso": {
-                if (idRol == 3) {
-                    resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=resumen&error=sin_permiso");
+            // ── ELIMINAR INGRESO (solo Rol 1) ──────────────────────────────
+            case "eliminarIngreso": {
+                if (idRol != 1) {
+                    resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleIngresos&error=sin_permiso");
                     return;
                 }
+                int id = parseInt(req.getParameter("idIngreso"));
+                ingresoDao.eliminar(id, idHogar);
+                // Recalcular balance → implícito porque se recalcula al cargar el resumen
+                resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleIngresos&exito=ingreso_eliminado");
+                break;
+            }
+
+            // ── GUARDAR EGRESO (nuevo o edición) ───────────────────────────
+            case "guardarEgreso": {
                 try {
-                    BigDecimal monto = new BigDecimal(req.getParameter("monto").replace(",", "").replace("$", "").trim());
-                    int idCat        = Integer.parseInt(req.getParameter("idCategoriaEgreso"));
-                    String desc      = req.getParameter("descripcion");
+                    BigDecimal monto = parseMonto(req.getParameter("monto"));
+                    int idCat        = parseInt(req.getParameter("idCategoriaEgreso"));
+                    String desc      = nvl(req.getParameter("descripcion"));
+                    String idStr     = nvl(req.getParameter("idEgreso"));
 
                     RegistroEgreso egreso = new RegistroEgreso();
                     egreso.setIdHogar(idHogar);
                     egreso.setMonto(monto);
                     egreso.setIdCategoriaEgreso(idCat);
-                    egreso.setDescripcion(desc);
+                    egreso.setDescripcion(desc.isBlank() ? null : desc.trim());
 
-                    boolean ok = egresoDao.registrar(egreso);
+                    boolean ok;
+                    boolean esEdicion = !idStr.isEmpty() && parseInt(idStr) > 0;
+
+                    if (esEdicion && idRol == 1) {
+                        // Solo Rol 1 puede editar
+                        egreso.setIdEgresos(parseInt(idStr));
+                        egreso.setIdMetodoPago(1);
+                        egreso.setFechaVencimiento(java.time.LocalDateTime.now());
+                        egreso.setEstadoPago("Pagada");
+                        egreso.setFechaPago(java.time.LocalDateTime.now());
+                        ok = egresoDao.actualizar(egreso);
+                    } else {
+                        ok = egresoDao.registrar(egreso);
+                    }
+
                     if (ok) {
-                        req.getRequestDispatcher(BASE + "06_RegistroEgresoExito.jsp").forward(req, resp);
+                        fwd(req, resp, "06_RegistroEgresoExito.jsp");
                     } else {
                         req.setAttribute("error", "No se pudo guardar el egreso.");
                         req.setAttribute("categorias", egresoDao.listarCategorias());
-                        req.getRequestDispatcher(BASE + "05_RegistrarEgresos.jsp").forward(req, resp);
+                        req.setAttribute("modoEdicion", esEdicion);
+                        fwd(req, resp, "05_RegistrarEgresos.jsp");
                     }
                 } catch (Exception e) {
                     req.setAttribute("error", "Datos inválidos: " + e.getMessage());
                     req.setAttribute("categorias", egresoDao.listarCategorias());
-                    req.getRequestDispatcher(BASE + "05_RegistrarEgresos.jsp").forward(req, resp);
+                    req.setAttribute("modoEdicion", false);
+                    fwd(req, resp, "05_RegistrarEgresos.jsp");
                 }
                 break;
             }
 
-            // ── GUARDAR PRESUPUESTO ─────────────────────────────────────────
+            // ── ELIMINAR EGRESO (solo Rol 1) ───────────────────────────────
+            case "eliminarEgreso": {
+                if (idRol != 1) {
+                    resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleEgresos&error=sin_permiso");
+                    return;
+                }
+                int id = parseInt(req.getParameter("idEgreso"));
+                egresoDao.eliminar(id, idHogar);
+                resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleEgresos&exito=egreso_eliminado");
+                break;
+            }
+
+            // ── GUARDAR PRESUPUESTO (solo Rol 1) ───────────────────────────
             case "guardarPresupuesto": {
-                if (idRol == 3) {
-                    resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=resumen&error=sin_permiso");
+                if (idRol != 1) {
+                    resp.sendRedirect(req.getContextPath() + "/Finanzas?error=sin_permiso");
                     return;
                 }
                 try {
-                    BigDecimal monto = new BigDecimal(req.getParameter("montoMax").replace(",", "").replace("$", "").trim());
-                    int mes          = Integer.parseInt(req.getParameter("mes"));
-                    // CORRECCIÓN FASE 3: eliminados setAlerta80() y setAlertaSuperePresupuesto()
-                    // Las alertas son lógica calculada en el modelo — no se persisten en BD
+                    BigDecimal monto = parseMonto(req.getParameter("montoMax"));
+                    int mes          = parseInt(req.getParameter("mes"));
 
                     PresupuestoMensual p = new PresupuestoMensual();
                     p.setIdHogar(idHogar);
@@ -244,7 +338,7 @@ public class FinanzasServlet extends HttpServlet {
                     resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=resumen");
                 } catch (Exception e) {
                     req.setAttribute("error", "Datos inválidos: " + e.getMessage());
-                    req.getRequestDispatcher(BASE + "09_PresupuestoMensual.jsp").forward(req, resp);
+                    fwd(req, resp, "09_PresupuestoMensual.jsp");
                 }
                 break;
             }
@@ -253,4 +347,35 @@ public class FinanzasServlet extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/Finanzas");
         }
     }
+
+    // ─── Helpers ──────────────────────────────────────────────────────────────
+
+    /** Carga los datos comunes del resumen financiero en el request. */
+    private void cargarResumen(HttpServletRequest req, int idHogar) {
+        BigDecimal totalIngresos = ingresoDao.totalMesActual(idHogar);
+        BigDecimal totalEgresos  = presDao.totalEgresosMesActual(idHogar);
+        BigDecimal disponible    = totalIngresos.subtract(totalEgresos);
+        PresupuestoMensual pres  = presDao.obtenerMesActual(idHogar);
+        if (pres != null) {
+            pres.setTotalEgresos(totalEgresos);
+            pres.setDisponible(pres.getMontoMax().subtract(totalEgresos));
+        }
+        req.setAttribute("totalIngresos", totalIngresos);
+        req.setAttribute("totalEgresos",  totalEgresos);
+        req.setAttribute("disponible",    disponible);
+        req.setAttribute("presupuesto",   pres);
+    }
+
+    private BigDecimal parseMonto(String s) {
+        if (s == null) throw new NumberFormatException("Monto nulo");
+        return new BigDecimal(s.replace(",", "").replace("$", "").replace(" ", "").trim());
+    }
+
+    private void fwd(HttpServletRequest req, HttpServletResponse resp, String vista)
+            throws ServletException, IOException {
+        req.getRequestDispatcher(BASE + vista).forward(req, resp);
+    }
+
+    private int parseInt(String s) { try { return Integer.parseInt(s); } catch (Exception e) { return 0; } }
+    private String nvl(String s)   { return s == null ? "" : s; }
 }

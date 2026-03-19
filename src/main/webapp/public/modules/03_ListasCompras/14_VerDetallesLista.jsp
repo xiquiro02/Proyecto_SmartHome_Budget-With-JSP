@@ -18,10 +18,12 @@
 
 <main class="contenedor-lista contenedor-lista--${estadoClase}">
 
-    <a href="${pageContext.request.contextPath}/Listas" style="display:flex;align-items:center;gap:4px;text-decoration:none;color:inherit;margin-bottom:0.5rem">
+    <a href="${pageContext.request.contextPath}/Listas"
+       style="display:flex;align-items:center;gap:4px;text-decoration:none;color:inherit;margin-bottom:0.5rem">
         <span class="material-symbols-outlined">arrow_back_ios_new</span> Mis listas
     </a>
 
+    <%-- Tarjeta cabecera --%>
     <article class="tarjetaMercado tarjetaMercado--${estadoClase}">
         <div class="tarjetaMercado__encabezado">
             <div class="tarjetaMercado__icono">
@@ -40,6 +42,7 @@
         </div>
     </article>
 
+    <%-- Estadísticas --%>
     <section class="estadisticas">
         <div class="estadisticas__item">
             <div class="estadisticas__numero estadisticas__numero--comprado">${lista.totalComprados}</div>
@@ -51,18 +54,27 @@
         </div>
     </section>
 
-    <p class="fecha">
-        Creada: ${lista.fechaCreacionFormateada}
-    </p>
+    <p class="fecha">Creada: ${lista.fechaCreacionFormateada}</p>
 
+    <%-- Mensajes de retroalimentación --%>
     <c:if test="${param.exito == 'prod_eliminado'}">
         <div class="mensaje mensaje--exito">✅ Producto eliminado de la lista.</div>
+    </c:if>
+    <c:if test="${param.info == 'todos_marcados'}">
+        <div class="mensaje mensaje--exito">✅ Todos los productos marcados como comprados.</div>
+    </c:if>
+    <c:if test="${param.info == 'todos_desmarcados'}">
+        <div class="mensaje mensaje--exito">↩️ Todos los productos desmarcados.</div>
     </c:if>
 
     <h3 class="tituloSeccion">Productos de la lista</h3>
 
     <c:choose>
         <c:when test="${empty detalles}">
+            <%--
+                FIX: cuando la lista está vacía se muestra UN SOLO botón.
+                Antes aparecía duplicado por dos bloques c:if independientes.
+            --%>
             <p style="text-align:center;color:#999;margin:1rem 0">Esta lista no tiene productos aún.</p>
             <a href="${pageContext.request.contextPath}/Listas?accion=agregarProducto&id=${lista.idListaCompras}">
                 <button class="boton boton--agregar">➕ Agregar primer producto</button>
@@ -71,35 +83,30 @@
         <c:otherwise>
             <ul class="listaProductos">
                 <c:forEach var="d" items="${detalles}">
-
                     <li class="producto ${d.comprado ? 'producto--completado' : ''}">
 
-                        <%-- Formulario oculto para toggle — fuera del label para evitar conflicto --%>
+                        <%-- Formulario oculto toggle --%>
                         <form id="form-toggle-${d.idDetalleLista}"
                               action="${pageContext.request.contextPath}/Listas"
                               method="post" style="display:none">
-                            <input type="hidden" name="accion" value="toggleComprado">
+                            <input type="hidden" name="accion"   value="toggleComprado">
                             <input type="hidden" name="idDetalle" value="${d.idDetalleLista}">
-                            <input type="hidden" name="idLista" value="${lista.idListaCompras}">
+                            <input type="hidden" name="idLista"  value="${lista.idListaCompras}">
                             <input type="hidden" name="comprado" value="${d.comprado ? 'false' : 'true'}">
                         </form>
 
                         <label class="producto__label"
-                               onclick="document.getElementById('form-toggle-${d.idDetalleLista}').submit(); return false;">
-
-                            <input type="checkbox"
-                                   class="producto__input"
-                                   ${d.comprado ? 'checked' : ''}
-                                   onclick="return false;"><%-- onclick=false evita doble toggle por label+checkbox --%>
+                               onclick="document.getElementById('form-toggle-${d.idDetalleLista}').submit();return false;">
+                            <input type="checkbox" class="producto__input"
+                                   ${d.comprado ? 'checked' : ''} onclick="return false;">
                             <span class="producto__circulo"></span>
-
                             <div class="producto__info">
                                 <h4 class="producto__nombre ${d.comprado ? 'producto__nombre--tachado' : ''}">${d.nombreProducto}</h4>
-                                <p class="producto__cantidad">${d.cantidad} unidades · ${d.nombreTipoProducto}</p>
+                                <%-- Usa cantidadFormateada para mostrar decimales correctamente --%>
+                                <p class="producto__cantidad">${d.cantidadFormateada} · ${d.nombreTipoProducto}</p>
                             </div>
                         </label>
 
-                        <%-- Acciones de producto (solo admin/cotitular) --%>
                         <c:if test="${sessionScope.idRol == 1 || sessionScope.idRol == 2}">
                             <div class="producto__acciones">
                                 <a href="${pageContext.request.contextPath}/Listas?accion=editarProducto&idDetalle=${d.idDetalleLista}&idLista=${lista.idListaCompras}"
@@ -112,39 +119,44 @@
                 </c:forEach>
             </ul>
 
+            <%--
+                FIX marcarTodos: los forms hacen POST → servlet hace redirect → GET carga lista fresca.
+                Antes se usaba forward y la vista se rompía porque 'lista' y 'detalles' no se recargaban.
+            --%>
             <div class="acciones">
                 <form action="${pageContext.request.contextPath}/Listas" method="post" style="display:contents">
-                    <input type="hidden" name="accion" value="marcarTodos">
-                    <input type="hidden" name="idLista" value="${lista.idListaCompras}">
+                    <input type="hidden" name="accion"   value="marcarTodos">
+                    <input type="hidden" name="idLista"  value="${lista.idListaCompras}">
                     <input type="hidden" name="comprado" value="true">
                     <button type="submit" class="boton boton--marcar">✅ Marcar todo</button>
                 </form>
                 <form action="${pageContext.request.contextPath}/Listas" method="post" style="display:contents">
-                    <input type="hidden" name="accion" value="marcarTodos">
-                    <input type="hidden" name="idLista" value="${lista.idListaCompras}">
+                    <input type="hidden" name="accion"   value="marcarTodos">
+                    <input type="hidden" name="idLista"  value="${lista.idListaCompras}">
                     <input type="hidden" name="comprado" value="false">
                     <button type="submit" class="boton boton--marcar">↩️ Desmarcar todo</button>
                 </form>
             </div>
+
+            <%-- Botón "Agregar producto" solo aquí (cuando hay productos) — no aparece en el bloque vacío --%>
+            <div class="acciones" style="margin-top:1rem">
+                <a href="${pageContext.request.contextPath}/Listas?accion=agregarProducto&id=${lista.idListaCompras}">
+                    <button class="boton boton--agregar">➕ Agregar producto</button>
+                </a>
+                <c:if test="${sessionScope.idRol == 1 || sessionScope.idRol == 2}">
+                    <a href="${pageContext.request.contextPath}/Listas?accion=editar&id=${lista.idListaCompras}">
+                        <button class="boton boton--editar">✏️ Editar lista</button>
+                    </a>
+                </c:if>
+            </div>
         </c:otherwise>
     </c:choose>
-
-    <div class="acciones" style="margin-top:1rem">
-        <a href="${pageContext.request.contextPath}/Listas?accion=agregarProducto&id=${lista.idListaCompras}">
-            <button class="boton boton--agregar">➕ Agregar producto</button>
-        </a>
-        <c:if test="${sessionScope.idRol == 1 || sessionScope.idRol == 2}">
-            <a href="${pageContext.request.contextPath}/Listas?accion=editar&id=${lista.idListaCompras}">
-                <button class="boton boton--editar">✏️ Editar lista</button>
-            </a>
-        </c:if>
-    </div>
 
     <a href="${pageContext.request.contextPath}/Listas" class="acciones__volver">
         <button class="boton boton--volver">Volver</button>
     </a>
 </main>
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-            <script src="${pageContext.request.contextPath}/asset/js/listasCompras.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="${pageContext.request.contextPath}/asset/js/listasCompras.js"></script>
 </body>
 </html>

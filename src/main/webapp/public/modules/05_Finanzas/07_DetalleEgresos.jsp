@@ -7,6 +7,10 @@
         return;
     }
     Integer idRol = (Integer) session.getAttribute("idRol");
+    if (idRol != null && idRol == 3) {
+        response.sendRedirect(request.getContextPath() + "/Menu?error=sin_permiso_finanzas");
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -31,6 +35,14 @@
 
     <main class="consultarFacturas">
 
+        <%-- Mensajes de resultado --%>
+        <c:if test="${param.exito == 'egreso_eliminado'}">
+            <div class="mensaje mensaje--exito" style="margin-bottom:10px">✅ Egreso eliminado correctamente.</div>
+        </c:if>
+        <c:if test="${param.error == 'sin_permiso'}">
+            <div class="mensaje mensaje--error" style="margin-bottom:10px">⚠️ No tienes permiso para esa acción.</div>
+        </c:if>
+
         <c:choose>
             <c:when test="${empty egresos}">
                 <div style="text-align:center;padding:40px 20px;color:#888;">
@@ -40,13 +52,12 @@
             <c:otherwise>
                 <c:forEach var="egreso" items="${egresos}">
                 <div class="facturaLista">
+                    <%-- CLASE OBLIGATORIA: facturaCard--rojo para todos los egresos --%>
                     <div class="facturaCard facturaCard--rojo">
                         <div class="facturaCard__borde"></div>
                         <div class="facturaCard__contenido">
                             <div class="facturaCard__encabezado">
-                                <h3 class="facturaCard__titulo">
-                                    ${egreso.nombreCategoriaEgreso}
-                                </h3>
+                                <h3 class="facturaCard__titulo">${egreso.nombreCategoriaEgreso}</h3>
                                 <span class="facturaCard__etiqueta facturaCard__etiqueta--pendiente">
                                     $ <fmt:formatNumber value="${egreso.monto}" pattern="#,##0.00"/>
                                 </span>
@@ -58,6 +69,26 @@
                                 ${egreso.fechaVencimientoFormateada}
                                 — ${egreso.nombreCategoriaEgreso}
                             </p>
+
+                            <%--
+                                CONTROL DE ROLES:
+                                Rol 1 (Admin) → editar Y eliminar
+                                Rol 2 (Adulto) → solo ver y crear (sin editar/eliminar)
+                            --%>
+                            <% if (idRol != null && idRol == 1) { %>
+                            <div style="display:flex;gap:8px;margin-top:6px;">
+                                <a href="${pageContext.request.contextPath}/Finanzas?accion=editarEgreso&id=${egreso.idEgresos}">
+                                    <button class="botonAccion botonAccion--editar" style="font-size:12px;padding:4px 10px">✏️ Editar</button>
+                                </a>
+                                <form action="${pageContext.request.contextPath}/Finanzas" method="post"
+                                      style="display:inline"
+                                      onsubmit="return confirm('¿Eliminar este egreso? Esta acción no se puede revertir.')">
+                                    <input type="hidden" name="accion"   value="eliminarEgreso">
+                                    <input type="hidden" name="idEgreso" value="${egreso.idEgresos}">
+                                    <button type="submit" class="botonAccion botonAccion--eliminar" style="font-size:12px;padding:4px 10px">🗑️ Eliminar</button>
+                                </form>
+                            </div>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -70,11 +101,10 @@
             </c:otherwise>
         </c:choose>
 
-        <% if (idRol == null || idRol != 3) { %>
+        <%-- Registrar nuevo egreso: Rol 1 y Rol 2 pueden crear --%>
         <a href="${pageContext.request.contextPath}/Finanzas?accion=formEgreso" class="consultarFacturas__boton">
             <button class="boton boton--registrar">+ Registrar nuevo egreso</button>
         </a>
-        <% } %>
         <a href="${pageContext.request.contextPath}/Finanzas" class="consultarFacturas__boton">
             <button class="boton boton--volver">Volver</button>
         </a>

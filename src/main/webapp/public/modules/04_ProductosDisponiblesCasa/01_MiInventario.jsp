@@ -39,19 +39,6 @@
         </a>
     </div>
 
-    <c:if test="${sessionScope.idRol == 1 || sessionScope.idRol == 2}">
-    <div class="inventario__tarjeta inventario__tarjeta--principal">
-        <img class="inventario__tarjeta-icono" src="${pageContext.request.contextPath}/asset/imagenes/mover-archivo.png" alt="Mover">
-        <div class="inventario__tarjeta-contenido">
-            <h3 class="inventario__tarjeta-titulo">Mover productos agotados</h3>
-            <p class="inventario__tarjeta-descripcion">Envía automáticamente a la lista de compras</p>
-        </div>
-        <a href="${pageContext.request.contextPath}/Inventario?accion=agotados" class="inventario__boton">
-            <button class="boton boton--mover">Mover</button>
-        </a>
-    </div>
-    </c:if>
-
     <div class="inventario__tarjeta inventario__tarjeta--gris">
         <div class="inventario__tarjeta-encabezado">
             <img class="inventario__tarjeta-icono inventario__tarjeta-icono--gris"

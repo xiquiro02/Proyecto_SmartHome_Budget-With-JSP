@@ -7,6 +7,11 @@
         return;
     }
     Integer idRol = (Integer) session.getAttribute("idRol");
+    // Rol 3 no tiene acceso a finanzas — redirigir al menú
+    if (idRol != null && idRol == 3) {
+        response.sendRedirect(request.getContextPath() + "/Menu?error=sin_permiso_finanzas");
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -28,6 +33,7 @@
         </div>
     </header>
 
+    <%-- Mensajes de error de permisos --%>
     <c:if test="${param.error == 'sin_permiso'}">
         <div style="margin:10px 20px;padding:10px;background:#ffe0e0;border-radius:8px;color:#c00;text-align:center;">
             No tienes permiso para realizar esa acción.
@@ -36,7 +42,7 @@
 
     <main class="finanzas">
 
-        <%-- Resumen rápido si viene del servlet --%>
+        <%-- Resumen rápido del mes (siempre visible) --%>
         <c:if test="${not empty totalIngresos}">
         <div style="background:#f0f4ff;border-radius:12px;padding:14px 18px;margin-bottom:12px;display:flex;gap:16px;justify-content:space-around;flex-wrap:wrap;">
             <div style="text-align:center;">
@@ -49,19 +55,29 @@
             </div>
             <c:if test="${not empty presupuesto}">
             <div style="text-align:center;">
-                <p style="margin:0;font-size:12px;color:#666;">Presupuesto disponible</p>
-                <p style="margin:0;font-weight:bold;color:#1565c0;font-size:15px;">$ <fmt:formatNumber value="${presupuesto.disponible}" pattern="#,##0.00"/></p>
+                <p style="margin:0;font-size:12px;color:#666;">Disponible</p>
+                <p style="margin:0;font-weight:bold;color:#1565c0;font-size:15px;">$ <fmt:formatNumber value="${disponible}" pattern="#,##0.00"/></p>
             </div>
             </c:if>
         </div>
         </c:if>
 
+        <%--
+            MENÚ REESTRUCTURADO:
+            ✅ Resumen Financiero  → siempre visible (Rol 1 y 2)
+            ✅ Presupuesto Mensual → solo Rol 1 (Administrador)
+            ❌ "Registrar Ingresos" eliminado del menú principal
+            ❌ "Registrar Egresos"  eliminado del menú principal
+            El registro ocurre DESDE la vista de detalles (04_DetalleIngresos / 07_DetalleEgresos)
+        --%>
+
+        <%-- Tarjeta: Resumen Financiero (Rol 1 y 2) --%>
         <div class="tarjetaAccion tarjetaAccion--azul">
             <div class="tarjetaAccion__encabezado">
                 <img class="tarjetaAccion__icono" src="${pageContext.request.contextPath}/asset/imagenes/Resumen-financiero.png" alt="Resumen">
                 <div class="tarjetaAccion__contenido">
                     <h3 class="tarjetaAccion__titulo">Resumen financiero</h3>
-                    <p class="tarjetaAccion__subtitulo">Visualiza ingresos, gastos y el dinero disponible.</p>
+                    <p class="tarjetaAccion__subtitulo">Visualiza ingresos, gastos y el dinero disponible del mes.</p>
                 </div>
             </div>
             <a href="${pageContext.request.contextPath}/Finanzas?accion=resumen">
@@ -69,33 +85,8 @@
             </a>
         </div>
 
-        <div class="tarjetaAccion tarjetaAccion--verde">
-            <div class="tarjetaAccion__encabezado">
-                <img class="tarjetaAccion__icono tarjetaAccion__icono--verde" src="${pageContext.request.contextPath}/asset/imagenes/ingresos-pasivos.png" alt="Ingresos">
-                <div class="tarjetaAccion__contenido">
-                    <h3 class="tarjetaAccion__titulo">Registrar ingresos</h3>
-                    <p class="tarjetaAccion__subtitulo">Añade el dinero que recibes y mantén actualizado tu balance.</p>
-                </div>
-            </div>
-            <a href="${pageContext.request.contextPath}/Finanzas?accion=detalleIngresos">
-                <button class="boton boton--agregar">Ver ingresos</button>
-            </a>
-        </div>
-
-        <div class="tarjetaAccion tarjetaAccion--rojo">
-            <div class="tarjetaAccion__encabezado">
-                <img class="tarjetaAccion__icono tarjetaAccion__icono--rojo" src="${pageContext.request.contextPath}/asset/imagenes/Registrar-egresos.png" alt="Egresos">
-                <div class="tarjetaAccion__contenido">
-                    <h3 class="tarjetaAccion__titulo">Registrar egresos</h3>
-                    <p class="tarjetaAccion__subtitulo">Registra tus gastos y controla en qué se va tu dinero.</p>
-                </div>
-            </div>
-            <a href="${pageContext.request.contextPath}/Finanzas?accion=detalleEgresos">
-                <button class="boton boton--Eliminar">Ver egresos</button>
-            </a>
-        </div>
-
-        <% if (idRol == null || idRol != 3) { %>
+        <%-- Tarjeta: Presupuesto Mensual (SOLO Rol 1 — Administrador) --%>
+        <% if (idRol != null && idRol == 1) { %>
         <div class="tarjetaAccion tarjetaAccion--morado">
             <div class="tarjetaAccion__encabezado">
                 <img class="tarjetaAccion__icono tarjetaAccion__icono--morado" src="${pageContext.request.contextPath}/asset/imagenes/Presupuesto-mensual.png" alt="Presupuesto">
@@ -109,6 +100,19 @@
             </a>
         </div>
         <% } %>
+
+        <%--
+            Accesos directos a detalles (ingresos y egresos) con botón secundario,
+            para que el usuario pueda navegar sin que sean acciones del menú principal.
+        --%>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+            <a href="${pageContext.request.contextPath}/Finanzas?accion=detalleIngresos" style="flex:1;min-width:140px;">
+                <button class="boton boton--agregar" style="width:100%">📋 Ver ingresos</button>
+            </a>
+            <a href="${pageContext.request.contextPath}/Finanzas?accion=detalleEgresos" style="flex:1;min-width:140px;">
+                <button class="boton boton--Eliminar" style="width:100%">📋 Ver egresos</button>
+            </a>
+        </div>
 
         <a href="${pageContext.request.contextPath}/Menu" class="finanzas__boton">
             <button class="boton boton--volver">Volver</button>
