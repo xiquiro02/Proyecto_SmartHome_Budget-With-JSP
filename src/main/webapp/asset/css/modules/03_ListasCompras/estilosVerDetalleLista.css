@@ -324,9 +324,10 @@
 }
 
 /* ===== ACCIONES ===== */
+
 .acciones {
     display: flex;
-    gap: 12px;
+    gap: 20px; 
     margin-bottom: 16px;
 }
 
@@ -346,7 +347,7 @@
     text-decoration: none;
     display: block;
     max-width: 300px;
-    margin: 0 auto;
+    margin: 0 auto; 
 }
 
 .acciones__marcar {
@@ -383,13 +384,15 @@
         padding: 90px 20px 40px 20px;
     }
 
-    .acciones {
-        max-width: 500px;
-        margin: 0 auto 16px auto;
+    .acciones__volver {
+        margin-top: 20px !important;
+        max-width: 300px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .boton--volver {
-        max-width: 300px;
         margin: 0 auto;
     }
 }
