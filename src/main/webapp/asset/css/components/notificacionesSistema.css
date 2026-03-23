@@ -1,0 +1,261 @@
+/* ============================================================
+   SmartHome Budget — Notificaciones In-App
+   ============================================================ */
+
+/* ── Toast Container — arriba centrado ───────────────────────*/
+#shb-toast-container {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9000;
+    pointer-events: none;
+}
+
+/* ── Toast base ──────────────────────────────────────────────*/
+.shb-toast {
+    border-radius: 14px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-left: 5px solid transparent;
+    opacity: 0;
+    transform: translateY(-16px) scale(0.96);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: all;
+}
+
+.shb-toast--visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.shb-toast__icono {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    flex-shrink: 0;
+}
+
+.shb-toast__mensaje {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.shb-toast__cerrar {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 2px;
+    line-height: 1;
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.shb-toast__cerrar:hover { opacity: 1; }
+
+/* ── Toast colores por tipo ──────────────────────────────────*/
+.shb-toast--success {
+    background: #F0FBF4 !important;
+    border-left-color: #2ECC71 !important;
+}
+.shb-toast--success .shb-toast__icono   { background: #2ECC71 !important; }
+.shb-toast--success .shb-toast__mensaje { color: #1B5E20 !important; }
+.shb-toast--success .shb-toast__cerrar  { color: #2ECC71 !important; }
+
+.shb-toast--error {
+    background: #FFF0F0 !important;
+    border-left-color: #E51E1E !important;
+}
+.shb-toast--error .shb-toast__icono   { background: #E51E1E !important; }
+.shb-toast--error .shb-toast__mensaje { color: #7B0000 !important; }
+.shb-toast--error .shb-toast__cerrar  { color: #E51E1E !important; }
+
+.shb-toast--warning {
+    background: #FFF8ED !important;
+    border-left-color: #F39C12 !important;
+}
+.shb-toast--warning .shb-toast__icono   { background: #F39C12 !important; }
+.shb-toast--warning .shb-toast__mensaje { color: #7B5800 !important; }
+.shb-toast--warning .shb-toast__cerrar  { color: #F39C12 !important; }
+
+.shb-toast--info {
+    background: #EDF5FF !important;
+    border-left-color: #1E88E5 !important;
+}
+.shb-toast--info .shb-toast__icono   { background: #1E88E5 !important; }
+.shb-toast--info .shb-toast__mensaje { color: #0D47A1 !important; }
+.shb-toast--info .shb-toast__cerrar  { color: #1E88E5 !important; }
+
+/* ── Banner ──────────────────────────────────────────────────*/
+.shb-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 0 0 14px 14px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    z-index: 8900;
+}
+
+.shb-banner--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.shb-banner__icono {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+
+.shb-banner__mensaje { flex: 1; line-height: 1.4; }
+
+.shb-banner__cerrar {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.6;
+    padding: 0 4px;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.shb-banner__cerrar:hover { opacity: 1; }
+
+.shb-banner--error   { background: #FFEBEE; color: #B71C1C; border-top: 4px solid #E51E1E; }
+.shb-banner--error   .shb-banner__icono  { background: #E51E1E; }
+.shb-banner--error   .shb-banner__cerrar { color: #E51E1E; }
+
+.shb-banner--warning { background: #FFF8E1; color: #7B5800; border-top: 4px solid #F39C12; }
+.shb-banner--warning .shb-banner__icono  { background: #F39C12; }
+.shb-banner--warning .shb-banner__cerrar { color: #F39C12; }
+
+.shb-banner--success { background: #E8F5E9; color: #1B5E20; border-top: 4px solid #2ECC71; }
+.shb-banner--success .shb-banner__icono  { background: #2ECC71; }
+.shb-banner--success .shb-banner__cerrar { color: #2ECC71; }
+
+.shb-banner--info    { background: #E3F2FD; color: #0D47A1; border-top: 4px solid #1E88E5; }
+.shb-banner--info    .shb-banner__icono  { background: #1E88E5; }
+.shb-banner--info    .shb-banner__cerrar { color: #1E88E5; }
+
+/* ── Mensaje estático (éxito/error en vistas) ────────────────*/
+.mensaje {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 14px 16px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    margin: 8px 0 14px !important;
+    border-left: 5px solid transparent !important;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.10) !important;
+    line-height: 1.4 !important;
+}
+
+.mensaje--exito {
+    background: #E8F5E9 !important;
+    color: #1B5E20 !important;
+    border-left-color: #2ECC71 !important;
+}
+
+.mensaje--error {
+    background: #FFEBEE !important;
+    color: #B71C1C !important;
+    border-left-color: #E51E1E !important;
+}
+
+/* ── Tarjeta código de invitación ────────────────────────────*/
+.tarjetaCodigo {
+    background: #E8F5E9;
+    border: 2px solid #2ECC71;
+    border-radius: 14px;
+    padding: 18px 16px;
+    margin-bottom: 14px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(46, 204, 113, 0.2);
+}
+
+.tarjetaCodigo__titulo {
+    font-weight: 700;
+    color: #1B5E20;
+    margin: 0 0 8px;
+    font-size: 15px;
+}
+
+.tarjetaCodigo__codigo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #1B5E20;
+    margin: 0 0 8px;
+}
+
+.tarjetaCodigo__subtitulo {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+}
+
+/* ── Badge ───────────────────────────────────────────────────*/
+.shb-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #E51E1E;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    line-height: 1;
+    pointer-events: none;
+    animation: shb-badge-pop 0.3s ease;
+}
+
+@keyframes shb-badge-pop {
+    0%   { transform: scale(0); }
+    70%  { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}

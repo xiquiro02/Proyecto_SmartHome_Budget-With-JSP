@@ -23,7 +23,7 @@ body {
 .notificaciones {
     flex: 1;
     overflow-y: auto;
-    padding: 10px 0 24px;
+    padding: 20px;
 }
 
 .notificaciones__titulo {
@@ -86,17 +86,50 @@ body {
     display: none;
 }
 
+/* ── Accesos rápidos ─────────────────────────────────────────────────────── */
+.notificaciones__accesosRapidos {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.boton--activarTodas,
+.boton--desactivarTodas {
+    flex: 1;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.boton--activarTodas {
+    background: #1E88E5;
+    color: #ffffff;
+}
+
+.boton--desactivarTodas {
+    background: #E51E1E;
+    color: #ffffff;
+}
+
 /* ── Botones ─────────────────────────────────────────────────────────────── */
 .notificaciones__botones {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
+    gap: 8px;
 }
 
-.notificaciones__botones .boton,
-.notificaciones__botones a .boton {
-    width: 100%;
+.notificaciones__botones .boton--registrar,
+.notificaciones__botones a .boton--cancelar {
+    flex: 1;
     margin-top: 0;
+}
+
+.notificaciones__botones a {
+    flex: 1;
+    display: flex;
 }
 
 /* ── Switch ──────────────────────────────────────────────────────────────── */

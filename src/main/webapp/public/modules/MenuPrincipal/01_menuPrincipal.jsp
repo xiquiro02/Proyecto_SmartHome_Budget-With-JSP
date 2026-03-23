@@ -16,6 +16,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/Menuprincipal/estilosMenuprincipal.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/components/notificacionesSistema.css">
     <title>SmartHome Budget</title>
 </head>
 
@@ -58,19 +59,12 @@
 
     <main class="menuPrincipal">
 
-        <%-- Mensaje de error de acceso denegado --%>
-        <% if ("acceso_denegado".equals(errorParam)) { %>
-        <div style="padding:10px;background:#ffe0e0;border-radius:8px;color:#c00;margin-bottom:12px;text-align:center;">
-            No tienes permisos para acceder a esa sección.
-        </div>
-        <% } %>
-
         <%-- Código de invitación generado --%>
         <% if (codigoGenerado != null && !codigoGenerado.isEmpty()) { %>
-        <div style="padding:14px;background:#E8F5E9;border:2px solid #2ECC71;border-radius:12px;margin-bottom:14px;text-align:center;">
-            <p style="font-weight:700;color:#1B5E20;margin:0 0 6px;">¡Código generado para <%= rolAsignado %>!</p>
-            <p style="font-size:1.6rem;font-weight:900;letter-spacing:4px;color:#1B5E20;margin:0 0 6px;"><%= codigoGenerado %></p>
-            <p style="font-size:12px;color:#555;margin:0;">Válido por 7 días. Compártelo con el nuevo miembro.</p>
+        <div class="tarjetaCodigo">
+            <p class="tarjetaCodigo__titulo">¡Código generado para <%= rolAsignado %>!</p>
+            <p class="tarjetaCodigo__codigo"><%= codigoGenerado %></p>
+            <p class="tarjetaCodigo__subtitulo">Válido por 7 días. Compártelo con el nuevo miembro.</p>
         </div>
         <% } %>
 
@@ -179,6 +173,29 @@
             <% } %>
         </div>
     </main>
+
+    <script src="${pageContext.request.contextPath}/asset/js/notificaciones.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            <% if ("acceso_denegado".equals(errorParam)) { %>
+            mostrarBanner('No tienes permisos para acceder a esa sección.', 'error');
+            <% } %>
+
+            verificarNotificacionesMenu({
+                // Pagos
+                fechaVencimiento:      '<%= proxPago != null && proxPago.getFechaVencimiento() != null ? proxPago.getFechaVencimiento().toString() : "" %>',
+                nombrePago:            '<%= proxPago != null && proxPago.getNombreCategoriaEgreso() != null ? proxPago.getNombreCategoriaEgreso().replace("'", "\\'") : "" %>',
+                // Confirmación de pago reciente (redirige con ?pagado=NombrePago)
+                pagoConfirmado:        '<%= request.getParameter("pagado") != null ? request.getParameter("pagado").replace("'", "\\'") : "" %>',
+                // Presupuesto
+                porcentajePresupuesto: <%= pres != null ? pres.getPorcentajeUsado() : 0 %>,
+                totalGastadoMes:       <%= pres != null && pres.getTotalEgresos() != null ? pres.getTotalEgresos().doubleValue() : 0 %>,
+                // Inventario y listas (se activan cuando el servlet los exponga)
+                productosAgotados:     <%= request.getAttribute("productosAgotados") != null ? request.getAttribute("productosAgotados") : 0 %>,
+                listasConPendientes:   <%= request.getAttribute("listasConPendientes") != null ? request.getAttribute("listasConPendientes") : 0 %>
+            });
+        });
+    </script>
 
     <%-- Barra de navegación inferior --%>
     <nav class="navInferior">

@@ -25,6 +25,10 @@
 
 <main class="notificaciones">
     <h2 class="notificaciones__titulo">Tipos de notificaciones</h2>
+    <div class="notificaciones__accesosRapidos">
+        <button class="boton boton--activarTodas" onclick="activarTodas()">Activar todas</button>
+        <button class="boton boton--desactivarTodas" onclick="desactivarTodas()">Desactivar todas</button>
+    </div>
     <section class="notificaciones__seccion">
 
         <div class="notificaciones__item">
@@ -85,17 +89,6 @@
         <div class="notificaciones__item">
             <img class="notificaciones__icono" src="${pageContext.request.contextPath}/asset/imagenes/notificacion-TODAS.png" alt="">
             <div class="notificaciones__contenido">
-                <p class="notificaciones__texto">Recomendaciones de compra</p>
-                <div class="switch">
-                    <input class="switch__input" id="sw6" type="checkbox" data-key="notif_recomendaciones">
-                    <label class="switch__label" for="sw6"></label>
-                </div>
-            </div>
-        </div>
-
-        <div class="notificaciones__item">
-            <img class="notificaciones__icono" src="${pageContext.request.contextPath}/asset/imagenes/notificacion-TODAS.png" alt="">
-            <div class="notificaciones__contenido">
                 <p class="notificaciones__texto">Alertas de presupuesto</p>
                 <div class="switch">
                     <input class="switch__input" id="sw7" type="checkbox" data-key="notif_presupuesto">
@@ -126,31 +119,17 @@
             </div>
         </div>
 
-        <div class="notificaciones__item">
-            <img class="notificaciones__icono" src="${pageContext.request.contextPath}/asset/imagenes/notificacion-TODAS.png" alt="">
-            <div class="notificaciones__contenido">
-                <p class="notificaciones__texto">Ofertas y descuentos cercanos</p>
-                <div class="switch">
-                    <input class="switch__input" id="sw10" type="checkbox" data-key="notif_ofertas">
-                    <label class="switch__label" for="sw10"></label>
-                </div>
-            </div>
-        </div>
-
     </section>
-
-    <div id="toastGuardado" class="notificaciones__toast notificaciones__toast--oculto">
-        ✅ Preferencias guardadas
-    </div>
 
     <div class="notificaciones__botones">
         <button class="boton boton--registrar" onclick="guardarNotificaciones()">Guardar cambios</button>
-        <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/06_ajustes.jsp" style="text-decoration:none;width:100%;">
-            <button class="boton boton--cancelar">Volver</button>
+        <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/06_ajustes.jsp" style="text-decoration:none;flex:1;">
+            <button class="boton boton--cancelar" style="width:100%;">Volver</button>
         </a>
     </div>
 </main>
 
+<script src="${pageContext.request.contextPath}/asset/js/notificaciones.js"></script>
 <script>
     // Cargar estados desde localStorage al abrir la página
     document.querySelectorAll('.switch__input[data-key]').forEach(function(sw) {
@@ -159,22 +138,24 @@
         sw.checked = (val === 'off');
     });
 
+    function activarTodas() {
+        document.querySelectorAll('.switch__input[data-key]').forEach(function(sw) {
+            sw.checked = false;
+        });
+    }
+
+    function desactivarTodas() {
+        document.querySelectorAll('.switch__input[data-key]').forEach(function(sw) {
+            sw.checked = true;
+        });
+    }
+
     function guardarNotificaciones() {
         document.querySelectorAll('.switch__input[data-key]').forEach(function(sw) {
             localStorage.setItem(sw.dataset.key, sw.checked ? 'off' : 'on');
         });
-        var toast = document.getElementById('toastGuardado');
-        toast.classList.remove('notificaciones__toast--oculto');
-        setTimeout(function() {
-            toast.classList.add('notificaciones__toast--oculto');
-        }, 2500);
+        mostrarToast('Preferencias guardadas correctamente', 'success', 3000);
     }
-
-    // Utilidad pública: consultar si una notificación está activa desde otras páginas
-    // Uso: NotifActiva('notif_recordatorios_pagos')
-    window.NotifActiva = function(key) {
-        return localStorage.getItem(key) !== 'off';
-    };
 </script>
 </body>
 </html>

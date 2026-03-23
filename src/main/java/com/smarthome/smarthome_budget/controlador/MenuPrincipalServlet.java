@@ -2,6 +2,9 @@ package com.smarthome.smarthome_budget.controlador;
 
 import com.smarthome.smarthome_budget.dao.RegistroEgresoDao;
 import com.smarthome.smarthome_budget.dao.PresupuestoMensualDao;
+import com.smarthome.smarthome_budget.dao.InventarioCasaDao;
+import com.smarthome.smarthome_budget.dao.ListaComprasDao;
+import com.smarthome.smarthome_budget.modelo.ListaCompras;
 import com.smarthome.smarthome_budget.modelo.PresupuestoMensual;
 import com.smarthome.smarthome_budget.modelo.RegistroEgreso;
 import com.smarthome.smarthome_budget.modelo.Usuario;
@@ -53,12 +56,27 @@ public class MenuPrincipalServlet extends HttpServlet {
             if (disponible.compareTo(BigDecimal.ZERO) < 0) disponible = BigDecimal.ZERO;
         }
 
+        // ── Productos con stock bajo o agotados ───────────────────────────────
+        InventarioCasaDao invDao = new InventarioCasaDao();
+        int productosAgotados = invDao.listarStockBajo(idHogar).size()
+                              + invDao.listarAgotados(idHogar).size();
+
+        // ── Listas de compras con ítems pendientes ────────────────────────────
+        ListaComprasDao listasDao = new ListaComprasDao();
+        long listasConPendientes = listasDao.listarPorHogar(idHogar).stream()
+                .filter(l -> ("Pendiente".equals(l.getEstadoLista())
+                           || "En progreso".equals(l.getEstadoLista()))
+                           && l.getTotalPendientes() > 0)
+                .count();
+
         // ── Pasar atributos a la vista ────────────────────────────────────────
-        req.setAttribute("proximoPago",  proximoPago);
-        req.setAttribute("presupuesto",  presupuesto);
-        req.setAttribute("totalEgresos", totalEgresos);
-        req.setAttribute("disponible",   disponible);
-        req.setAttribute("idRol",        idRol);
+        req.setAttribute("proximoPago",        proximoPago);
+        req.setAttribute("presupuesto",        presupuesto);
+        req.setAttribute("totalEgresos",       totalEgresos);
+        req.setAttribute("disponible",         disponible);
+        req.setAttribute("idRol",              idRol);
+        req.setAttribute("productosAgotados",  productosAgotados);
+        req.setAttribute("listasConPendientes", (int) listasConPendientes);
 
         String accion = req.getParameter("accion");
         if ("codigoGenerado".equals(accion)) {

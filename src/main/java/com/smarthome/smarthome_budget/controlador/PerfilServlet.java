@@ -6,8 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.UUID;
 
 import com.smarthome.smarthome_budget.dao.UsuarioDao;
@@ -78,10 +77,27 @@ public class PerfilServlet extends HttpServlet {
                         String contentType = foto.getContentType();
                         if (contentType != null && (contentType.contains("png") || contentType.contains("jpeg") || contentType.contains("jpg"))) {
                             String fileName   = UUID.randomUUID() + "_" + Paths.get(foto.getSubmittedFileName()).getFileName().toString();
+
+                            // 1. Guardar en el directorio desplegado (acceso inmediato)
                             String uploadPath = getServletContext().getRealPath("/asset/fotos/");
                             Files.createDirectories(Paths.get(uploadPath));
                             foto.write(uploadPath + File.separator + fileName);
                             rutaFoto = "/asset/fotos/" + fileName;
+
+                            // 2. Copiar a src/main/webapp para que sobreviva Maven Clean and Build
+                            try {
+                                File deployedRoot = new File(getServletContext().getRealPath("/"));
+                                Path srcFotosDir  = deployedRoot.toPath()
+                                        .getParent()   // target/
+                                        .getParent()   // project root
+                                        .resolve("src/main/webapp/asset/fotos");
+                                Files.createDirectories(srcFotosDir);
+                                Files.copy(
+                                    Paths.get(uploadPath, fileName),
+                                    srcFotosDir.resolve(fileName),
+                                    StandardCopyOption.REPLACE_EXISTING
+                                );
+                            } catch (Exception ignored) { /* no bloquea si falla */ }
                         }
                     }
                 } catch (Exception e) {

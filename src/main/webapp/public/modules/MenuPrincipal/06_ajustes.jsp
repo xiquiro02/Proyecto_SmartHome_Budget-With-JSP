@@ -68,29 +68,6 @@
             </section>
             <section class="ajustes__seccion">
                 <h3 class="ajustes__seccion-titulo">Notificaciones</h3>
-                <div class="ajustes__item">
-                    <img class="ajustes__item-icono"
-                        src="${pageContext.request.contextPath}/asset/imagenes/notificacion-TODAS.png"
-                        alt="Notificaciones">
-                    <div class="ajustes__item-contenido">
-                        <p class="ajustes__item-titulo">Activar todas las notificaciones</p>
-                        <div class="switch">
-                            <input class="switch__input" id="switch1" type="checkbox">
-                            <label class="switch__label" for="switch1"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="ajustes__item">
-                    <img class="ajustes__item-icono"
-                        src="${pageContext.request.contextPath}/asset/imagenes/notificacion-TODAS.png" alt="Desactivar">
-                    <div class="ajustes__item-contenido">
-                        <p class="ajustes__item-titulo">Desactivar todas las notificaciones</p>
-                        <div class="switch">
-                            <input class="switch__input" id="switch2" type="checkbox">
-                            <label class="switch__label" for="switch2"></label>
-                        </div>
-                    </div>
-                </div>
                 <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/07_notificaciones.jsp"
                     class="ajustes__item">
                     <img class="ajustes__item-icono"
