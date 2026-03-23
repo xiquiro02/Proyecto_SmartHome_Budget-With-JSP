@@ -45,8 +45,8 @@
             <div style="margin:10px 20px;padding:10px;background:#ffe0e0;border-radius:8px;color:#c00;">${error}</div>
         </c:if>
 
-        <form class="formulario__contenedor" method="post"
-              action="${pageContext.request.contextPath}/Finanzas">
+        <form class="formulario__contenedor" id="formIngreso" method="post"
+              action="${pageContext.request.contextPath}/Finanzas" novalidate>
             <input type="hidden" name="accion" value="guardarIngreso">
             <%-- En modo edición se envía el ID del ingreso --%>
             <c:if test="${modoEdicion == true}">
@@ -56,7 +56,7 @@
             <%-- Tipo de ingreso --%>
             <div class="formulario__campo">
                 <label class="formulario__etiqueta" for="idCategoriaIngreso">Tipo de ingreso</label>
-                <select id="idCategoriaIngreso" name="idCategoriaIngreso" class="formulario__select" required>
+                <select id="idCategoriaIngreso" name="idCategoriaIngreso" class="formulario__select">
                     <option value="">Seleccionar tipo</option>
                     <c:forEach var="cat" items="${categorias}">
                         <option value="${cat[0]}"
@@ -65,14 +65,17 @@
                         </option>
                     </c:forEach>
                 </select>
+                <span id="errCategoria" style="color:#c00;font-size:12px;display:none;margin-top:4px;"></span>
             </div>
 
             <%-- Monto --%>
             <div class="formulario__campo">
                 <label class="formulario__etiqueta" for="monto">Valor recibido:</label>
                 <input type="number" id="monto" name="monto" class="formulario__input"
-                       placeholder="0.00" step="0.01" min="0.01" required
+                       placeholder="0.00" step="0.01" min="0.01" max="9999999.99"
                        value="${modoEdicion == true ? ingreso.monto : ''}">
+                <small style="color:#888">Valor positivo. Máximo 9,999,999.99</small>
+                <span id="errMonto" style="color:#c00;font-size:12px;display:none;margin-top:4px;"></span>
             </div>
 
             <%-- Fecha (solo informativo en nuevo; en edición se mantiene la original) --%>
@@ -93,7 +96,10 @@
             <div class="formulario__campo">
                 <label class="formulario__etiqueta" for="descripcion">Descripción (opcional):</label>
                 <textarea id="descripcion" name="descripcion" class="formulario__textarea" rows="4"
+                    maxlength="200"
                     placeholder="Ej: Pago mensual, venta de producto, ganancia extra"><c:if test="${modoEdicion == true}">${ingreso.descripcion}</c:if></textarea>
+                <small style="color:#888">Máximo 200 caracteres (opcional).</small>
+                <span id="errDescripcion" style="color:#c00;font-size:12px;display:none;margin-top:4px;"></span>
             </div>
 
             <div class="formulario__botones">
@@ -109,5 +115,54 @@
             </a>
         </form>
     </main>
+<script>
+(function () {
+    const form        = document.getElementById('formIngreso');
+    const selCat      = document.getElementById('idCategoriaIngreso');
+    const inMonto     = document.getElementById('monto');
+    const txDesc      = document.getElementById('descripcion');
+    const errCat      = document.getElementById('errCategoria');
+    const errMonto    = document.getElementById('errMonto');
+    const errDesc     = document.getElementById('errDescripcion');
+
+    function mostrar(span, msg, input) {
+        span.textContent = msg;
+        span.style.display = 'block';
+        if (input) input.style.borderColor = '#c00';
+    }
+    function limpiar(span, input) {
+        span.style.display = 'none';
+        if (input) input.style.borderColor = '';
+    }
+
+    function validarCategoria() {
+        if (!selCat.value) { mostrar(errCat, 'Debes seleccionar un tipo de ingreso.', selCat); return false; }
+        limpiar(errCat, selCat); return true;
+    }
+    function validarMonto() {
+        const v = parseFloat(inMonto.value);
+        if (!inMonto.value.trim())  { mostrar(errMonto, 'El monto es obligatorio.', inMonto); return false; }
+        if (isNaN(v) || v <= 0)     { mostrar(errMonto, 'Ingresa un valor mayor a 0.', inMonto); return false; }
+        if (v > 9999999.99)         { mostrar(errMonto, 'El valor máximo permitido es 9,999,999.99.', inMonto); return false; }
+        limpiar(errMonto, inMonto); return true;
+    }
+    function validarDescripcion() {
+        const v = txDesc.value;
+        if (v.length > 200) { mostrar(errDesc, 'Máximo 200 caracteres.', txDesc); return false; }
+        limpiar(errDesc, txDesc); return true;
+    }
+
+    selCat.addEventListener('change', validarCategoria);
+    inMonto.addEventListener('input', validarMonto);
+    txDesc.addEventListener('input', validarDescripcion);
+
+    form.addEventListener('submit', function (e) {
+        const okCat  = validarCategoria();
+        const okMon  = validarMonto();
+        const okDesc = validarDescripcion();
+        if (!okCat || !okMon || !okDesc) e.preventDefault();
+    });
+})();
+</script>
 </body>
 </html>

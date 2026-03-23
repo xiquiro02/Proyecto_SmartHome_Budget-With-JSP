@@ -84,7 +84,7 @@
                     <% if (proxPago != null) { %>
                     <div class="tarjetaResumen__fila">
                         <p class="tarjetaResumen__titulo">Próximo pago:</p>
-                        <p class="tarjetaResumen__valor"><%= proxPago.getDescripcionPago() %></p>
+                        <p class="tarjetaResumen__valor"><%= proxPago.getNombreCategoriaEgreso() %></p>
                     </div>
                     <div class="tarjetaResumen__fila">
                         <p class="tarjetaResumen__titulo">Vence:</p>

@@ -27,17 +27,8 @@
             <div class="mensaje mensaje--error">⚠️ ${error}</div>
         </c:if>
 
-        <form class="factura__formulario" id="formRegistroFactura" action="${pageContext.request.contextPath}/Facturas" method="post">
+        <form class="factura__formulario" id="formRegistroFactura" action="${pageContext.request.contextPath}/Facturas" method="post" novalidate>
             <input type="hidden" name="accion" value="registrar">
-
-            <div class="factura__grupo">
-                <label class="factura__label">Descripción</label>
-                <textarea name="descripcion" id="descripcion" class="factura__textarea" maxlength="500"
-                          placeholder="Ej: Factura de electricidad de mayo..."></textarea>
-                <div id="contadorCaracteres" style="text-align: right; font-size: 0.75rem; color: #666;">
-                    0 / 500 caracteres
-                </div>
-            </div>
 
             <div class="factura__grupo">
                 <label class="factura__label">Categoría *</label>
@@ -47,6 +38,7 @@
                         <option value="${cat.idCategoriaEgreso}">${cat.nombreCategoriaEgreso}</option>
                     </c:forEach>
                 </select>
+                <span class="campo-error" id="error-categoria"></span>
             </div>
 
             <div class="factura__fila">
@@ -54,12 +46,14 @@
                     <label class="factura__label">Monto a pagar *</label>
                     <input type="number" name="monto" id="monto" class="factura__input"
                            placeholder="0.00" min="0.01" max="9999999.99" step="0.01" required>
+                    <span class="campo-error" id="error-monto"></span>
                 </div>
                 <div class="factura__grupo factura__grupo--medio">
                     <label class="factura__label">Vencimiento *</label>
                     <input type="date" name="fechaVencimiento" id="fechaVencimiento"
                            class="factura__input factura__input--fecha"
                            min="2024-01-01" max="2035-12-31" required>
+                    <span class="campo-error" id="error-fecha"></span>
                 </div>
             </div>
 
@@ -71,6 +65,7 @@
                         <option value="${met.idMetodoPago}">${met.nombreMetodoPago}</option>
                     </c:forEach>
                 </select>
+                <span class="campo-error" id="error-metodo"></span>
             </div>
 
             <div class="factura__grupo">
@@ -88,6 +83,15 @@
                         <input type="radio" name="estadoPago" value="Vencida">
                         <span>Vencida</span>
                     </label>
+                </div>
+            </div>
+
+            <div class="factura__grupo">
+                <label class="factura__label">Descripción</label>
+                <textarea name="descripcion" id="descripcion" class="factura__textarea" maxlength="500"
+                          placeholder="Ej: Factura de electricidad de mayo..."></textarea>
+                <div id="contadorCaracteres" style="text-align: right; font-size: 0.75rem; color: #666;">
+                    0 / 500 caracteres
                 </div>
             </div>
 

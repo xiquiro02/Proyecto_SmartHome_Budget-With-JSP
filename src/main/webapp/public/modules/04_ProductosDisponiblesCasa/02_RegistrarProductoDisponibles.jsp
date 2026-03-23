@@ -30,7 +30,7 @@
                 <input type="text" name="nombreProducto" id="nombreProducto" class="formulario__input"
                        placeholder="Ej: Leche, Pan, Huevos..." maxlength="50" required>
                 <small style="color:#888">Mínimo 5 caracteres. Letras, números, espacios y: . , # -</small>
-                <small style="color:#888">Si el producto ya está en el inventario, se sumará la cantidad.</small>
+                <small style="color:#888;margin-bottom:5px">Si el producto ya está en el inventario, se sumará la cantidad.</small>
                 <span id="errNombre" style="color:#c00;font-size:12px;display:none"></span>
             </div>
 
@@ -39,7 +39,7 @@
                 <label class="formulario__etiqueta">Cantidad disponible: *</label>
                 <input type="number" name="cantidad" id="cantidad" class="formulario__input"
                        min="0.01" max="999" step="0.01" value="1" required>
-                <small style="color:#888">
+                <small style="color:#888; margin-bottom:5px">
                     Puedes usar números decimales para peso o volumen (ej: 1.5 para kilos o litros).
                 </small>
                 <span id="errCantidad" style="color:#c00;font-size:12px;display:none"></span>
@@ -54,14 +54,6 @@
                         <option value="${tipo.idTipoProducto}">${tipo.nombreTipoProducto}</option>
                     </c:forEach>
                 </select>
-            </div>
-
-            <div class="formulario__etiquetas">
-                <div class="etiqueta etiqueta--aseo"><img src="${pageContext.request.contextPath}/asset/imagenes/Aseo.png" alt=""><span>Aseo</span></div>
-                <div class="etiqueta etiqueta--alimentos"><img src="${pageContext.request.contextPath}/asset/imagenes/alimentos-saludables.png" alt=""><span>Alimentos</span></div>
-                <div class="etiqueta etiqueta--personal"><img src="${pageContext.request.contextPath}/asset/imagenes/maquillaje.png" alt=""><span>Personal</span></div>
-                <div class="etiqueta etiqueta--otros"><img src="${pageContext.request.contextPath}/asset/imagenes/cajas.png" alt=""><span>Otros</span></div>
-                <div class="etiqueta etiqueta--ropa-calzado"><img src="${pageContext.request.contextPath}/asset/imagenes/Ropa-calzado.jpg" alt=""><span>Ropa</span></div>
             </div>
 
             <%-- Descripción --%>

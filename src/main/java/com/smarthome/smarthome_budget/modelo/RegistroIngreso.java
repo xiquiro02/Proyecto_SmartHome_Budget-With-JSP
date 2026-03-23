@@ -12,8 +12,9 @@ public class RegistroIngreso {
     private String descripcion;
     private int idHogar;
     private int idCategoriaIngreso;
-    // Campo auxiliar de JOIN 
+    // Campo auxiliar de JOIN
     private String nombreCategoria;
+    private String estadoIngreso = "Activo";
 
     public RegistroIngreso() {}
 
@@ -51,6 +52,9 @@ public class RegistroIngreso {
 
     public String getNombreCategoria()          { return nombreCategoria; }
     public void setNombreCategoria(String v)    { this.nombreCategoria = v; }
+
+    public String getEstadoIngreso()            { return estadoIngreso; }
+    public void setEstadoIngreso(String v)      { this.estadoIngreso = v; }
 
     public String getFechaIngresoFormateada() {
         if (fechaIngreso == null) return "";

@@ -16,12 +16,17 @@
 <c:if test="${lista.estadoLista == 'En progreso'}"><c:set var="estadoClase" value="progreso"/></c:if>
 <c:if test="${lista.estadoLista == 'Completa'}"><c:set var="estadoClase" value="completa"/></c:if>
 
-<main class="contenedor-lista contenedor-lista--${estadoClase}">
-
-    <a href="${pageContext.request.contextPath}/Listas"
-       style="display:flex;align-items:center;gap:4px;text-decoration:none;color:inherit;margin-bottom:0.5rem">
-        <span class="material-symbols-outlined">arrow_back_ios_new</span> Mis listas
+<header class="encabezado">
+    <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png" alt="Logo">
+    <a href="${pageContext.request.contextPath}/Listas">
+        <span class="material-symbols-outlined">arrow_back_ios_new</span>
     </a>
+    <div class="encabezado__contenedorTitulo">
+        <h1 class="encabezado__titulo">Detalle de lista</h1>
+    </div>
+</header>
+
+<main class="contenedor-lista contenedor-lista--${estadoClase}">
 
     <%-- Tarjeta cabecera --%>
     <article class="tarjetaMercado tarjetaMercado--${estadoClase}">

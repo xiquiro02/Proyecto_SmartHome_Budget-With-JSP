@@ -95,10 +95,10 @@ public class SeguridadServlet extends HttpServlet {
             return "Las contraseñas no coinciden.";
         if (pass.length() < 8)
             return "La contraseña debe tener al menos 8 caracteres.";
-        if (!pass.matches(".*[A-Z].*"))
-            return "La contraseña debe incluir al menos una letra mayúscula.";
-        if (!pass.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"))
-            return "La contraseña debe incluir al menos un símbolo especial.";
+        if (!pass.matches(".*[a-zA-Z].*"))
+            return "La contraseña debe incluir al menos una letra.";
+        if (!pass.matches(".*[0-9].*"))
+            return "La contraseña debe incluir al menos un número.";
         return null;
     }
 }

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <%
     if (session.getAttribute("usuario") == null) {
         response.sendRedirect(request.getContextPath() + "/public/modules/01_autenticacion/04_iniciarSesion.jsp");
@@ -20,6 +21,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=arrow_back_ios_new"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/utils/styles.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/modules/05_Finanzas/estilosDetalleEgresos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>SmartHome Budget</title>
 </head>
 <body>
@@ -35,13 +37,7 @@
 
     <main class="consultarFacturas">
 
-        <%-- Mensajes de resultado --%>
-        <c:if test="${param.exito == 'egreso_eliminado'}">
-            <div class="mensaje mensaje--exito" style="margin-bottom:10px">✅ Egreso eliminado correctamente.</div>
-        </c:if>
-        <c:if test="${param.error == 'sin_permiso'}">
-            <div class="mensaje mensaje--error" style="margin-bottom:10px">⚠️ No tienes permiso para esa acción.</div>
-        </c:if>
+        <%-- Mensajes manejados por SweetAlert2 al cargar la página --%>
 
         <c:choose>
             <c:when test="${empty egresos}">
@@ -77,15 +73,16 @@
                             --%>
                             <% if (idRol != null && idRol == 1) { %>
                             <div style="display:flex;gap:8px;margin-top:6px;">
-                                <a href="${pageContext.request.contextPath}/Finanzas?accion=editarEgreso&id=${egreso.idEgresos}">
-                                    <button class="botonAccion botonAccion--editar" style="font-size:12px;padding:4px 10px">✏️ Editar</button>
+                                <a href="${pageContext.request.contextPath}/Finanzas?accion=editarEgreso&amp;id=${egreso.idEgresos}">
+                                    <button class="botonAccion botonAccion--editar">✏️ Editar</button>
                                 </a>
-                                <form action="${pageContext.request.contextPath}/Finanzas" method="post"
-                                      style="display:inline"
-                                      onsubmit="return confirm('¿Eliminar este egreso? Esta acción no se puede revertir.')">
-                                    <input type="hidden" name="accion"   value="eliminarEgreso">
+                                <form id="fAnularEgr${egreso.idEgresos}"
+                                      action="${pageContext.request.contextPath}/Finanzas" method="post"
+                                      style="display:inline">
+                                    <input type="hidden" name="accion"   value="anularEgreso">
                                     <input type="hidden" name="idEgreso" value="${egreso.idEgresos}">
-                                    <button type="submit" class="botonAccion botonAccion--eliminar" style="font-size:12px;padding:4px 10px">🗑️ Eliminar</button>
+                                    <button type="button" class="botonAccion botonAccion--eliminar"
+                                            onclick="confirmarAnular('fAnularEgr${egreso.idEgresos}','egreso')">🚫 Anular</button>
                                 </form>
                             </div>
                             <% } %>
@@ -101,6 +98,51 @@
             </c:otherwise>
         </c:choose>
 
+        <%-- ── Sección de anulados (solo Rol 1) ─────────────────────────── --%>
+        <% if (idRol != null && idRol == 1) { %>
+        <c:if test="${not empty egresosAnulados}">
+        <div style="margin-top:16px;">
+            <button onclick="toggleAnulados('anulados-egr')" class="botonAccion"
+                    style="width:100%;padding:10px;border-radius:10px;background:#F5F5F5;color:#666;font-size:13px;">
+                📂 Ver egresos anulados (<c:out value="${fn:length(egresosAnulados)}"/>)
+            </button>
+            <div id="anulados-egr" style="display:none;margin-top:10px;">
+                <c:forEach var="anulado" items="${egresosAnulados}">
+                <div style="background:#FAFAFA;border-radius:12px;padding:14px;margin-bottom:8px;
+                            border:1px solid #E0E0E0;opacity:0.75;position:relative;">
+                    <div style="position:absolute;left:0;top:0;bottom:0;width:4px;
+                                background:#BDBDBD;border-radius:4px;"></div>
+                    <div style="padding-left:12px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                            <span style="font-size:15px;font-weight:700;color:#9E9E9E;text-decoration:line-through;">
+                                ${anulado.nombreCategoriaEgreso}
+                            </span>
+                            <span style="padding:4px 12px;border-radius:8px;font-size:12px;
+                                         background:#EEEEEE;color:#9E9E9E;">
+                                🚫 Anulado
+                            </span>
+                        </div>
+                        <p style="font-size:13px;color:#BDBDBD;margin:0 0 8px;">
+                            ${anulado.fechaVencimientoFormateada}
+                            <c:if test="${not empty anulado.descripcionPago}"> — ${anulado.descripcionPago}</c:if>
+                        </p>
+                        <form id="fReactivarEgr${anulado.idEgresos}"
+                              action="${pageContext.request.contextPath}/Finanzas" method="post"
+                              style="display:inline">
+                            <input type="hidden" name="accion"   value="reactivarEgreso">
+                            <input type="hidden" name="idEgreso" value="${anulado.idEgresos}">
+                            <button type="button" class="botonAccion botonAccion--editar"
+                                    style="font-size:12px;"
+                                    onclick="confirmarReactivar('fReactivarEgr${anulado.idEgresos}','egreso')">✅ Reactivar</button>
+                        </form>
+                    </div>
+                </div>
+                </c:forEach>
+            </div>
+        </div>
+        </c:if>
+        <% } %>
+
         <%-- Registrar nuevo egreso: Rol 1 y Rol 2 pueden crear --%>
         <a href="${pageContext.request.contextPath}/Finanzas?accion=formEgreso" class="consultarFacturas__boton">
             <button class="boton boton--registrar">+ Registrar nuevo egreso</button>
@@ -109,5 +151,64 @@
             <button class="boton boton--volver">Volver</button>
         </a>
     </main>
+<script>
+function toggleAnulados(id) {
+    var el = document.getElementById(id);
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function confirmarAnular(formId, tipo) {
+    Swal.fire({
+        title: '¿Anular este ' + tipo + '?',
+        text: 'Quedará guardado y podrás reactivarlo después.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#E51E1E',
+        cancelButtonColor: '#9E9E9E',
+        confirmButtonText: '🚫 Sí, anular',
+        cancelButtonText: 'Cancelar'
+    }).then(function(result) {
+        if (result.isConfirmed) {
+            document.getElementById(formId).submit();
+        }
+    });
+}
+
+function confirmarReactivar(formId, tipo) {
+    Swal.fire({
+        title: '¿Reactivar este ' + tipo + '?',
+        text: 'Volverá a aparecer en tu lista activa.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#4CAF50',
+        cancelButtonColor: '#9E9E9E',
+        confirmButtonText: '✅ Sí, reactivar',
+        cancelButtonText: 'Cancelar'
+    }).then(function(result) {
+        if (result.isConfirmed) {
+            document.getElementById(formId).submit();
+        }
+    });
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    var params = new URLSearchParams(window.location.search);
+    var exito = params.get('exito');
+    var error = params.get('error');
+    if (exito === 'egreso_anulado') {
+        Swal.fire({ icon: 'success', title: '¡Anulado!', text: 'Egreso anulado correctamente.',
+                    timer: 2500, showConfirmButton: false });
+    } else if (exito === 'egreso_reactivado') {
+        Swal.fire({ icon: 'success', title: '¡Reactivado!', text: 'Egreso reactivado correctamente.',
+                    timer: 2500, showConfirmButton: false });
+    } else if (error === 'sin_permiso') {
+        Swal.fire({ icon: 'error', title: 'Sin permiso', text: 'No tienes permiso para esa acción.',
+                    timer: 2500, showConfirmButton: false });
+    } else if (error === 'no_se_pudo_anular' || error === 'no_se_pudo_reactivar') {
+        Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo completar la acción. Verifica que el registro exista.',
+                    timer: 3000, showConfirmButton: false });
+    }
+});
+</script>
 </body>
 </html>

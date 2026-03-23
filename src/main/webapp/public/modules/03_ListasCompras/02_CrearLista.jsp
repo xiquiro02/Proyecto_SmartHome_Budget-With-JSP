@@ -31,7 +31,7 @@
                        minlength="5" maxlength="50" required
                        value="${not empty valorNombre ? valorNombre : ''}">
                 <small style="color:#888">Mínimo 5 y máximo 50 caracteres. Se permiten letras, números, espacios, puntos, guiones y guion bajo.</small>
-                <span id="errorNombre" style="color:#c00;font-size:12px;display:none;margin-top:4px;display:none"></span>
+                <span id="errorNombre" style="color:#c00;font-size:12px;display:none;margin-top:10px;display:none"></span>
             </div>
 
             <div class="formulario__campo">

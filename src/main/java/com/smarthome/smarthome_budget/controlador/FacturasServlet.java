@@ -366,7 +366,7 @@ public class FacturasServlet extends HttpServlet {
         if (id <= 0) { resp.sendRedirect(req.getContextPath() + "/Facturas?accion=lista&error=id_invalido"); return; }
 
         new com.smarthome.smarthome_budget.dao.RecordatorioEgresoDao().eliminarPorEgreso(id);
-        boolean ok = new RegistroEgresoDao().eliminar(id, idHogar);
+        boolean ok = new RegistroEgresoDao().anular(id, idHogar);
 
         if (ok) {
             resp.sendRedirect(req.getContextPath() + "/Facturas?accion=lista&exito=eliminada");

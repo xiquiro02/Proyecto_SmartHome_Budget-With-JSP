@@ -110,4 +110,14 @@ public class InventarioCasa {
         if (fechaActualizacion == null) return "";
         return fechaActualizacion.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
     }
+
+    /** Muestra entero si no tiene decimales significativos (1.00 → "1"), decimal si los tiene (1.50 → "1.5") */
+    public String getCantidadFormateada() {
+        if (stockActual == null) return "0";
+        java.math.BigDecimal stripped = stockActual.stripTrailingZeros();
+        if (stripped.scale() <= 0) {
+            return stripped.toBigIntegerExact().toString();
+        }
+        return stripped.toPlainString();
+    }
 }

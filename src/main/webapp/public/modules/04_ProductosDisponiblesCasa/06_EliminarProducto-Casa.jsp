@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
+<%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,7 +17,7 @@
         <p class="contenido__parrafo">Estás a punto de eliminar del inventario:</p>
         <p class="contenido__parrafo"><strong>Producto:</strong> ${inv.nombreProducto}</p>
         <p class="contenido__parrafo"><strong>Categoría:</strong> ${inv.nombreTipoProducto}</p>
-        <p class="contenido__parrafo"><strong>Cantidad actual:</strong> ${inv.cantidad}</p>
+        <p class="contenido__parrafo"><strong>Cantidad actual:</strong> <fmt:formatNumber value="${inv.cantidad}" maxFractionDigits="2" groupingUsed="false"/></p>
         <p class="contenido__parrafo">❗ Esta acción no se puede deshacer.</p>
         <div class="contenido__grupo">
             <form action="${pageContext.request.contextPath}/Inventario" method="post">

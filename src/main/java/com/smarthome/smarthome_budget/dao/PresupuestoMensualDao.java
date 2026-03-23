@@ -19,7 +19,7 @@ public class PresupuestoMensualDao {
     // language=sql
     private static final String SQL_TOTAL_EGRESOS_MES =
         "SELECT COALESCE(SUM(Monto), 0) FROM Registro_Egresos " +
-        "WHERE IDHogar = ? AND EstadoPago = 'Pagada' " +
+        "WHERE IDHogar = ? AND EstadoPago = 'Pagada' AND EstadoEgresos = 'Activo' " +
         "AND MONTH(FechaVencimiento) = MONTH(NOW()) AND YEAR(FechaVencimiento) = YEAR(NOW())";
 
     /** Guarda o actualiza el presupuesto del mes (UPSERT por constraint unique IDHogar+Mes+Anio) */

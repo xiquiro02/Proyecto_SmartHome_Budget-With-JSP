@@ -1,4 +1,24 @@
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 1200px) {
+    body {
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+
 .formulario {
+    flex: 1;
+    overflow-y: auto;
     padding: 20px;
     background: #F5F5F5;
 }
@@ -16,6 +36,7 @@
 }
 
 .formulario__etiqueta {
+    margin-top: 10px;
     font-size: 14px;
     font-weight: 600;
     color: #000000;
@@ -45,59 +66,6 @@
     background: #FFFFFF;
     cursor: pointer; 
 }
-
-.formulario__etiquetas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.etiqueta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.etiqueta img {
-    width: 20px;
-    height: 20px;
-}
-
-.etiqueta--aseo {
-    background-color: #c9eed8;
-    color: #2ECC71;
-    border: 2px solid #2ECC71;
-}
-
-.etiqueta--alimentos {
-    background-color: #fae4c8;
-    color: #FF9810;
-    border: 2px solid #FF9810;
-}
-
-.etiqueta--personal {
-    background-color: #a3cef3;
-    color: #1E88E5;
-    border: 2px solid #1E88E5;
-}
-
-.etiqueta--otros {
-    background-color: #f19999;
-    color: #E51E1E;
-    border: 2px solid #E51E1E;
-}
-
-.etiqueta--ropa-calzado {
-    background-color: #e8aeff;
-    color: #9400CE;
-    border: 2px solid #9400CE;
-}
-
 
 .formulario__textarea {
     padding: 12px 16px;

@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%
-    // Solo ADMINISTRADOR (ROL 1) puede acceder
     if (session == null || session.getAttribute("usuario") == null) {
         response.sendRedirect(request.getContextPath() +
             "/public/modules/01_autenticacion/04_iniciarSesion.jsp?error=sesion_requerida");
@@ -26,9 +25,13 @@
 </head>
 <body>
     <header class="encabezado">
+        <img class="encabezado__imagen" src="${pageContext.request.contextPath}/asset/imagenes/Logo-redondo.png" alt="Logo">
         <a href="${pageContext.request.contextPath}/Menu">
             <span class="material-symbols-outlined">arrow_back_ios_new</span>
         </a>
+        <div class="encabezado__contenedorTitulo">
+            <h1 class="encabezado__titulo">Invitar miembro</h1>
+        </div>
     </header>
 
     <main class="contenido">
@@ -42,7 +45,6 @@
                 Elige el rol que tendrá dentro del hogar:
             </p>
 
-            <%-- Formulario que envía al servlet GenerarCodigoInvitacion --%>
             <form method="post" action="${pageContext.request.contextPath}/GenerarCodigoInvitacion">
 
                 <div class="contenido__grupo">
@@ -76,9 +78,7 @@
                 </p>
 
                 <div class="contenido__grupo">
-                    <button type="submit" class="boton boton--registrar">
-                        Generar código
-                    </button>
+                    <button type="submit" class="boton boton--registrar">Generar código</button>
                     <a href="${pageContext.request.contextPath}/Menu">
                         <button type="button" class="boton boton--cancelar">Cancelar</button>
                     </a>

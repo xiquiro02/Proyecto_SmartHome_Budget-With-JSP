@@ -28,16 +28,19 @@
             <div class="contenedor">
                 <h1 class="contenido__titulo">Inicio Sesión</h1>
                 <form class="contenido__formulario" method="post" action="${pageContext.request.contextPath}/Login"
+                    novalidate
                     onsubmit="return validarCorreoContrasena()">
                     <div class="contenido__grupo">
                         <label for="email" class="contenido__label">Correo</label>
                         <input type="email" class="contenido__input" id="email" name="correo"
                             placeholder="Ingresa tu correo" required />
+                        <span class="campo-error" id="error-email"></span>
                     </div>
                     <div class="contenido__grupo">
                         <label for="password" class="contenido__label">Contraseña</label>
                         <input type="password" class="contenido__input" id="password" name="contrasena"
                             placeholder="Ingresa tu contraseña" required />
+                        <span class="campo-error" id="error-password"></span>
                     </div>
                     <div class="contenido__grupo--fila">
                         <input type="checkbox" class="contenido__checkbox" id="recordardatos" name="recordardatos" />

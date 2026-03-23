@@ -1,8 +1,34 @@
-.confirmacion {
-    padding: 20px;
-    background: #FFFFFF;
+/* ── Layout base sin scroll ──────────────────────────────────────────────────── */
+html, body {
+    height: 100%;
+    overflow: hidden;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Área de confirmación con scroll interno ─────────────────────────────────── */
+.confirmacion {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #FFFFFF;
+    border-radius: 16px 16px 0 0;
+}
+
+@media (min-width: 1200px) {
+    .confirmacion {
+        max-width: 500px;
+        margin: 20px auto;
+        width: 100%;
+        border-radius: 16px;
+        height: fit-content;
+    }
+}
+
+/* ── Contenido ───────────────────────────────────────────────────────────────── */
 .confirmacion__contenedor {
     display: flex;
     flex-direction: column;
@@ -72,7 +98,6 @@
     background-color: #F5F5F5;
     color: #333;
 }
-
 
 .confirmacion__botones {
     display: flex;

@@ -16,30 +16,35 @@
     // Determinar título e icono según tipo de catálogo
     String tipo = request.getAttribute("tipo") != null
                   ? (String) request.getAttribute("tipo") : "";
-    String titulo = "Gestión de catálogos";
-    String icono  = "categorias.png";
-    String campo  = "Nombre";
+    String titulo       = "Gestión de catálogos";
+    String icono        = "categorias.png";
+    String campo        = "Nombre";
+    String placeholder  = "Escribe el nombre...";
 
     switch (tipo) {
         case "categoriaEgreso":
-            titulo = "Categorías de Egresos";
-            icono  = "Registrar-egresos.png";
-            campo  = "Nombre de categoría (ej: Servicios, Arriendo)";
+            titulo      = "Categorías de Egresos";
+            icono       = "Registrar-egresos.png";
+            campo       = "Nombre de categoría (ej: Servicios, Arriendo)";
+            placeholder = "Ej: Servicios, Arriendo";
             break;
         case "categoriaIngreso":
-            titulo = "Categorías de Ingresos";
-            icono  = "ingresos-pasivos.png";
-            campo  = "Nombre de categoría (ej: Salario, Ventas)";
+            titulo      = "Categorías de Ingresos";
+            icono       = "ingresos-pasivos.png";
+            campo       = "Nombre de categoría (ej: Salario, Ventas)";
+            placeholder = "Ej: Salario, Ventas";
             break;
         case "metodoPago":
-            titulo = "Métodos de Pago";
-            icono  = "metodo-de-pago.png";
-            campo  = "Nombre del método (ej: Nequi, Tarjeta)";
+            titulo      = "Métodos de Pago";
+            icono       = "metodo-de-pago.png";
+            campo       = "Nombre del método (ej: Nequi, Tarjeta)";
+            placeholder = "Ej: Nequi, Tarjeta";
             break;
         case "tipoProducto":
-            titulo = "Tipos de Producto";
-            icono  = "productos.png";
-            campo  = "Nombre del tipo (ej: Alimentos, Aseo)";
+            titulo      = "Tipos de Producto";
+            icono       = "productos.png";
+            campo       = "Nombre del tipo (ej: Alimentos, Aseo)";
+            placeholder = "Ej: Alimentos, Aseo";
             break;
     }
 
@@ -86,13 +91,13 @@
 <body>
 
 <header class="encabezado">
-    <a href="${pageContext.request.contextPath}/Menu">
+    <img class="encabezado__imagen"
+         src="${pageContext.request.contextPath}/asset/imagenes/<%= icono %>"
+         alt="<%= titulo %>">
+    <a href="${pageContext.request.contextPath}/public/modules/MenuPrincipal/06_ajustes.jsp">
         <span class="material-symbols-outlined">arrow_back_ios_new</span>
     </a>
-    <div class="encabezado__contenedor">
-        <img class="encabezado__imagen"
-             src="${pageContext.request.contextPath}/asset/imagenes/<%= icono %>"
-             alt="<%= titulo %>">
+    <div class="encabezado__contenedorTitulo">
         <h1 class="encabezado__titulo"><%= titulo %></h1>
     </div>
 </header>
@@ -127,7 +132,7 @@
                     <input type="text" id="inputNombre" name="nombre"
                            class="catalogos__input"
                            value="<%= nombreEditar %>"
-                           placeholder="<%= campo %>"
+                           placeholder="<%= placeholder %>"
                            maxlength="100" required>
                     <button type="submit" class="boton boton--registrar catalogos__btnGuardar">
                         <%= idEditar > 0 ? "💾 Guardar" : "➕ Agregar" %>
@@ -201,7 +206,7 @@
         </c:choose>
     </section>
 
-    <a href="${pageContext.request.contextPath}/Menu">
+    <a href="${pageContext.request.contextPath}/Menu" style="text-decoration:none;">
         <button class="boton boton--volver" style="max-width:380px;width:100%;margin:1rem auto;display:block;">
             Volver al menú
         </button>

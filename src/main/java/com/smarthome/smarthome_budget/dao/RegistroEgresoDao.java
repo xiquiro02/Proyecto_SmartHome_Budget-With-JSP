@@ -16,47 +16,73 @@ public class RegistroEgresoDao {
         "INSERT INTO Registro_Egresos " +
         "(IDHogar, DescripcionPago, Monto, IDCategoriaEgreso, IDMetodoPago, FechaVencimiento, EstadoPago) " +
         "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    // ── Base de SELECT (JOIN fijo) ─────────────────────────────────────────────
     // language=sql
     private static final String SQL_SELECT_BASE =
         "SELECT re.*, ce.NombreCategoriaEgreso, mp.NombreMetodoPago " +
         "FROM Registro_Egresos re " +
         "JOIN Categorias_Egresos ce ON re.IDCategoriaEgreso = ce.IDCategoriaEgreso " +
         "JOIN Metodo_Pago mp ON re.IDMetodoPago = mp.IDMetodoPago ";
+
+    // ── Consultas del módulo Finanzas (filtran EstadoEgresos) ─────────────────
     // language=sql
     private static final String SQL_SELECT_ALL =
-        SQL_SELECT_BASE + "WHERE re.IDHogar = ? ORDER BY re.FechaVencimiento ASC";
+        SQL_SELECT_BASE +
+        "WHERE re.IDHogar = ? AND re.EstadoEgresos = 'Activo' " +
+        "ORDER BY re.FechaVencimiento ASC";
+    // language=sql
+    private static final String SQL_SELECT_ANULADOS =
+        SQL_SELECT_BASE +
+        "WHERE re.IDHogar = ? AND re.EstadoEgresos = 'Anulado' " +
+        "ORDER BY re.FechaVencimiento DESC";
+
+    // ── Consultas del módulo Facturas (también excluyen anulados) ─────────────
     // language=sql
     private static final String SQL_SELECT_BY_ID =
         SQL_SELECT_BASE + "WHERE re.IDEgresos = ? AND re.IDHogar = ?";
     // language=sql
     private static final String SQL_SELECT_BY_ESTADO =
-        SQL_SELECT_BASE + "WHERE re.IDHogar = ? AND re.EstadoPago = ? ORDER BY re.FechaVencimiento ASC";
+        SQL_SELECT_BASE +
+        "WHERE re.IDHogar = ? AND re.EstadoPago = ? AND re.EstadoEgresos = 'Activo' " +
+        "ORDER BY re.FechaVencimiento ASC";
     // language=sql
     private static final String SQL_SELECT_BY_CATEGORIA =
-        SQL_SELECT_BASE + "WHERE re.IDHogar = ? AND re.IDCategoriaEgreso = ? ORDER BY re.FechaVencimiento ASC";
+        SQL_SELECT_BASE +
+        "WHERE re.IDHogar = ? AND re.IDCategoriaEgreso = ? AND re.EstadoEgresos = 'Activo' " +
+        "ORDER BY re.FechaVencimiento ASC";
     // language=sql
     private static final String SQL_SELECT_BY_MES =
         SQL_SELECT_BASE +
         "WHERE re.IDHogar = ? AND MONTH(re.FechaVencimiento) = ? AND YEAR(re.FechaVencimiento) = ? " +
+        "AND re.EstadoEgresos = 'Activo' " +
         "ORDER BY re.FechaVencimiento ASC";
     // language=sql
     private static final String SQL_SELECT_PAGADAS =
-        SQL_SELECT_BASE + "WHERE re.IDHogar = ? AND re.EstadoPago = 'Pagada' ORDER BY re.FechaPago DESC";
+        SQL_SELECT_BASE +
+        "WHERE re.IDHogar = ? AND re.EstadoPago = 'Pagada' AND re.EstadoEgresos = 'Activo' " +
+        "ORDER BY re.FechaPago DESC";
     // language=sql
     private static final String SQL_SELECT_PAGADAS_BY_CATEGORIA =
         SQL_SELECT_BASE +
         "WHERE re.IDHogar = ? AND re.EstadoPago = 'Pagada' AND re.IDCategoriaEgreso = ? " +
+        "AND re.EstadoEgresos = 'Activo' " +
         "ORDER BY re.FechaPago DESC";
     // language=sql
     private static final String SQL_SELECT_PAGADAS_BY_MES =
         SQL_SELECT_BASE +
         "WHERE re.IDHogar = ? AND re.EstadoPago = 'Pagada' " +
-        "AND MONTH(re.FechaPago) = ? AND YEAR(re.FechaPago) = ? ORDER BY re.FechaPago DESC";
+        "AND MONTH(re.FechaPago) = ? AND YEAR(re.FechaPago) = ? " +
+        "AND re.EstadoEgresos = 'Activo' " +
+        "ORDER BY re.FechaPago DESC";
     // language=sql
     private static final String SQL_SELECT_PAGADAS_BY_MONTO =
         SQL_SELECT_BASE +
         "WHERE re.IDHogar = ? AND re.EstadoPago = 'Pagada' " +
-        "AND re.Monto >= ? AND re.Monto <= ? ORDER BY re.Monto ASC";
+        "AND re.Monto >= ? AND re.Monto <= ? AND re.EstadoEgresos = 'Activo' " +
+        "ORDER BY re.Monto ASC";
+
+    // ── Actualizar ────────────────────────────────────────────────────────────
     // language=sql
     private static final String SQL_UPDATE =
         "UPDATE Registro_Egresos " +
@@ -64,30 +90,34 @@ public class RegistroEgresoDao {
         "FechaVencimiento=?, EstadoPago=?, FechaPago=? " +
         "WHERE IDEgresos=? AND IDHogar=?";
     // language=sql
-    private static final String SQL_DELETE =
-        "DELETE FROM Registro_Egresos WHERE IDEgresos=? AND IDHogar=?";
-    // language=sql
     private static final String SQL_MARCAR_PAGADA =
         "UPDATE Registro_Egresos SET EstadoPago='Pagada', FechaPago=NOW() " +
         "WHERE IDEgresos=? AND IDHogar=?";
+    // language=sql — método unificado para anular/reactivar
+    private static final String SQL_CAMBIAR_ESTADO =
+        "UPDATE Registro_Egresos SET EstadoEgresos=? WHERE IDEgresos=? AND IDHogar=?";
+
+    // ── Resumen / Totales (excluyen anulados) ─────────────────────────────────
     // language=sql
     private static final String SQL_RESUMEN =
         "SELECT " +
         "  SUM(CASE WHEN EstadoPago='Pendiente' THEN 1 ELSE 0 END) AS totalPendientes, " +
         "  SUM(CASE WHEN EstadoPago='Pagada'    THEN 1 ELSE 0 END) AS totalPagadas, " +
         "  SUM(CASE WHEN EstadoPago='Vencida'   THEN 1 ELSE 0 END) AS totalVencidas " +
-        "FROM Registro_Egresos WHERE IDHogar=?";
+        "FROM Registro_Egresos WHERE IDHogar=? AND EstadoEgresos = 'Activo'";
     // language=sql
     private static final String SQL_TOTAL_PAGADO =
         "SELECT COALESCE(SUM(Monto),0) AS totalPagado, COUNT(*) AS cantidadPagadas " +
-        "FROM Registro_Egresos WHERE IDHogar=? AND EstadoPago='Pagada'";
+        "FROM Registro_Egresos " +
+        "WHERE IDHogar=? AND EstadoPago='Pagada' AND EstadoEgresos = 'Activo'";
     // language=sql
     private static final String SQL_VENCER_AUTOMATICO =
         "UPDATE Registro_Egresos SET EstadoPago='Vencida' " +
-        "WHERE EstadoPago='Pendiente' AND FechaVencimiento < NOW()";
+        "WHERE EstadoPago='Pendiente' AND FechaVencimiento < NOW() AND EstadoEgresos = 'Activo'";
 
-    // ── Insertar ───────────────────────────────────────────────────────────────
-    /** Registra una factura. Retorna el ID generado o -1 si falla. */
+    // ── Insertar ──────────────────────────────────────────────────────────────
+
+    /** Registra una factura (módulo Facturas). Retorna el ID generado o -1 si falla. */
     public int insertarEgreso(RegistroEgreso egreso) {
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
@@ -108,9 +138,31 @@ public class RegistroEgresoDao {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error al insertar egreso: " + e.getMessage());
+            System.err.println("[EgresoDao] Error al insertar: " + e.getMessage());
         }
         return -1;
+    }
+
+    /** Registra un egreso simple desde el módulo Finanzas. */
+    public boolean registrar(RegistroEgreso egreso) {
+        // language=sql
+        String sql =
+            "INSERT INTO Registro_Egresos " +
+            "(IDHogar, DescripcionPago, Monto, IDCategoriaEgreso, IDMetodoPago, " +
+            "FechaVencimiento, EstadoPago) " +
+            "VALUES (?, ?, ?, ?, 1, NOW(), 'Pagada')";
+        try (Connection con = claseConexion.MetodoConectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, egreso.getIdHogar());
+            String desc = egreso.getDescripcionPago() != null ? egreso.getDescripcionPago() : "Egreso";
+            ps.setString(2, desc);
+            ps.setBigDecimal(3, egreso.getMonto());
+            ps.setInt(4, egreso.getIdCategoriaEgreso());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("[EgresoDao] Error al registrar simple: " + e.getMessage());
+        }
+        return false;
     }
 
     // ── Consultar ─────────────────────────────────────────────────────────────
@@ -128,7 +180,7 @@ public class RegistroEgresoDao {
                 if (rs.next()) return mapear(rs);
             }
         } catch (SQLException e) {
-            System.err.println("Error al obtener egreso: " + e.getMessage());
+            System.err.println("[EgresoDao] Error al obtener por id: " + e.getMessage());
         }
         return null;
     }
@@ -143,7 +195,7 @@ public class RegistroEgresoDao {
                 while (rs.next()) lista.add(mapear(rs));
             }
         } catch (SQLException e) {
-            System.err.println("Error al filtrar por estado: " + e.getMessage());
+            System.err.println("[EgresoDao] Error al filtrar por estado: " + e.getMessage());
         }
         return lista;
     }
@@ -158,7 +210,7 @@ public class RegistroEgresoDao {
                 while (rs.next()) lista.add(mapear(rs));
             }
         } catch (SQLException e) {
-            System.err.println("Error al filtrar por categoría: " + e.getMessage());
+            System.err.println("[EgresoDao] Error al filtrar por categoría: " + e.getMessage());
         }
         return lista;
     }
@@ -174,7 +226,7 @@ public class RegistroEgresoDao {
                 while (rs.next()) lista.add(mapear(rs));
             }
         } catch (SQLException e) {
-            System.err.println("Error al filtrar por mes: " + e.getMessage());
+            System.err.println("[EgresoDao] Error al filtrar por mes: " + e.getMessage());
         }
         return lista;
     }
@@ -193,7 +245,7 @@ public class RegistroEgresoDao {
                 while (rs.next()) lista.add(mapear(rs));
             }
         } catch (SQLException e) {
-            System.err.println("Error filtrar historial por categoría: " + e.getMessage());
+            System.err.println("[EgresoDao] Error historial por categoría: " + e.getMessage());
         }
         return lista;
     }
@@ -209,7 +261,7 @@ public class RegistroEgresoDao {
                 while (rs.next()) lista.add(mapear(rs));
             }
         } catch (SQLException e) {
-            System.err.println("Error filtrar historial por mes: " + e.getMessage());
+            System.err.println("[EgresoDao] Error historial por mes: " + e.getMessage());
         }
         return lista;
     }
@@ -226,9 +278,13 @@ public class RegistroEgresoDao {
                 while (rs.next()) lista.add(mapear(rs));
             }
         } catch (SQLException e) {
-            System.err.println("Error filtrar historial por monto: " + e.getMessage());
+            System.err.println("[EgresoDao] Error historial por monto: " + e.getMessage());
         }
         return lista;
+    }
+
+    public List<RegistroEgreso> listarAnulados(int idHogar) {
+        return listarConParam(SQL_SELECT_ANULADOS, idHogar);
     }
 
     // ── Actualizar ────────────────────────────────────────────────────────────
@@ -248,7 +304,7 @@ public class RegistroEgresoDao {
             ps.setInt(9, egreso.getIdHogar());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error al actualizar egreso: " + e.getMessage());
+            System.err.println("[EgresoDao] Error al actualizar: " + e.getMessage());
         }
         return false;
     }
@@ -260,31 +316,50 @@ public class RegistroEgresoDao {
             ps.setInt(2, idHogar);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Error al marcar como pagada: " + e.getMessage());
+            System.err.println("[EgresoDao] Error al marcar pagada: " + e.getMessage());
         }
         return false;
     }
 
-    // ── Eliminar ──────────────────────────────────────────────────────────────
+    // ── Anular / Reactivar ────────────────────────────────────────────────────
 
-    public boolean eliminar(int idEgreso, int idHogar) {
+    /**
+     * Método unificado para cambiar el estado de un egreso.
+     * nuevoEstado debe ser 'Activo' o 'Anulado'.
+     * Retorna true si se actualizó al menos 1 fila.
+     */
+    public boolean cambiarEstado(int idEgreso, int idHogar, String nuevoEstado) {
         try (Connection con = claseConexion.MetodoConectar();
-             PreparedStatement ps = con.prepareStatement(SQL_DELETE)) {
-            ps.setInt(1, idEgreso);
-            ps.setInt(2, idHogar);
-            return ps.executeUpdate() > 0;
+             PreparedStatement ps = con.prepareStatement(SQL_CAMBIAR_ESTADO)) {
+            ps.setString(1, nuevoEstado);
+            ps.setInt(2, idEgreso);
+            ps.setInt(3, idHogar);
+            int filas = ps.executeUpdate();
+            System.out.println("[EgresoDao] cambiarEstado → id=" + idEgreso
+                    + " hogar=" + idHogar + " estado=" + nuevoEstado + " filasAfectadas=" + filas);
+            return filas > 0;
         } catch (SQLException e) {
-            System.err.println("Error al eliminar egreso: " + e.getMessage());
+            System.err.println("[EgresoDao] Error al cambiar estado: " + e.getMessage());
         }
         return false;
     }
+
+    public boolean anular(int idEgreso, int idHogar) {
+        return cambiarEstado(idEgreso, idHogar, "Anulado");
+    }
+
+    public boolean reactivar(int idEgreso, int idHogar) {
+        return cambiarEstado(idEgreso, idHogar, "Activo");
+    }
+
+    // ── Resumen / Totales ─────────────────────────────────────────────────────
 
     public void actualizarVencidas() {
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(SQL_VENCER_AUTOMATICO)) {
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error actualizando vencidas: " + e.getMessage());
+            System.err.println("[EgresoDao] Error actualizando vencidas: " + e.getMessage());
         }
     }
 
@@ -301,7 +376,7 @@ public class RegistroEgresoDao {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error al obtener resumen: " + e.getMessage());
+            System.err.println("[EgresoDao] Error al obtener resumen: " + e.getMessage());
         }
         return r;
     }
@@ -318,45 +393,24 @@ public class RegistroEgresoDao {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error total pagado: " + e.getMessage());
+            System.err.println("[EgresoDao] Error total pagado: " + e.getMessage());
         }
         return t;
     }
 
-    // ── Módulo Finanzas ───────────────────────────────────────────────────────
-
-    /** Registra un egreso simple desde Finanzas (sin fecha de vencimiento futura). */
-    public boolean registrar(RegistroEgreso egreso) {
-        // language=sql
-        String sql =
-            "INSERT INTO Registro_Egresos " +
-            "(IDHogar, DescripcionPago, Monto, IDCategoriaEgreso, IDMetodoPago, " +
-            "FechaVencimiento, EstadoPago) " +
-            "VALUES (?, ?, ?, ?, 1, NOW(), 'Pagada')";
-        try (Connection con = claseConexion.MetodoConectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, egreso.getIdHogar());
-            String desc = egreso.getDescripcionPago() != null ? egreso.getDescripcionPago() : "Egreso";
-            ps.setString(2, desc);
-            ps.setBigDecimal(3, egreso.getMonto());
-            ps.setInt(4, egreso.getIdCategoriaEgreso());
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            System.err.println("Error al registrar egreso simple: " + e.getMessage());
-        }
-        return false;
-    }
+    // ── Categorías ────────────────────────────────────────────────────────────
 
     public List<Object[]> listarCategorias() {
         List<Object[]> lista = new ArrayList<>();
-        String sql = "SELECT IDCategoriaEgreso, NombreCategoriaEgreso FROM Categorias_Egresos ORDER BY IDCategoriaEgreso";
+        String sql = "SELECT IDCategoriaEgreso, NombreCategoriaEgreso " +
+                     "FROM Categorias_Egresos ORDER BY IDCategoriaEgreso";
         try (Connection con = claseConexion.MetodoConectar();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next())
                 lista.add(new Object[]{rs.getInt(1), rs.getString(2)});
         } catch (SQLException e) {
-            System.err.println("Error al listar categorías: " + e.getMessage());
+            System.err.println("[EgresoDao] Error al listar categorías: " + e.getMessage());
         }
         return lista;
     }
@@ -376,6 +430,7 @@ public class RegistroEgresoDao {
         e.setFechaVencimiento(rs.getObject("FechaVencimiento", LocalDateTime.class));
         e.setFechaPago(rs.getObject("FechaPago", LocalDateTime.class));
         e.setEstadoPago(rs.getString("EstadoPago"));
+        e.setEstadoEgreso(rs.getString("EstadoEgresos"));
         return e;
     }
 
@@ -388,7 +443,7 @@ public class RegistroEgresoDao {
                 while (rs.next()) lista.add(mapear(rs));
             }
         } catch (SQLException e) {
-            System.err.println("Error al listar egresos: " + e.getMessage());
+            System.err.println("[EgresoDao] Error al listar: " + e.getMessage());
         }
         return lista;
     }

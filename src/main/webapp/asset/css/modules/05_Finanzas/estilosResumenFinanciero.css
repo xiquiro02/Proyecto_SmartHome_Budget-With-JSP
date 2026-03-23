@@ -1,21 +1,43 @@
-.resumenFinanciero {
-    padding: 20px;
-    padding-bottom: 80px;
+/* ── Layout base sin scroll ──────────────────────────────────────────────────── */
+html, body {
+    height: 100%;
+    overflow: hidden;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 1200px) {
+    body {
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+
+/* ── Área de contenido con scroll ────────────────────────────────────────────── */
+.resumenFinanciero {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* ── Introducción ────────────────────────────────────────────────────────────── */
 .resumenFinanciero__introduccion {
     background: #FFFFFF;
-    padding: 20px;
+    padding: 16px;
     border-radius: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     display: flex;
-    gap: 16px;
+    gap: 14px;
 }
 
 .introduccion__icono {
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 8px;
 }
 
@@ -24,30 +46,31 @@
 }
 
 .introduccion__titulo {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     color: #000000;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .introduccion__texto {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
     color: #666666;
     line-height: 1.5;
 }
 
+/* ── Tarjetas de resumen ─────────────────────────────────────────────────────── */
 .tarjetasResumen {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    margin-bottom: 24px;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .resumenCard {
     background: #FFFFFF;
     border-radius: 12px;
-    padding: 16px;
+    padding: 14px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.30);
     display: flex;
     gap: 12px;
@@ -88,7 +111,7 @@
     padding-left: 8px;
 }
 
-.resumenCard__contenedor{
+.resumenCard__contenedor {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -98,31 +121,31 @@
 .resumenCard__encabezado {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 10px;
+    margin-bottom: 8px;
 }
 
 .resumenCard__icono {
-    font-size: 28px;
+    font-size: 24px;
 }
 
 .resumenCard__titulo {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     color: #000000;
 }
 
 .resumenCard__monto {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
-.resumenCard__detalles{
+.resumenCard__detalles {
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    padding-right: 50px;
+    padding-right: 20px;
 }
 
 .resumenCard--verde .resumenCard__monto {
@@ -152,11 +175,12 @@
     color: #1976D2;
 }
 
+/* ── Gráfico financiero ──────────────────────────────────────────────────────── */
 .graficoFinanciero {
     background: #FFFFFF;
-    padding: 20px;
+    padding: 16px;
     border-radius: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -164,23 +188,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .graficoFinanciero__icono {
-    font-size: 28px;
+    font-size: 24px;
 }
 
 .graficoFinanciero__titulo {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     color: #000000;
 }
 
 .graficoFinanciero__contenedor {
     position: relative;
-    height: 300px;
+    height: 260px;
 }
 
 .grafico__lineas {
@@ -228,7 +252,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    height: 100%; 
+    height: 100%;
     margin-left: 15px;
     max-width: 80px;
     flex: 1;
@@ -245,17 +269,14 @@
 }
 
 .grafico__barra--verde {
-    height: 95% !important;
     background: linear-gradient(180deg, #2ECC71 0%, #4AE386 100%);
 }
 
 .grafico__barra--rojo {
-    height: 60% !important;
     background: linear-gradient(180deg, #E51E1E 0%, #F44336 100%);
 }
 
 .grafico__barra--azul {
-    height: 51% !important;
     background: linear-gradient(180deg, #1E88E5 0%, #42A5F5 100%);
 }
 
@@ -275,30 +296,31 @@
 }
 
 .grafico__etiqueta {
-    margin-top: 12px;
+    margin-top: 10px;
     margin-left: 20px;
     font-size: 13px;
     color: #000000;
     text-align: center;
 }
 
+/* ── Botón volver ────────────────────────────────────────────────────────────── */
 .resumenFinanciero__boton {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    margin-top: 4px;
 }
 
 .boton {
-    padding: 15px 25px;
+    padding: 10px 20px;
     border-radius: 20px;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .boton--volver {
     width: 50%;
-    margin-bottom: 10px;
-    padding: 15px;
-    font-size: 14px;
+    padding: 10px;
+    font-size: 13px;
 }

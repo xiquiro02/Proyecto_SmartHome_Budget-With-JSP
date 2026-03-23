@@ -1,4 +1,16 @@
+/* ── Layout base sin scroll ──────────────────────────────────────────────────── */
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
 
+body {
+    display: flex;
+    flex-direction: column;
+    padding: 18px;
+}
+
+/* ── Encabezado compacto ─────────────────────────────────────────────────────── */
 .encabezado {
     display: flex;
     flex-direction: column;
@@ -6,37 +18,53 @@
     justify-content: center;
     text-align: center;
     background-color: transparent;
-    padding: 50px 20px;
-    gap: 12px;
-    margin-top: 20px;
+    padding: 6px 0;
+    gap: 2px;
     box-shadow: none;
+    flex-shrink: 0;
 }
 
-.encabezado__contenedor{
-    margin-top: 20px;
+.encabezado__contenedor {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 8px;
 }
 
 .encabezado__imagen {
-    width: 5rem;
-    height: 5rem;
+    width: 34px;
+    height: 34px;
     border-radius: 8px;
 }
 
 .encabezado__titulo {
-    font-size: 2rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: #000000;
 }
 
-.listas__busqueda {
-    margin-bottom: 20px;
+/* ── Área principal con scroll interno ───────────────────────────────────────── */
+.listas {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
 }
 
-.listas__barra{
+@media (min-width: 1200px) {
+    body {
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 18px 0;
+    }
+}
+
+/* ── Búsqueda ────────────────────────────────────────────────────────────────── */
+.listas__busqueda {
+    margin-bottom: 16px;
+}
+
+.listas__barra {
     width: 100%;
     padding: 10px 100px 10px 16px;
     border: 2px solid #E0E0E0;
@@ -48,49 +76,32 @@
     width: 200%;
 }
 
-.listas{
-    padding: 20px;
-    padding-bottom: 20px;
-}
-
-.listas__titulo{
-    font-size: 20px;
+/* ── Lista de tarjetas ───────────────────────────────────────────────────────── */
+.listas__titulo {
+    font-size: 18px;
     font-weight: 700;
     color: #000000;
-    margin-bottom: 25px;
+    margin-bottom: 16px;
 }
 
-.listas__contenido{
+.listas__contenido {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .lista-card {
-    width: 80%;
+    width: 100%;
     background: #FFFFFF;
     border-radius: 16px;
-    padding: 18px;
+    padding: 14px;
     margin-bottom: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.30);
     border-left: 4px solid;
 }
 
-.lista-card--verde {
-    background-color: #d3f7e2;
-    border-left-color: #2ECC71;
-}
-
-.lista-card--naranja {
-    background-color: #fde0ba;
-    border-left-color: #FF9810;
-}
-
-.lista-card--rojo {
-    background-color: #ffc9c9;
-    border-left-color: #E51E1E;
-}
+.lista-card--verde  { background-color: #d3f7e2; border-left-color: #2ECC71; }
+.lista-card--naranja { background-color: #fde0ba; border-left-color: #FF9810; }
+.lista-card--rojo   { background-color: #ffc9c9; border-left-color: #E51E1E; }
 
 .lista-card__header {
     display: flex;
@@ -103,7 +114,7 @@
     flex-direction: column;
 }
 
-.lista-card__estado{
+.lista-card__estado {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -116,20 +127,9 @@
     color: #000000;
 }
 
-.lista-card__titulo--verde{
-    margin-bottom: 5px;
-    color: #178B48;
-}
-
-.lista-card__titulo--naranja{
-    margin-bottom: 5px;
-    color: #BA5808;
-}
-
-.lista-card__titulo--rojo{
-    margin-bottom: 5px;
-    color: #800A0A;
-}
+.lista-card__titulo--verde   { margin-bottom: 5px; color: #178B48; }
+.lista-card__titulo--naranja { margin-bottom: 5px; color: #BA5808; }
+.lista-card__titulo--rojo    { margin-bottom: 5px; color: #800A0A; }
 
 .lista-card__tag {
     padding: 4px 12px;
@@ -138,20 +138,9 @@
     font-weight: 600;
 }
 
-.lista-card__tag--completa {
-    background: #2ECC71;
-    color: #ffffff;
-}
-
-.lista-card__tag--proceso {
-    background: #FF9810;
-    color: #ffffff;
-}
-
-.lista-card__tag--pendiente {
-    background: #E51E1E;
-    color: #ffffff;
-}
+.lista-card__tag--completa  { background: #2ECC71; color: #ffffff; }
+.lista-card__tag--proceso   { background: #FF9810; color: #ffffff; }
+.lista-card__tag--pendiente { background: #E51E1E; color: #ffffff; }
 
 .lista-card__info {
     font-size: 13px;
@@ -174,17 +163,23 @@
 
 .lista-card__acciones {
     display: flex;
-    gap: 8px;
+    gap: 6px;
 }
 
-.listas__botones{
+.lista-card__acciones .boton {
+    font-size: 12px;
+    padding: 10px 15px;
+}
+
+/* ── Botones ─────────────────────────────────────────────────────────────────── */
+.listas__botones {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.listas__boton{
+.listas__boton {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -192,10 +187,5 @@
     text-decoration: none;
 }
 
-.boton--registrar{
-    width: 50%;
-}
-
-.boton--volver{
-    width: 50%;
-}
+.boton--registrar { width: 50%; }
+.boton--volver    { width: 50%; }

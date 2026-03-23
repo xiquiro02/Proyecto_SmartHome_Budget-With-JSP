@@ -13,10 +13,10 @@
     <main class="contenido">
         <div class="contenedor">
             <img class="contenido__icono-img" src="${pageContext.request.contextPath}/asset/imagenes/eliminar.png" alt="Eliminar">
-            <h1 class="contenido__titulo">Eliminar factura</h1>
+            <h1 class="contenido__titulo">Anular factura</h1>
 
             <p class="contenido__parrafo">
-                ¿Estás seguro de que deseas eliminar la factura
+                ¿Estás seguro de que deseas anular la factura
                 <strong>"<c:choose>
                     <c:when test="${not empty factura.descripcionPago}">${factura.descripcionPago}</c:when>
                     <c:otherwise>${factura.nombreCategoriaEgreso}</c:otherwise>
@@ -24,13 +24,13 @@
             </p>
 
             <p class="contenido__parrafos">Monto: <fmt:formatNumber value="${factura.monto}" type="currency" currencySymbol="$"/></p>
-            <p class="contenido__parrafos">Esta acción no se puede deshacer.</p>
+            <p class="contenido__parrafos">La factura quedará guardada y no aparecerá en tu listado activo.</p>
 
             <div class="contenido__grupo">
                 <form action="${pageContext.request.contextPath}/Facturas" method="post">
                     <input type="hidden" name="accion" value="eliminar">
                     <input type="hidden" name="idEgreso" value="${factura.idEgresos}">
-                    <button type="submit" class="boton boton--Eliminar">Sí, eliminar</button>
+                    <button type="submit" class="boton boton--Eliminar">🚫 Sí, anular</button>
                 </form>
                 <a href="${pageContext.request.contextPath}/Facturas?accion=lista">
                     <button class="boton boton--cancelar">Cancelar</button>

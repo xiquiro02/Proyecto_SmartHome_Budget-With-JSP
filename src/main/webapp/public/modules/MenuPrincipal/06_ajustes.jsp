@@ -101,63 +101,6 @@
                     <span class="material-symbols-outlined">chevron_right</span>
                 </a>
             </section>
-            <section class="ajustes__seccion">
-                <h3 class="ajustes__seccion-titulo">General</h3>
-                <a href="#tema" class="ajustes__item">
-                    <img class="ajustes__item-icono"
-                        src="${pageContext.request.contextPath}/asset/imagenes/tema-claro-oscuro.png" alt="Tema">
-                    <div class="ajustes__item-contenido">
-                        <p class="ajustes__item-titulo">Tema claro/oscuro</p>
-                    </div>
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </a>
-                <a href="#tamañoidioma" class="ajustes__item">
-                    <img class="ajustes__item-icono"
-                        src="${pageContext.request.contextPath}/asset/imagenes/tamano-de-fuente.png"
-                        alt="Tamaño de letra">
-                    <div class="ajustes__item-contenido">
-                        <p class="ajustes__item-titulo">Tamaño de letra</p>
-                    </div>
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </a>
-                <a href="#idioma" class="ajustes__item">
-                    <img class="ajustes__item-icono" src="${pageContext.request.contextPath}/asset/imagenes/idioma.png"
-                        alt="Idioma">
-                    <div class="ajustes__item-contenido">
-                        <p class="ajustes__item-titulo">Idioma</p>
-                        <p class="ajustes__item-subtitulo">Español</p>
-                    </div>
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </a>
-                <a href="#privacidad" class="ajustes__item">
-                    <img class="ajustes__item-icono"
-                        src="${pageContext.request.contextPath}/asset/imagenes/politica-de-privacidad.png"
-                        alt="Privacidad">
-                    <div class="ajustes__item-contenido">
-                        <p class="ajustes__item-titulo">Política de privacidad</p>
-                    </div>
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </a>
-                <a href="#terminos" class="ajustes__item">
-                    <img class="ajustes__item-icono"
-                        src="${pageContext.request.contextPath}/asset/imagenes/terminos-de-uso.png" alt="Términos">
-                    <div class="ajustes__item-contenido">
-                        <p class="ajustes__item-titulo">Términos de uso</p>
-                    </div>
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </a>
-                <a href="#ayuda" class="ajustes__item">
-                    <img class="ajustes__item-icono"
-                        src="${pageContext.request.contextPath}/asset/imagenes/mesa-de-ayuda.png" alt="Ayuda">
-                    <div class="ajustes__item-contenido">
-                        <p class="ajustes__item-titulo">Centro de ayuda y soporte</p>
-                    </div>
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </a>
-            </section>
-            <a href="${pageContext.request.contextPath}/Menu"
-                class="ajustes__boton">
-                
             <%
                 Integer idRolAjustes = (Integer) session.getAttribute("idRol");
                 if (idRolAjustes != null && (idRolAjustes == 1 || idRolAjustes == 2)) {
@@ -186,6 +129,7 @@
                 </a>
             </section>
             <% } %>
+            <a href="${pageContext.request.contextPath}/Menu" class="ajustes__boton">
                 <button class="boton boton--volver">Volver</button>
             </a>
         </main>

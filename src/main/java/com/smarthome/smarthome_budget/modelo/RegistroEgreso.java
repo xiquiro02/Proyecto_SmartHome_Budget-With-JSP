@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 public class RegistroEgreso {
 
     private int idEgresos;
-    private String descripcionPago;      
+    private String descripcionPago;
     private BigDecimal monto;
     private LocalDateTime fechaPago;
     private LocalDateTime fechaVencimiento;
@@ -18,6 +18,7 @@ public class RegistroEgreso {
     // Campos auxiliares de JOIN
     private String nombreCategoriaEgreso;
     private String nombreMetodoPago;
+    private String estadoEgreso = "Activo";
 
     public RegistroEgreso() {}
 
@@ -85,6 +86,9 @@ public class RegistroEgreso {
 
     public String getNombreMetodoPago()         { return nombreMetodoPago; }
     public void setNombreMetodoPago(String v)   { this.nombreMetodoPago = v; }
+
+    public String getEstadoEgreso()             { return estadoEgreso; }
+    public void setEstadoEgreso(String v)       { this.estadoEgreso = v; }
 
     // ── Métodos de formato ────────────────────────────────────────────────────
 

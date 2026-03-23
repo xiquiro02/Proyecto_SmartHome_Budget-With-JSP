@@ -1,40 +1,67 @@
-.factura{
+/* ── Layout base sin scroll ──────────────────────────────────────────────────── */
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Área del formulario con scroll interno ──────────────────────────────────── */
+.factura {
+    flex: 1;
+    overflow-y: auto;
     padding: 20px;
     background: #F5F5F5;
+    border-radius: 16px 16px 0 0;
 }
 
-.factura__formulario{
+@media (min-width: 1200px) {
+    .factura {
+        max-width: 500px;
+        margin: 20px auto;
+        width: 100%;
+        padding: 16px 20px 20px;
+        height: fit-content;
+        border-radius: 16px;
+    }
+}
+
+/* ── Formulario ──────────────────────────────────────────────────────────────── */
+.factura__formulario {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
 }
 
-.factura__grupo{
+.factura__grupo {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
 }
 
-.factura__grupo--medio{
+.factura__grupo--medio {
     flex: 1;
 }
 
-.factura__fila{
+.factura__fila {
     display: flex;
-    gap: 12px;
+    gap: 10px;
 }
 
-.factura__label{
-    font-size: 14px;
+.factura__label {
+    font-size: 13px;
     font-weight: 600;
     color: #000000;
 }
 
-.factura__input{
-    padding: 12px 16px;
+.factura__input {
+    padding: 8px 12px;
     border: 2px solid #E0E0E0;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 13px;
     outline: none;
     background: #FFFFFF;
 }
@@ -43,17 +70,17 @@
     border-color: #2196F3;
 }
 
-.factura__input--fecha{
+.factura__input--fecha {
     text-transform: uppercase;
     color: #9E9E9E;
 }
 
-.factura__select{
+.factura__select {
     color: #9E9E9E;
-    padding: 12px 16px;
+    padding: 8px 12px;
     border: 2px solid #E0E0E0;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 13px;
     background: #FFFFFF;
     cursor: pointer;
 }
@@ -62,15 +89,15 @@
     border-color: #2196F3;
 }
 
-.factura__textarea{
-    padding: 12px 16px;
+.factura__textarea {
+    padding: 8px 12px;
     border: 2px solid #E0E0E0;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 13px;
     outline: none;
     background: #FFFFFF;
     resize: vertical;
-    min-height: 80px;
+    min-height: 52px;
     font-family: inherit;
 }
 
@@ -78,23 +105,23 @@
     border-color: #2196F3;
 }
 
-.factura__estado{
+/* ── Estado de pago ──────────────────────────────────────────────────────────── */
+.factura__estado {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
-.factura__estado-opcion{
+.factura__estado-opcion {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 16px;
+    padding: 8px 10px;
     border: 2px solid #E0E0E0;
     border-radius: 10px;
     background: #FFFFFF;
     cursor: pointer;
     transition: all 0.2s ease;
-
 }
 
 .factura__estado-opcion:has(input[type="radio"]:checked) {
@@ -108,20 +135,29 @@
 }
 
 .factura__estado-opcion input[type="radio"] {
-    width: 18px;
-    height: 18px;
-    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
     accent-color: #2196F3;
 }
 
-.factura__boton{
+.factura__estado-opcion span {
+    font-size: 13px;
+    font-weight: 500;
+    color: #000000;
+}
+
+/* ── Botones ─────────────────────────────────────────────────────────────────── */
+.factura__boton {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-decoration: none;
 }
 
-.boton{
-    width: 25%;
+.boton {
+    width: 50%;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 20px;
 }

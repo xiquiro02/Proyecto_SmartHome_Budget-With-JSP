@@ -183,6 +183,7 @@ public class ListasComprasServlet extends HttpServlet {
         int id = dao.insertar(lista);
         if (id > 0) {
             req.setAttribute("nombreLista", nombre);
+            req.setAttribute("idLista", id);
             forward(req, resp, "03_ConfirmarCreacionLista.jsp");
         } else {
             req.setAttribute("error", "Error al crear la lista. Intenta nuevamente.");

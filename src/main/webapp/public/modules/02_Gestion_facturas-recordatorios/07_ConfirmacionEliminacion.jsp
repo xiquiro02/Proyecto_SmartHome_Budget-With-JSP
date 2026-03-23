@@ -20,10 +20,9 @@
     <body>
         <main class="contenido">
             <div class="contenedor">
-                <h1 class="contenido__titulo">Factura eliminada correctamente</h1>
-                <p class="contenido__parrafo">La factura seleccionada fue borrada del sistema y ya no aparecerá en su
-                    listado. Recuerde que esta acción es irreversible. Si fue un error, puede registrar nuevamente la
-                    factura manualmente.</p>
+                <h1 class="contenido__titulo">Factura anulada correctamente</h1>
+                <p class="contenido__parrafo">La factura seleccionada fue anulada y ya no aparecerá en tu listado activo.
+                    Quedará guardada en la base de datos. Si fue un error, contacta al administrador del hogar.</p>
                 <div class="contenido__grupo">
                     <a
                         href="${pageContext.request.contextPath}/public/modules/02_Gestion_facturas-recordatorios/03_Consultar-Facturas.jsp">

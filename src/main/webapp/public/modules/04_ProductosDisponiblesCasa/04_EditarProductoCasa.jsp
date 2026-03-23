@@ -35,10 +35,11 @@
             </div>
 
             <%-- Cantidad DECIMAL: muestra el valor actual correctamente --%>
+            <fmt:formatNumber var="cantidadFmt" value="${inv.cantidad}" maxFractionDigits="2" groupingUsed="false"/>
             <div class="formulario__campo">
                 <label class="formulario__etiqueta">Cantidad disponible: * (0 = agotado)</label>
                 <input type="number" name="cantidad" id="cantidad" class="formulario__input"
-                       value="${inv.cantidad}" min="0" max="999" step="0.01" required>
+                       value="${cantidadFmt}" min="0" max="999" step="0.01" required>
                 <small style="color:#888">
                     Puedes usar decimales para peso o volumen (ej: 1.5 para kilos o litros).
                 </small>

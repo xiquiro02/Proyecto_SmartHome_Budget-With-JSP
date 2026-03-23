@@ -44,9 +44,11 @@ import com.smarthome.smarthome_budget.modelo.Usuario;
  *
  * ACCIONES POST:
  *   guardarIngreso    → registra o actualiza ingreso
- *   eliminarIngreso   → elimina ingreso  [solo Rol 1]
+ *   anularIngreso     → soft-delete ingreso   [solo Rol 1]
+ *   reactivarIngreso  → reactiva ingreso      [solo Rol 1]
  *   guardarEgreso     → registra o actualiza egreso
- *   eliminarEgreso    → elimina egreso   [solo Rol 1]
+ *   anularEgreso      → soft-delete egreso    [solo Rol 1]
+ *   reactivarEgreso   → reactiva egreso       [solo Rol 1]
  *   guardarPresupuesto → guarda presupuesto mensual [solo Rol 1]
  */
 
@@ -96,8 +98,9 @@ public class FinanzasServlet extends HttpServlet {
                 List<RegistroIngreso> ingresos = ingresoDao.listarPorHogar(idHogar);
                 BigDecimal total = ingresos.stream().map(RegistroIngreso::getMonto)
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
-                req.setAttribute("ingresos",      ingresos);
-                req.setAttribute("totalIngresos", total);
+                req.setAttribute("ingresos",         ingresos);
+                req.setAttribute("totalIngresos",    total);
+                req.setAttribute("ingresosAnulados", ingresoDao.listarAnulados(idHogar));
                 fwd(req, resp, "04_DetalleIngresos.jsp");
                 break;
             }
@@ -128,8 +131,9 @@ public class FinanzasServlet extends HttpServlet {
                 List<RegistroEgreso> egresos = egresoDao.listarPorHogar(idHogar);
                 BigDecimal total = egresos.stream().map(RegistroEgreso::getMonto)
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
-                req.setAttribute("egresos",      egresos);
-                req.setAttribute("totalEgresos", total);
+                req.setAttribute("egresos",         egresos);
+                req.setAttribute("totalEgresos",    total);
+                req.setAttribute("egresosAnulados", egresoDao.listarAnulados(idHogar));
                 fwd(req, resp, "07_DetalleEgresos.jsp");
                 break;
             }
@@ -247,16 +251,29 @@ public class FinanzasServlet extends HttpServlet {
                 break;
             }
 
-            // ── ELIMINAR INGRESO (solo Rol 1) ──────────────────────────────
-            case "eliminarIngreso": {
+            // ── ANULAR INGRESO (solo Rol 1) ────────────────────────────────
+            case "anularIngreso": {
                 if (idRol != 1) {
                     resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleIngresos&error=sin_permiso");
                     return;
                 }
                 int id = parseInt(req.getParameter("idIngreso"));
-                ingresoDao.eliminar(id, idHogar);
-                // Recalcular balance → implícito porque se recalcula al cargar el resumen
-                resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleIngresos&exito=ingreso_eliminado");
+                boolean ok = ingresoDao.anular(id, idHogar);
+                String param = ok ? "exito=ingreso_anulado" : "error=no_se_pudo_anular";
+                resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleIngresos&" + param);
+                break;
+            }
+
+            // ── REACTIVAR INGRESO (solo Rol 1) ─────────────────────────────
+            case "reactivarIngreso": {
+                if (idRol != 1) {
+                    resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleIngresos&error=sin_permiso");
+                    return;
+                }
+                int id = parseInt(req.getParameter("idIngreso"));
+                boolean ok = ingresoDao.reactivar(id, idHogar);
+                String param = ok ? "exito=ingreso_reactivado" : "error=no_se_pudo_reactivar";
+                resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleIngresos&" + param);
                 break;
             }
 
@@ -306,15 +323,29 @@ public class FinanzasServlet extends HttpServlet {
                 break;
             }
 
-            // ── ELIMINAR EGRESO (solo Rol 1) ───────────────────────────────
-            case "eliminarEgreso": {
+            // ── ANULAR EGRESO (solo Rol 1) ─────────────────────────────────
+            case "anularEgreso": {
                 if (idRol != 1) {
                     resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleEgresos&error=sin_permiso");
                     return;
                 }
                 int id = parseInt(req.getParameter("idEgreso"));
-                egresoDao.eliminar(id, idHogar);
-                resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleEgresos&exito=egreso_eliminado");
+                boolean ok = egresoDao.anular(id, idHogar);
+                String param = ok ? "exito=egreso_anulado" : "error=no_se_pudo_anular";
+                resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleEgresos&" + param);
+                break;
+            }
+
+            // ── REACTIVAR EGRESO (solo Rol 1) ──────────────────────────────
+            case "reactivarEgreso": {
+                if (idRol != 1) {
+                    resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleEgresos&error=sin_permiso");
+                    return;
+                }
+                int id = parseInt(req.getParameter("idEgreso"));
+                boolean ok = egresoDao.reactivar(id, idHogar);
+                String param = ok ? "exito=egreso_reactivado" : "error=no_se_pudo_reactivar";
+                resp.sendRedirect(req.getContextPath() + "/Finanzas?accion=detalleEgresos&" + param);
                 break;
             }
 

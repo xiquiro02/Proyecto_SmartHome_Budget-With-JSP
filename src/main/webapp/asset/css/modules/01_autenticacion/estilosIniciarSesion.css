@@ -211,3 +211,56 @@ input[type="checkbox"] {
         border: 4px solid #1E88E5;
     }
 }
+
+/* ========================== Validación inline ========================== */
+
+.campo-error {
+    display: none;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #dc2626;
+    margin-top: 5px;
+    line-height: 1.3;
+    padding: 5px 10px;
+    background-color: #fff1f2;
+    border-left: 3px solid #dc2626;
+    border-radius: 0 6px 6px 0;
+}
+
+.campo-error.visible {
+    display: flex;
+    animation: deslizarError 0.2s ease forwards;
+}
+
+.campo-error.visible::before {
+    content: '⚠';
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+@keyframes deslizarError {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+.contenido__input.input-error {
+    border-color: #dc2626 !important;
+    background-color: #fff5f5 !important;
+}
+
+.contenido__input.input-error:focus {
+    border-color: #dc2626 !important;
+    outline: none;
+}
+
+.contenido__input.input-valido {
+    border-color: #16a34a !important;
+    background-color: #f0fdf4 !important;
+}
+
+.contenido__input.input-valido:focus {
+    border-color: #16a34a !important;
+    outline: none;
+}

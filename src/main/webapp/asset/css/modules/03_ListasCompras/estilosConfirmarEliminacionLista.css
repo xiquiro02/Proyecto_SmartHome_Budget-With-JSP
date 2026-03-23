@@ -1,32 +1,52 @@
+/* ── Layout base sin scroll ──────────────────────────────────────────────────── */
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Contenido centrado ──────────────────────────────────────────────────────── */
 .contenido {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    min-height: 80vh;
     padding: 20px;
 }
 
-.contenedor{
+.contenedor {
     width: 100%;
     max-width: 450px;
-    padding: 50px;
+    padding: 20px;
 }
 
-/* Título */
+@media (min-width: 1200px) {
+    .contenido {
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+
+/* ── Textos ──────────────────────────────────────────────────────────────────── */
 .contenido__titulo {
     font-size: 2rem;
     text-align: center;
-    margin-bottom: 2rem; 
+    margin-bottom: 2rem;
     color: #000;
 }
 
-.contenido__parrafo{
+.contenido__parrafo {
     font-size: 21px;
     margin-bottom: 20px;
 }
 
-.encabezado{
+.encabezado {
     background-color: transparent;
     box-shadow: none;
 }

@@ -1,22 +1,65 @@
-/* ===== CONTENEDOR PRINCIPAL ===== */
+/* ── Layout base sin scroll ──────────────────────────────────────────────────── */
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    padding: 18px;
+}
+
+/* ── Encabezado compacto ─────────────────────────────────────────────────────── */
+.encabezado {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    background-color: transparent;
+    box-shadow: none;
+    flex-shrink: 0;
+}
+
+.encabezado__imagen {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+}
+
+.encabezado__contenedorTitulo {
+    flex: 1;
+}
+
+.encabezado__titulo {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+}
+
+/* ── Área principal con scroll interno ───────────────────────────────────────── */
 .contenedor-lista {
+    flex: 1;
+    overflow-y: auto;
     padding: 20px;
     background: #FFFFFF;
-    margin: 0 auto;
 }
 
-/* Variaciones de fondo del contenedor según estado de la lista */
-.contenedor-lista--pendiente {
-    background: #FFFFFF;
-}
-.contenedor-lista--progreso {
-    background: #F0F7FF;
-}
-.contenedor-lista--completa {
-    background: #F0FFF4;
+.contenedor-lista--pendiente { background: #FFFFFF; }
+.contenedor-lista--progreso  { background: #F0F7FF; }
+.contenedor-lista--completa  { background: #F0FFF4; }
+
+@media (min-width: 1200px) {
+    body {
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 18px 0;
+    }
 }
 
-/* ===== TARJETA MERCADO — COLOR BASE ===== */
+/* ── Tarjeta Mercado ─────────────────────────────────────────────────────────── */
 .tarjetaMercado {
     display: flex;
     justify-content: center;
@@ -28,7 +71,6 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
-/* CORRECCIÓN 1: Colores según estado de la lista */
 .tarjetaMercado--pendiente {
     background: #FADFBB;
     border: 2px solid #FF9810;
@@ -100,25 +142,12 @@
     font-weight: 600;
 }
 
-/* Etiquetas de estado de la lista */
-.etiqueta--pendiente {
-    background: #FF9810;
-    color: #FFFFFF;
-}
-.etiqueta--proceso {
-    background: #2196F3;
-    color: #FFFFFF;
-}
-.etiqueta--completa {
-    background: #2ECC71;
-    color: #FFFFFF;
-}
-.etiqueta--total {
-    background: #555555;
-    color: #FFFFFF;
-}
+.etiqueta--pendiente { background: #FF9810; color: #FFFFFF; }
+.etiqueta--proceso   { background: #2196F3; color: #FFFFFF; }
+.etiqueta--completa  { background: #2ECC71; color: #FFFFFF; }
+.etiqueta--total     { background: #555555; color: #FFFFFF; }
 
-/* ===== ESTADÍSTICAS ===== */
+/* ── Estadísticas ────────────────────────────────────────────────────────────── */
 .estadisticas {
     display: flex;
     gap: 16px;
@@ -148,15 +177,8 @@
     margin-bottom: 8px;
 }
 
-.estadisticas__numero--comprado {
-    background: #C9EED8;
-    color: #2ECC71;
-}
-
-.estadisticas__numero--pendiente {
-    background: #FFE5CC;
-    color: #FF9810;
-}
+.estadisticas__numero--comprado { background: #C9EED8; color: #2ECC71; }
+.estadisticas__numero--pendiente { background: #FFE5CC; color: #FF9810; }
 
 .estadisticas__texto {
     font-size: 14px;
@@ -164,7 +186,7 @@
     color: #666666;
 }
 
-/* ===== FECHA ===== */
+/* ── Fecha y sección ─────────────────────────────────────────────────────────── */
 .fecha {
     font-size: 13px;
     font-weight: 400;
@@ -172,7 +194,6 @@
     margin-bottom: 16px;
 }
 
-/* ===== TÍTULO DE SECCIÓN ===== */
 .tituloSeccion {
     font-size: 18px;
     font-weight: 700;
@@ -180,7 +201,7 @@
     margin-bottom: 16px;
 }
 
-/* ===== LISTA DE PRODUCTOS ===== */
+/* ── Lista de productos ──────────────────────────────────────────────────────── */
 .listaProductos {
     list-style: none;
     margin: 0;
@@ -191,7 +212,6 @@
     margin-bottom: 24px;
 }
 
-/* ─── Producto PENDIENTE (estado por defecto) ─── */
 .producto {
     display: flex;
     align-items: center;
@@ -209,11 +229,10 @@
     box-shadow: 0 2px 8px rgba(255, 152, 16, 0.25);
 }
 
-/* ─── CORRECCIÓN 2: Producto COMPRADO — diferenciación visual clara ─── */
 .producto--completado {
-    background: #C9EED8;        /* fondo verde claro */
-    border-color: #2ECC71;      /* borde verde */
-    opacity: 0.85;              /* ligeramente transparente para indicar "hecho" */
+    background: #C9EED8;
+    border-color: #2ECC71;
+    opacity: 0.85;
 }
 
 .producto--completado:hover {
@@ -228,12 +247,10 @@
     cursor: pointer;
 }
 
-/* Ocultamos checkbox real — el círculo hace de indicador */
 .producto__input {
     display: none;
 }
 
-/* ─── Círculo indicador de estado ─── */
 .producto__circulo {
     width: 30px;
     height: 30px;
@@ -248,7 +265,6 @@
     position: relative;
 }
 
-/* Relleno interior del círculo (vacío cuando no está checked) */
 .producto__circulo::after {
     content: "";
     width: 14px;
@@ -260,7 +276,6 @@
     position: absolute;
 }
 
-/* CUANDO EL CHECKBOX ESTÁ CHECKED — selector funciona porque son hermanos directos */
 .producto__input:checked + .producto__circulo {
     border-color: #2ECC71;
     background: #2ECC71;
@@ -290,7 +305,6 @@
     transition: all 0.2s ease;
 }
 
-/* CORRECCIÓN: Nombre tachado cuando el producto está comprado */
 .producto__nombre--tachado {
     text-decoration: line-through;
     color: #666666;
@@ -303,7 +317,6 @@
     color: #666666;
 }
 
-/* ─── Acciones individuales del producto ─── */
 .producto__acciones {
     display: flex;
     gap: 8px;
@@ -314,7 +327,6 @@
 .producto__acciones a {
     text-decoration: none;
     font-size: 16px;
-    padding: 4px;
     border-radius: 6px;
     transition: background 0.15s ease;
 }
@@ -323,12 +335,10 @@
     background: rgba(0, 0, 0, 0.08);
 }
 
-/* ===== ACCIONES ===== */
-
+/* ── Acciones ────────────────────────────────────────────────────────────────── */
 .acciones {
     display: flex;
-    gap: 20px; 
-    margin-bottom: 16px;
+    gap: 20px;
 }
 
 .acciones a {
@@ -347,16 +357,11 @@
     text-decoration: none;
     display: block;
     max-width: 300px;
-    margin: 0 auto; 
+    margin: 0 auto;
 }
 
-.acciones__marcar {
-    text-decoration: none;
-}
-
-.acciones__desmarcado {
-    text-decoration: none;
-}
+.acciones__marcar   { text-decoration: none; }
+.acciones__desmarcado { text-decoration: none; }
 
 .boton--marcar {
     background: #FFFFFF;
@@ -364,35 +369,9 @@
     border: 2px solid #2196F3;
 }
 
-/* ===== Media Queries ===== */
+/* ── Media Queries ───────────────────────────────────────────────────────────── */
 @media (max-width: 375px) {
-    .encabezado__titulo {
-        font-size: 14px;
-    }
-
-    .tarjetaMercado__nombre {
-        font-size: 18px;
-    }
-
-    .producto__nombre {
-        font-size: 15px;
-    }
-}
-
-@media (min-width: 768px) {
-    .contenedor-lista {
-        padding: 90px 20px 40px 20px;
-    }
-
-    .acciones__volver {
-        margin-top: 20px !important;
-        max-width: 300px;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .boton--volver {
-        margin: 0 auto;
-    }
+    .encabezado__titulo     { font-size: 14px; }
+    .tarjetaMercado__nombre { font-size: 18px; }
+    .producto__nombre       { font-size: 15px; }
 }

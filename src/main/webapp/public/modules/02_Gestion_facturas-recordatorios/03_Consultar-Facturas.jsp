@@ -53,7 +53,7 @@
             <div class="mensaje mensaje--exito">✅ Factura marcada como pagada.</div>
         </c:if>
         <c:if test="${param.exito == 'eliminada'}">
-            <div class="mensaje mensaje--exito">🗑 Factura eliminada.</div>
+            <div class="mensaje mensaje--exito">🚫 Factura anulada correctamente.</div>
         </c:if>
 
         <div class="facturaLista">
@@ -110,7 +110,7 @@
                                             </form>
                                             </c:if>
                                             <a href="${pageContext.request.contextPath}/Facturas?accion=confirmarEliminar&id=${f.idEgresos}">
-                                                <button class="boton boton--Eliminar">🗑️ Eliminar</button>
+                                                <button class="boton boton--Eliminar">🚫 Anular</button>
                                             </a>
                                         </c:if>
                                         <%-- INVITADO solo puede ver --%>

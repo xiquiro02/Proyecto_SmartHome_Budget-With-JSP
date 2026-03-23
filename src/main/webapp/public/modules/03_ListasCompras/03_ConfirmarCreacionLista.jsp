@@ -35,13 +35,17 @@
                 </div>
             </div>
         </div>
-        <p style="text-align:center; color: #666; margin: 0.5rem 0;">Ahora puedes agregar productos a tu lista.</p>
-        <a href="${pageContext.request.contextPath}/Listas" class="confirmacion__botones">
-            <button type="button" class="boton boton--registrar">Ver mis listas</button>
-        </a>
-        <a href="${pageContext.request.contextPath}/Listas?accion=crear" class="confirmacion__botones">
-            <button type="button" class="boton boton--cancelar">Crear otra lista</button>
-        </a>
+        <div class="confirmacion__acciones">
+            <a href="${pageContext.request.contextPath}/Listas?accion=agregarProducto&amp;id=${idLista}" class="confirmacion__botones">
+                <button type="button" class="boton boton--registrar">Agregar productos</button>
+            </a>
+            <a href="${pageContext.request.contextPath}/Listas?accion=crear" class="confirmacion__botones">
+                <button type="button" class="boton boton--cancelar">Crear otra lista</button>
+            </a>
+            <a href="${pageContext.request.contextPath}/Listas" class="confirmacion__botones">
+                <button type="button" class="boton boton--cancelar">Ver listas creadas</button>
+            </a>
+        </div>
     </div>
 </main>
 </body>

@@ -40,8 +40,10 @@
             </div>
             <% } %>
 
+            <%-- novalidate suprime los globos del navegador; onsubmit ejecuta nuestra validación JS --%>
             <form class="contenido__formulario" method="post"
                   action="${pageContext.request.contextPath}/Registro"
+                  novalidate
                   onsubmit="return validarFormularioRegistro()">
 
                 <div class="contenido__grupo">
@@ -50,6 +52,7 @@
                            placeholder="Ej: 1234567890" required maxlength="11"
                            pattern="[0-9]{6,11}"
                            title="El documento debe contener solo números (entre 6 y 11 dígitos)"/>
+                    <span class="campo-error" id="error-documento"></span>
                 </div>
 
                 <div class="contenido__grupo">
@@ -58,6 +61,7 @@
                            placeholder="Ingresa tu nombre" required maxlength="50"
                            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$"
                            title="Solo letras, sin números ni símbolos"/>
+                    <span class="campo-error" id="error-nombre"></span>
                 </div>
 
                 <div class="contenido__grupo">
@@ -66,20 +70,25 @@
                            name="apellido1" placeholder="Ingresa tu apellido" required
                            maxlength="50" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$"
                            title="Solo letras, sin números ni símbolos"/>
+                    <span class="campo-error" id="error-apellido"></span>
                 </div>
 
                 <div class="contenido__grupo">
-                    <label for="segundoApellido" class="contenido__label">Segundo Apellido <span style="color:#999;font-size:12px;">(opcional)</span></label>
+                    <label for="segundoApellido" class="contenido__label">
+                        Segundo Apellido <span style="color:#999;font-size:12px;">(opcional)</span>
+                    </label>
                     <input type="text" class="contenido__input" id="segundoApellido"
                            name="apellido2" placeholder="Ingresa tu segundo apellido"
                            maxlength="50" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$"
                            title="Solo letras, sin números ni símbolos"/>
+                    <span class="campo-error" id="error-segundoApellido"></span>
                 </div>
 
                 <div class="contenido__grupo">
                     <label for="correo" class="contenido__label">Correo electrónico</label>
                     <input type="email" class="contenido__input" id="correo" name="correo"
                            placeholder="Ingresa tu correo" required/>
+                    <span class="campo-error" id="error-correo"></span>
                 </div>
 
                 <div class="contenido__grupo">
@@ -88,6 +97,7 @@
                            placeholder="Ingresa tu número de teléfono" required
                            pattern="[0-9]{8,15}"
                            title="Solo números, entre 8 y 15 dígitos"/>
+                    <span class="campo-error" id="error-telefono"></span>
                 </div>
 
                 <div class="contenido__grupo">
@@ -96,6 +106,7 @@
                            name="contrasena" placeholder="Mínimo 8 caracteres, letras y números" required
                            minlength="8"
                            title="Mínimo 8 caracteres, al menos una letra y un número"/>
+                    <span class="campo-error" id="error-password"></span>
                 </div>
 
                 <div class="contenido__grupo">
@@ -103,6 +114,7 @@
                     <input type="password" class="contenido__input" id="confirmarPassword"
                            name="confirmarContrasena" placeholder="Repite tu contraseña"
                            required minlength="8"/>
+                    <span class="campo-error" id="error-confirmarPassword"></span>
                 </div>
 
                 <div class="contenido__grupo">
@@ -111,6 +123,7 @@
                     </label>
                     <input type="text" class="contenido__input" id="codigoInvitacion"
                            name="codigoInvitacion" placeholder="Ej: ABC12345" maxlength="50">
+                    <span class="campo-error" id="error-codigoInvitacion"></span>
                     <small class="contenido__ayuda">
                         Si tienes un código, ingrésalo para unirte a un hogar existente.
                         Si lo dejas vacío, se creará un nuevo hogar automáticamente.

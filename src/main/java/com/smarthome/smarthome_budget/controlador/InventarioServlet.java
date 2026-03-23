@@ -18,8 +18,8 @@ import java.util.regex.Pattern;
  * GET  /Inventario                               → dashboard (01_MiInventario.jsp)
  * GET  /Inventario?accion=registrar              → formulario nuevo producto
  * GET  /Inventario?accion=consultar              → lista completa (09)
- * GET  /Inventario?accion=filtroTipo&tipo=X      → filtro por categoría (10)
- * GET  /Inventario?accion=filtroCantidad&orden=X → filtro por cantidad (11)
+ * GET  /Inventario?accion=filtroTipo&tipo=X      → filtro por categoría (09, panel embebido)
+ * GET  /Inventario?accion=filtroCantidad&orden=X → filtro por cantidad (09, panel embebido)
  * GET  /Inventario?accion=editar&id=X            → formulario editar (04)
  * GET  /Inventario?accion=confirmarEliminar&id=X → confirmar eliminar (06)
  * GET  /Inventario?accion=autoAnadirALista&idProducto=X → añade a lista automáticamente
@@ -132,7 +132,7 @@ public class InventarioServlet extends HttpServlet {
         req.setAttribute("tiposProducto", new ProductoDao().listarTipos());
         req.setAttribute("filtroActivo", "tipo");
         req.setAttribute("tipoSeleccionado", tipoStr);
-        forward(req, resp, "10_FiltroCategorias-ConsultarInventario.jsp");
+        forward(req, resp, "09_ConsultarInventario.jsp");
     }
 
     private void mostrarFiltroCantidad(HttpServletRequest req, HttpServletResponse resp, int idHogar)
@@ -155,7 +155,7 @@ public class InventarioServlet extends HttpServlet {
         req.setAttribute("tiposProducto", new ProductoDao().listarTipos());
         req.setAttribute("filtroActivo", "cantidad");
         req.setAttribute("ordenSeleccionado", orden);
-        forward(req, resp, "11_FiltroCantidad-ConsultarInventario.jsp");
+        forward(req, resp, "09_ConsultarInventario.jsp");
     }
 
     private void mostrarFormEditar(HttpServletRequest req, HttpServletResponse resp, int idHogar)
@@ -223,9 +223,12 @@ public class InventarioServlet extends HttpServlet {
         detDao.agregarProducto(lista.getIdListaCompras(), inv.getIdProducto(), 1);
         listaDao.recalcularEstado(lista.getIdListaCompras());
 
+        // Quitar del inventario (fue movido a la lista)
+        new InventarioCasaDao().eliminar(idInventario, idHogar);
+
         // Paso D: redirigir con mensaje
         String msg = java.net.URLEncoder.encode(
-            "Producto añadido a tu " + nombreLista + " automáticamente", "UTF-8");
+            inv.getNombreProducto() + " movido a " + nombreLista, "UTF-8");
         resp.sendRedirect(req.getContextPath() +
             "/Inventario?accion=consultar&exito_auto=" + msg);
     }

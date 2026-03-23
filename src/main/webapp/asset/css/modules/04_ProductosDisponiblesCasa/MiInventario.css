@@ -1,4 +1,18 @@
 
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 1200px) {
+    body {
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+
 .encabezado {
     display: flex;
     flex-direction: column;
@@ -6,14 +20,13 @@
     justify-content: center;
     text-align: center;
     background-color: transparent;
-    padding: 50px 20px;
+    padding: 50px 20px 20px;
+    margin-top: 40px;
     gap: 12px;
-    margin-top: 50px;
     box-shadow: none;
 }
 
 .encabezado__contenedor{
-    margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,7 +52,7 @@
 }
 
 .encabezado__descripcion{
-    font-size: 16px;
+    font-size: 13px;
     color: #000000;
     line-height: 1.5;
 }
@@ -61,9 +74,9 @@
 }
 
 .inventario{
+    margin-top: 30px;
     padding: 20px;
-    padding-bottom: 20px;
-    margin-top: 50px;
+    padding-bottom: 40px;
 }
 
 .inventario__acciones{

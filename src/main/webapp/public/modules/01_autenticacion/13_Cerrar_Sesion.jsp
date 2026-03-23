@@ -19,12 +19,12 @@
         <div class="contenedor">
             <h1 class="contenido__titulo">Cerrar Sesión</h1>
             <p class="contenido__parrafo">¿Seguro que deseas salir?</p>
-            <p class="contenido__parrafo">¡Gracias por visitarnos! Hasta pronto 👋</p>
+            <p class="contenido__parrafo">¡Gracias por visitarnos! Hasta pronto </p>
             <form method="post" action="${pageContext.request.contextPath}/Perfil">
                 <input type="hidden" name="accion" value="confirmarCerrarSesion">
                 <div class="contenido__grupo">
                     <button type="submit" class="boton boton--registrar">Cerrar Sesión</button>
-                    <a href="${pageContext.request.contextPath}/Perfil">
+                    <a href="${pageContext.request.contextPath}/Menu">
                         <button type="button" class="boton boton--cancelar">Cancelar</button>
                     </a>
                 </div>
