@@ -174,7 +174,7 @@
                         <div class="filtroMes__anio">
                             <label class="filtroMes__anio-label">Año</label>
                             <select name="anio" class="filtroMes__anio-select">
-                                <c:forEach begin="2020" end="2030" var="y">
+                                <c:forEach begin="2025" end="2040" var="y">
                                     <option value="${y}" ${anioFiltro == y ? 'selected' : ''}>${y}</option>
                                 </c:forEach>
                             </select>

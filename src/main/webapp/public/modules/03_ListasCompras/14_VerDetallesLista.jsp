@@ -94,10 +94,12 @@
                         <form id="form-toggle-${d.idDetalleLista}"
                               action="${pageContext.request.contextPath}/Listas"
                               method="post" style="display:none">
-                            <input type="hidden" name="accion"   value="toggleComprado">
+                            <input type="hidden" name="accion"    value="toggleComprado">
                             <input type="hidden" name="idDetalle" value="${d.idDetalleLista}">
-                            <input type="hidden" name="idLista"  value="${lista.idListaCompras}">
-                            <input type="hidden" name="comprado" value="${d.comprado ? 'false' : 'true'}">
+                            <input type="hidden" name="idLista"   value="${lista.idListaCompras}">
+                            <input type="hidden" name="comprado"  value="${d.comprado ? 'false' : 'true'}">
+                            <input type="hidden" name="idProducto"   value="${d.idProducto}">
+                            <input type="hidden" name="cantidadProd" value="${d.cantidadDecimal}">
                         </form>
 
                         <label class="producto__label"

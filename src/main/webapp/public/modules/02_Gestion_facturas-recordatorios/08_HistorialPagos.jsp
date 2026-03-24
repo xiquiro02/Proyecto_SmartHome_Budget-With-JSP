@@ -176,10 +176,13 @@
             <p class="totalPagado__texto">${cantidadPagadas} factura(s) procesada(s)</p>
         </div>
 
-        <%-- ✅ Pasa por FinanzasServlet para que inyecte totalIngresos, totalEgresos, disponible --%>
-        <a href="${pageContext.request.contextPath}/Finanzas?accion=resumen" class="consultarFacturas__boton">
-            <button class="boton boton--resumen">Ver resumen financiero</button>
-        </a>
+        <%-- Solo roles 1 y 2 tienen acceso al módulo de finanzas --%>
+        <c:if test="${sessionScope.idRol != 3}">
+            <%-- ✅ Pasa por FinanzasServlet para que inyecte totalIngresos, totalEgresos, disponible --%>
+            <a href="${pageContext.request.contextPath}/Finanzas?accion=resumen" class="consultarFacturas__boton">
+                <button class="boton boton--resumen">Ver resumen financiero</button>
+            </a>
+        </c:if>
         <a href="${pageContext.request.contextPath}/Facturas" class="consultarFacturas__boton">
             <button class="boton boton--volver">Volver</button>
         </a>

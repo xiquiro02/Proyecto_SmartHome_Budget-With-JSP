@@ -14,8 +14,8 @@ public class RegistroEgresoDao {
     // language=sql
     private static final String SQL_INSERT =
         "INSERT INTO Registro_Egresos " +
-        "(IDHogar, DescripcionPago, Monto, IDCategoriaEgreso, IDMetodoPago, FechaVencimiento, EstadoPago) " +
-        "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        "(IDHogar, DescripcionPago, Monto, IDCategoriaEgreso, IDMetodoPago, FechaVencimiento, EstadoPago, EstadoEgresos) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?, 'Activo')";
 
     // ── Base de SELECT (JOIN fijo) ─────────────────────────────────────────────
     // language=sql
