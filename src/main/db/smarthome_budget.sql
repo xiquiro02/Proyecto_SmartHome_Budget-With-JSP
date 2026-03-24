@@ -95,11 +95,10 @@ FechaVencimiento datetime not null,
 EstadoPago enum("Pendiente", "Pagada", "Vencida") default "Pendiente",
 EstadoEgresos enum("Activo", "Anulado") default "Activo",
 IDHogar int not null,
-IDCategoriaEgreso int not null,
+IDCategoriaEgreso int not null, 
 IDMetodoPago int not null,
 primary key (IDEgresos),
-unique (IDHogar, IDCategoriaEgreso, FechaVencimiento),
-foreign key (IDHogar) references Hogar(IDHogar),
+foreign key (IDHogar) references Hogar(IDHogar), 
 foreign key (IDCategoriaEgreso) references Categorias_Egresos(IDCategoriaEgreso),
 foreign key (IDMetodoPago) references Metodo_Pago(IDMetodoPago));
 
@@ -113,6 +112,7 @@ IDIngresos int auto_increment not null,
 Monto decimal(12,2) not null,
 FechaIngreso datetime not null,
 Descripcion text,
+EstadoIngreso enum("Activo", "Anulado") default "Activo",
 IDHogar int not null,
 IDCategoriaIngreso int not null, 
 primary key (IDIngresos),
@@ -148,7 +148,7 @@ foreign key (IDTipoProducto) references Tipo_Producto(IDTipoProducto));
 
 create table Inventario_Casa (
 IDInventario int auto_increment not null,
-StockActual int not null, 
+StockActual decimal(10,2) not null, 
 FechaActualizacion datetime not null default current_timestamp on update current_timestamp,
 IDProducto int not null,
 IDHogar int not null,
@@ -170,7 +170,7 @@ foreign key (IDHogar) references Hogar(IDHogar));
 
 create table Detalle_ListaCompras (
 IDDetalleLista int auto_increment not null,
-Cantidad int not null default 1,
+Cantidad decimal(10,2) not null default 1.00,
 Comprado boolean default false, 
 IDListaCompras int not null,
 IDProducto int not null,
